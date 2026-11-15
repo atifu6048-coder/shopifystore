@@ -209,81 +209,28 @@
         "padding_bottom": 64
       }
     },
-    "editorial_story": {
-      "type": "media-with-content",
-      "blocks": {
-        "media": {
-          "type": "_media-without-appearance",
-          "static": true
-        },
-        "content": {
-          "type": "_content-without-appearance",
-          "static": true,
-          "settings": {
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "space-between"
-          },
-          "blocks": {
-            "caption": {
-              "type": "text",
-              "name": "t:names.caption",
-              "settings": {
-                "text": "<h3>THE ATELIER PHILOSOPHY</h3>",
-                "type_preset": "h6"
-              }
-            },
-            "group": {
-              "type": "group",
-              "settings": {
-                "height": "fit"
-              },
-              "blocks": {
-                "heading": {
-                  "type": "text",
-                  "name": "t:names.heading",
-                  "settings": {
-                    "text": "<h2>Crafted for Eternity, Designed with Devotion</h2>",
-                    "type_preset": "h2"
-                  }
-                },
-                "text": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Rooted in ancestral European tailoring traditions, Atif's Style fuses architectural minimalism with noble organic textiles to create timeless heirloom garments.</p>",
-                    "max_width": "narrow",
-                    "type_preset": "rte"
-                  }
-                }
-              },
-              "block_order": [
-                "heading",
-                "text"
-              ]
-            },
-            "button": {
-              "type": "button",
-              "settings": {
-                "label": "EXPLORE THE ATELIER",
-                "link": "shopify://collections/all",
-                "style_class": "button-secondary"
-              }
-            }
-          },
-          "block_order": [
-            "caption",
-            "group",
-            "button"
-          ]
-        }
-      },
-      "name": "t:names.media_with_content",
+    "luxury_brand_story": {
+      "type": "luxury-brand-story",
       "settings": {
-        "media_position": "left",
-        "media_width": "medium",
-        "media_height": "60svh",
-        "section_width": "page-width",
-        "padding-block-start": 64,
-        "padding-block-end": 64
+        "heading": "THE ART OF EVERYDAY ELEGANCE",
+        "description": "At Atif's Style, we believe great style is more than what you wear. It is how you express yourself. Discover thoughtfully selected fashion that brings together modern design, timeless appeal and everyday comfort.",
+        "button_text": "DISCOVER OUR STORY",
+        "button_link": "shopify://collections/all",
+        "image_position": "left",
+        "background_color": "#F7F4EF",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "luxury_editorial_banner": {
+      "type": "luxury-editorial-banner",
+      "settings": {
+        "heading": "STYLE THAT SPEAKS FOR YOU",
+        "supporting_text": "Find your signature look.",
+        "button_text": "EXPLORE NOW",
+        "button_link": "shopify://collections/all",
+        "banner_height": "medium",
+        "overlay_opacity": 45
       }
     }
   },
@@ -292,6 +239,7 @@
     "marquee_ticker",
     "luxury_collections",
     "luxury_best_sellers",
-    "editorial_story"
+    "luxury_brand_story",
+    "luxury_editorial_banner"
   ]
 }

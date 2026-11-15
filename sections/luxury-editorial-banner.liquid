@@ -1,0 +1,289 @@
+{% comment %}
+  Luxury Editorial Banner Section
+  Renders a wide cinematic campaign banner for ATIF'S STYLE.
+{% endcomment %}
+
+<section
+  id="luxury-editorial-banner-{{ section.id }}"
+  class="luxury-editorial-banner luxury-editorial-banner--height-{{ section.settings.banner_height | default: 'medium' }}"
+  style="
+    --banner-overlay-opacity: {{ section.settings.overlay_opacity | default: 45 | divided_by: 100.0 }};
+  "
+>
+  <div class="luxury-editorial-banner__media-container">
+    {% if section.settings.image != blank %}
+      {{
+        section.settings.image
+        | image_url: width: 2560
+        | image_tag:
+          loading: 'lazy',
+          widths: '750, 1100, 1500, 2000, 2560',
+          sizes: '100vw',
+          alt: section.settings.image.alt | default: section.settings.heading,
+          class: 'luxury-editorial-banner__image'
+      }}
+    {% else %}
+      <img
+        src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=2560&q=85&auto=format&fit=crop"
+        alt="ATIF'S STYLE Editorial Campaign"
+        class="luxury-editorial-banner__image"
+        loading="lazy"
+        width="2560"
+        height="1440"
+      >
+    {% endif %}
+    <div class="luxury-editorial-banner__overlay" aria-hidden="true"></div>
+  </div>
+
+  <div class="luxury-editorial-banner__content-wrapper page-width">
+    <div class="luxury-editorial-banner__content">
+      <span class="luxury-editorial-banner__kicker">
+        ATIF'S STYLE CAMPAIGN
+      </span>
+
+      <h2 class="luxury-editorial-banner__heading">
+        {{ section.settings.heading | default: 'STYLE THAT SPEAKS FOR YOU' }}
+      </h2>
+
+      {% if section.settings.supporting_text != blank %}
+        <p class="luxury-editorial-banner__supporting-text">
+          {{ section.settings.supporting_text }}
+        </p>
+      {% endif %}
+
+      {% if section.settings.button_text != blank %}
+        <a
+          href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
+          class="luxury-editorial-banner__button"
+        >
+          {{ section.settings.button_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .luxury-editorial-banner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .luxury-editorial-banner--height-small {
+    min-height: 420px;
+  }
+
+  .luxury-editorial-banner--height-medium {
+    min-height: 520px;
+  }
+
+  .luxury-editorial-banner--height-large {
+    min-height: 640px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .luxury-editorial-banner--height-small {
+      min-height: 360px;
+    }
+    .luxury-editorial-banner--height-medium {
+      min-height: 420px;
+    }
+    .luxury-editorial-banner--height-large {
+      min-height: 480px;
+    }
+  }
+
+  .luxury-editorial-banner__media-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .luxury-editorial-banner__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+  }
+
+  .luxury-editorial-banner__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(17, 17, 17, 0.3) 0%, rgba(17, 17, 17, 0.65) 100%);
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .luxury-editorial-banner__content-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: var(--page-width, 1400px);
+    margin-inline: auto;
+    padding-inline: var(--page-padding, 24px);
+    padding-block: 60px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .luxury-editorial-banner__content {
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .luxury-editorial-banner__kicker {
+    font-family: var(--font-body--family, 'Plus Jakarta Sans', sans-serif);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #C6A66B;
+    margin-bottom: 0.85rem;
+  }
+
+  .luxury-editorial-banner__heading {
+    font-family: var(--font-heading--family, 'Playfair Display', Georgia, serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+  }
+
+  .luxury-editorial-banner__supporting-text {
+    font-family: var(--font-body--family, 'Plus Jakarta Sans', sans-serif);
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    margin: 0 0 2rem 0;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .luxury-editorial-banner__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 38px;
+    background-color: #C6A66B;
+    color: #111111;
+    border: 1px solid #C6A66B;
+    border-radius: 4px;
+    font-family: var(--font-body--family, 'Plus Jakarta Sans', sans-serif);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .luxury-editorial-banner__button:hover {
+    background-color: #D4B67E;
+    border-color: #D4B67E;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(198, 166, 107, 0.45);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .luxury-editorial-banner__button {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Luxury Editorial Banner",
+  "tag": "section",
+  "class": "luxury-editorial-banner-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "STYLE THAT SPEAKS FOR YOU"
+    },
+    {
+      "type": "text",
+      "id": "supporting_text",
+      "label": "Supporting Text",
+      "default": "Find your signature look."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "EXPLORE NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner Photography"
+    },
+    {
+      "type": "select",
+      "id": "banner_height",
+      "label": "Banner Height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Dark Overlay Opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 45
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Editorial Banner",
+      "settings": {
+        "heading": "STYLE THAT SPEAKS FOR YOU",
+        "supporting_text": "Find your signature look.",
+        "button_text": "EXPLORE NOW",
+        "banner_height": "medium"
+      }
+    }
+  ]
+}
+{% endschema %}
