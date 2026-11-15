@@ -141,126 +141,58 @@
         "gap_between_elements": 40
       }
     },
-    "collections_grid": {
-      "type": "collection-list",
+    "luxury_collections": {
+      "type": "luxury-collections",
       "blocks": {
-        "group_header": {
-          "type": "group",
-          "name": "t:names.header",
+        "card_men": {
+          "type": "collection_card",
           "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "background_media": "none",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "text_heading": {
-              "type": "text",
-              "name": "t:names.text",
-              "settings": {
-                "text": "<h2>CURATED ATELIER COLLECTIONS</h2>",
-                "type_preset": "h3",
-                "font": "var(--font-heading--family)",
-                "font_size": "2rem",
-                "line_height": "normal",
-                "letter_spacing": "loose",
-                "case": "uppercase",
-                "wrap": "pretty",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "padding-block-start": 0,
-                "padding-block-end": 16,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
-            }
-          },
-          "block_order": [
-            "text_heading"
-          ]
+            "title": "MEN",
+            "subtitle": "Modern essentials. Timeless confidence.",
+            "custom_url": "/collections/men",
+            "link_text": "EXPLORE"
+          }
         },
-        "static-collection-card": {
-          "type": "_collection-card",
-          "name": "t:names.collection_card",
-          "static": true,
+        "card_women": {
+          "type": "collection_card",
           "settings": {
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "flex-start",
-            "placement": "on_image",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 4
-          },
-          "blocks": {
-            "collection-card-image": {
-              "type": "_collection-card-image",
-              "name": "t:names.collection_card_image",
-              "static": true,
-              "settings": {
-                "image_ratio": "adapt"
-              }
-            },
-            "collection-title": {
-              "type": "collection-title",
-              "name": "t:names.collection_title",
-              "settings": {
-                "type_preset": "h5",
-                "font": "var(--font-heading--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "loose",
-                "case": "uppercase",
-                "wrap": "pretty",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "background": true,
-                "background_color": "#111111",
-                "padding-block-start": 8,
-                "padding-block-end": 8,
-                "padding-inline-start": 14,
-                "padding-inline-end": 14
-              }
-            }
-          },
-          "block_order": [
-            "collection-title"
-          ]
+            "title": "WOMEN",
+            "subtitle": "Effortless elegance. Refined style.",
+            "custom_url": "/collections/women",
+            "link_text": "EXPLORE"
+          }
+        },
+        "card_kids": {
+          "type": "collection_card",
+          "settings": {
+            "title": "KIDS",
+            "subtitle": "Comfort meets playful style.",
+            "custom_url": "/collections/kids",
+            "link_text": "EXPLORE"
+          }
+        },
+        "card_accessories": {
+          "type": "collection_card",
+          "settings": {
+            "title": "ACCESSORIES",
+            "subtitle": "The finishing touches.",
+            "custom_url": "/collections/accessories",
+            "link_text": "EXPLORE"
+          }
         }
       },
       "block_order": [
-        "group_header"
+        "card_men",
+        "card_women",
+        "card_kids",
+        "card_accessories"
       ],
-      "name": "t:names.collection_list",
       "settings": {
-        "layout_type": "grid",
-        "columns": 4,
-        "mobile_columns": "2",
-        "columns_gap": 16,
-        "rows_gap": 24,
-        "section_width": "page-width",
-        "padding-block-start": 64,
-        "padding-block-end": 64
+        "heading": "EXPLORE THE COLLECTIONS",
+        "subtitle": "Curated styles for every moment, every mood.",
+        "background_color": "#F7F4EF",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "product_list_fa6P9H": {
@@ -530,7 +462,7 @@
   "order": [
     "hero_jVaWmY",
     "marquee_ticker",
-    "collections_grid",
+    "luxury_collections",
     "product_list_fa6P9H",
     "editorial_story"
   ]

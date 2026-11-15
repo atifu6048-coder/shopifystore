@@ -1,0 +1,444 @@
+{% comment %}
+  Luxury Collections Section
+  Renders an editorial 4-column luxury collections grid for ATIF'S STYLE.
+{% endcomment %}
+
+<section
+  id="luxury-collections-{{ section.id }}"
+  class="luxury-collections"
+  style="
+    --section-bg: {{ section.settings.background_color | default: '#F7F4EF' }};
+    --section-pt: {{ section.settings.padding_top | default: 64 }}px;
+    --section-pb: {{ section.settings.padding_bottom | default: 64 }}px;
+  "
+>
+  <div class="luxury-collections__container page-width">
+    {% if section.settings.heading != blank or section.settings.subtitle != blank %}
+      <div class="luxury-collections__header">
+        {% if section.settings.heading != blank %}
+          <h2 class="luxury-collections__title">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+        {% if section.settings.subtitle != blank %}
+          <p class="luxury-collections__subtitle">
+            {{ section.settings.subtitle }}
+          </p>
+        {% endif %}
+        <div class="luxury-collections__gold-divider" aria-hidden="true"></div>
+      </div>
+    {% endif %}
+
+    <div class="luxury-collections__grid">
+      {% for block in section.blocks %}
+        {% liquid
+          assign collection = block.settings.collection
+          assign card_title = block.settings.title | default: collection.title
+          assign card_subtitle = block.settings.subtitle
+          assign card_url = collection.url | default: block.settings.custom_url | default: '/collections/all'
+          assign card_image = block.settings.image | default: collection.image | default: collection.products.first.featured_image
+        %}
+        <div
+          class="luxury-collections__item"
+          {{ block.shopify_attributes }}
+        >
+          <a
+            href="{{ card_url }}"
+            class="luxury-collection-card"
+            aria-label="{{ card_title | escape }}"
+          >
+            <div class="luxury-collection-card__media-wrapper">
+              {% if card_image != blank %}
+                {{
+                  card_image
+                  | image_url: width: 1200
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '375, 550, 750, 1100, 1200',
+                    sizes: '(min-width: 990px) 25vw, (min-width: 750px) 50vw, 50vw',
+                    alt: card_title,
+                    class: 'luxury-collection-card__image'
+                }}
+              {% else %}
+                {% case forloop.index %}
+                  {% when 1 %}
+                    {% assign fallback_src = 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=1000&q=85&auto=format&fit=crop' %}
+                    {% assign fallback_alt = 'Men’s Luxury Fashion Collection' %}
+                  {% when 2 %}
+                    {% assign fallback_src = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1000&q=85&auto=format&fit=crop' %}
+                    {% assign fallback_alt = 'Women’s Luxury Fashion Collection' %}
+                  {% when 3 %}
+                    {% assign fallback_src = 'https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=1000&q=85&auto=format&fit=crop' %}
+                    {% assign fallback_alt = 'Kids’ Luxury Fashion Collection' %}
+                  {% when 4 %}
+                    {% assign fallback_src = 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=1000&q=85&auto=format&fit=crop' %}
+                    {% assign fallback_alt = 'Luxury Accessories Collection' %}
+                  {% else %}
+                    {% assign fallback_src = 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1000&q=85&auto=format&fit=crop' %}
+                    {% assign fallback_alt = 'Luxury Fashion Collection' %}
+                {% endcase %}
+                <img
+                  src="{{ fallback_src }}"
+                  alt="{{ fallback_alt }}"
+                  class="luxury-collection-card__image"
+                  loading="lazy"
+                  width="1000"
+                  height="1333"
+                >
+              {% endif %}
+              <div class="luxury-collection-card__overlay" aria-hidden="true"></div>
+            </div>
+
+            <div class="luxury-collection-card__content">
+              {% if card_title != blank %}
+                <h3 class="luxury-collection-card__title">
+                  {{ card_title }}
+                </h3>
+              {% endif %}
+              {% if card_subtitle != blank %}
+                <p class="luxury-collection-card__subtitle">
+                  {{ card_subtitle }}
+                </p>
+              {% endif %}
+              <span class="luxury-collection-card__link">
+                {{ block.settings.link_text | default: 'EXPLORE' }}
+                <svg
+                  class="luxury-collection-card__arrow"
+                  width="14"
+                  height="10"
+                  viewBox="0 0 14 10"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path d="M9 1L13 5M13 5L9 9M13 5H1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .luxury-collections {
+    background-color: var(--section-bg, #F7F4EF);
+    padding-block-start: var(--section-pt, 64px);
+    padding-block-end: var(--section-pb, 64px);
+    position: relative;
+    width: 100%;
+  }
+
+  .luxury-collections__container {
+    max-width: var(--page-width, 1400px);
+    margin-inline: auto;
+    padding-inline: var(--page-padding, 24px);
+  }
+
+  .luxury-collections__header {
+    text-align: center;
+    margin-block-end: 2.75rem;
+  }
+
+  .luxury-collections__title {
+    font-family: var(--font-heading--family, 'Playfair Display', Georgia, serif);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #111111;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+  }
+
+  .luxury-collections__subtitle {
+    font-family: var(--font-body--family, 'Plus Jakarta Sans', sans-serif);
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    color: #555555;
+    letter-spacing: 0.02em;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .luxury-collections__gold-divider {
+    width: 44px;
+    height: 1.5px;
+    background-color: #C6A66B;
+    margin: 1.25rem auto 0 auto;
+  }
+
+  .luxury-collections__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .luxury-collections__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+  }
+
+  @media screen and (max-width: 549px) {
+    .luxury-collections__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+
+  .luxury-collections__item {
+    min-width: 0;
+  }
+
+  .luxury-collection-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    background: #FFFFFF;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(198, 166, 107, 0.18);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  }
+
+  .luxury-collection-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(17, 17, 17, 0.09);
+    border-color: #C6A66B;
+  }
+
+  .luxury-collection-card__media-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background-color: #EDE8DF;
+  }
+
+  .luxury-collection-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+    display: block;
+  }
+
+  .luxury-collection-card:hover .luxury-collection-card__image {
+    transform: scale(1.05);
+  }
+
+  .luxury-collection-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(17, 17, 17, 0) 60%, rgba(17, 17, 17, 0.25) 100%);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .luxury-collection-card__content {
+    padding: 18px 16px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    background: #FFFFFF;
+    flex-grow: 1;
+  }
+
+  @media screen and (max-width: 549px) {
+    .luxury-collection-card__content {
+      padding: 12px 10px 14px 10px;
+      gap: 4px;
+    }
+  }
+
+  .luxury-collection-card__title {
+    font-family: var(--font-heading--family, 'Playfair Display', Georgia, serif);
+    font-size: clamp(1.05rem, 1.3vw, 1.3rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #111111;
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .luxury-collection-card__subtitle {
+    font-family: var(--font-body--family, 'Plus Jakarta Sans', sans-serif);
+    font-size: clamp(0.75rem, 0.85vw, 0.85rem);
+    color: #666666;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .luxury-collection-card__link {
+    font-family: var(--font-body--family, 'Plus Jakarta Sans', sans-serif);
+    font-size: 0.725rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #111111;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    transition: color 0.3s ease;
+  }
+
+  .luxury-collection-card__arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .luxury-collection-card:hover .luxury-collection-card__link {
+    color: #C6A66B;
+  }
+
+  .luxury-collection-card:hover .luxury-collection-card__arrow {
+    transform: translateX(4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .luxury-collection-card,
+    .luxury-collection-card__image,
+    .luxury-collection-card__arrow {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Luxury Collections",
+  "tag": "section",
+  "class": "luxury-collections-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "EXPLORE THE COLLECTIONS"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Curated styles for every moment, every mood."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#F7F4EF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Curated pieces."
+        },
+        {
+          "type": "url",
+          "id": "custom_url",
+          "label": "Custom URL (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "EXPLORE"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Collections Grid",
+      "blocks": [
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "MEN",
+            "subtitle": "Modern essentials. Timeless confidence."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "WOMEN",
+            "subtitle": "Effortless elegance. Refined style."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "KIDS",
+            "subtitle": "Comfort meets playful style."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "ACCESSORIES",
+            "subtitle": "The finishing touches."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
