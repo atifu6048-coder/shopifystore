@@ -195,7 +195,18 @@
       {% if content_type == 'articles' %}
         {{ placeholder_name | placeholder_svg_tag: 'blog-placeholder-svg' }}
       {% else %}
-        {{ placeholder_name | placeholder_svg_tag }}
+        {% case placeholder_name %}
+          {% when 'collection-apparel-1' %}
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80&auto=format&fit=crop" alt="Haute Couture Collection" class="resource-image__image" loading="lazy" width="800" height="1000" style="object-fit: cover; width: 100%; height: 100%;">
+          {% when 'collection-apparel-2' %}
+            <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80&auto=format&fit=crop" alt="Tailored Coats & Suiting" class="resource-image__image" loading="lazy" width="800" height="1000" style="object-fit: cover; width: 100%; height: 100%;">
+          {% when 'collection-apparel-3' %}
+            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=80&auto=format&fit=crop" alt="Leather Goods & Handbags" class="resource-image__image" loading="lazy" width="800" height="1000" style="object-fit: cover; width: 100%; height: 100%;">
+          {% when 'collection-apparel-4' %}
+            <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80&auto=format&fit=crop" alt="Fine Timepieces & Accessories" class="resource-image__image" loading="lazy" width="800" height="1000" style="object-fit: cover; width: 100%; height: 100%;">
+          {% else %}
+            {{ placeholder_name | placeholder_svg_tag }}
+        {% endcase %}
       {% endif %}
     </div>
   </div>

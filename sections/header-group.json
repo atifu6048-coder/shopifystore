@@ -17,7 +17,7 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "Complimentary Worldwide Express Delivery on Orders Over $100 • 30-Day Risk-Free Returns",
+            "text": "★ COMPLIMENTARY WORLDWIDE COURIER ON ORDERS OVER $150 • 30-DAY EFFORTLESS RETURNS ★",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
             "letter_spacing": "loose",
@@ -28,7 +28,7 @@
         "announcement_premium": {
           "type": "_announcement",
           "settings": {
-            "text": "Discover New Season Essentials • Ethically Sourced & Consciously Crafted",
+            "text": "★ ATIF'S STYLE • DISCOVER THE NEW 2026 COUTURE COLLECTION ★",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
             "letter_spacing": "loose",
@@ -45,11 +45,11 @@
       "settings": {
         "speed": 5,
         "section_width": "page-width",
-        "background_color": "{{ settings.color_palette.background }}",
+        "background_color": "#111111",
         "divider_width": 1,
-        "divider_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "divider_color": "#C6A66B",
+        "padding-block-start": 12,
+        "padding-block-end": 12
       }
     },
     "header_section": {

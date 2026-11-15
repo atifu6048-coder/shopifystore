@@ -1875,3 +1875,45 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     margin-top: calc(var(--header-height) * var(--transparent-header-offset-boolean) * -1);
   }
 }
+
+/* ==========================================================================
+   Luxury Fashion Polish & Animations (Champagne Gold / Deep Black / Warm Ivory)
+   ========================================================================== */
+
+:focus-visible {
+  outline: 2px solid #C6A66B !important;
+  outline-offset: 3px !important;
+}
+
+.product-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-card:hover {
+    box-shadow: 0 12px 32px rgba(17, 17, 17, 0.08);
+  }
+}
+
+.button-custom {
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  main > .shopify-section {
+    animation: luxurySectionReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes luxurySectionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -7,8 +7,8 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<h1>Browse our latest products</h1>",
-            "text_color": "{{ settings.color_palette.background }}",
+            "text": "<h1>ATIF'S STYLE &bull; HAUTE COUTURE</h1>",
+            "text_color": "#FFFFFF",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -16,8 +16,8 @@
             "font": "var(--font-heading--family)",
             "font_size": "1rem",
             "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
+            "letter_spacing": "loose",
+            "case": "uppercase",
             "wrap": "pretty",
             "background": false,
             "background_color": "#00000026",
@@ -33,13 +33,13 @@
           "type": "button",
           "name": "t:names.button",
           "settings": {
-            "label": "Shop all",
+            "label": "DISCOVER THE COLLECTION",
             "link": "shopify://collections/all",
             "open_in_new_tab": false,
             "style_class": "button-custom",
-            "custom_button_background": "#0066cc",
-            "custom_button_text": "#ffffff",
-            "custom_button_border": "#0066cc",
+            "custom_button_background": "#C6A66B",
+            "custom_button_text": "#111111",
+            "custom_button_border": "#C6A66B",
             "width": "fit-content",
             "custom_width": 100,
             "width_mobile": "fit-content",
@@ -70,17 +70,17 @@
         "vertical_alignment_flex_direction_column": "flex-end",
         "gap": 24,
         "section_width": "page-width",
-        "section_height": "medium",
+        "section_height": "large",
         "section_height_custom": 50,
-        "background_color": "rgba(0,0,0,0)",
+        "background_color": "#111111",
         "toggle_overlay": true,
-        "overlay_color": "#12121266",
+        "overlay_color": "#1111118A",
         "overlay_style": "solid",
         "gradient_direction": "to bottom",
         "blurred_reflection": false,
         "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 72
+        "padding-block-start": 120,
+        "padding-block-end": 80
       }
     },
     "marquee_ticker": {
@@ -89,7 +89,7 @@
         "marquee_text": {
           "type": "text",
           "settings": {
-            "text": "<p>FREE WORLDWIDE SHIPPING ON ORDERS OVER $100 &nbsp;•&nbsp; 100% ETHICAL & ORGANIC MATERIALS &nbsp;•&nbsp; 30-DAY RISK-FREE RETURNS &nbsp;•&nbsp; CARBON NEUTRAL DELIVERY</p>",
+            "text": "<p style=\"color: #C6A66B;\">★ COMPLIMENTARY WORLDWIDE COURIER &nbsp;&bull;&nbsp; BESPOKE TAILORING & NOBLE FABRICS &nbsp;&bull;&nbsp; 30-DAY EFFORTLESS RETURNS &nbsp;&bull;&nbsp; SUSTAINABLY CRAFTED LUXURY &nbsp;&bull;&nbsp; NEW RUNWAY ARRIVALS ★</p>",
             "type_preset": "custom",
             "font": "var(--font-heading--family)",
             "font_size": "0.875rem",
@@ -107,9 +107,9 @@
       "name": "t:names.marquee",
       "settings": {
         "movement_direction": "normal",
-        "background_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 16,
-        "padding-block-end": 16,
+        "background_color": "#111111",
+        "padding-block-start": 18,
+        "padding-block-end": 18,
         "gap_between_elements": 40
       }
     },
@@ -148,13 +148,13 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<h2>Curated Collections</h2>",
+                "text": "<h2>CURATED ATELIER COLLECTIONS</h2>",
                 "type_preset": "h3",
                 "font": "var(--font-heading--family)",
                 "font_size": "2rem",
                 "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
+                "letter_spacing": "loose",
+                "case": "uppercase",
                 "wrap": "pretty",
                 "width": "fit-content",
                 "max_width": "normal",
@@ -181,7 +181,7 @@
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
-            "border_radius": 8
+            "border_radius": 4
           },
           "blocks": {
             "collection-card-image": {
@@ -200,18 +200,18 @@
                 "font": "var(--font-heading--family)",
                 "font_size": "",
                 "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
+                "letter_spacing": "loose",
+                "case": "uppercase",
                 "wrap": "pretty",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
                 "background": true,
-                "background_color": "#ffffff",
-                "padding-block-start": 6,
-                "padding-block-end": 6,
-                "padding-inline-start": 12,
-                "padding-inline-end": 12
+                "background_color": "#111111",
+                "padding-block-start": 8,
+                "padding-block-end": 8,
+                "padding-inline-start": 14,
+                "padding-inline-end": 14
               }
             }
           },
@@ -231,8 +231,8 @@
         "columns_gap": 16,
         "rows_gap": 24,
         "section_width": "page-width",
-        "padding-block-start": 56,
-        "padding-block-end": 56
+        "padding-block-start": 64,
+        "padding-block-end": 64
       }
     },
     "product_list_fa6P9H": {
@@ -274,15 +274,15 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h2>Featured Collection</h2>",
+                "text": "<h2>SIGNATURE READY-TO-WEAR</h2>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "h4",
-                "font": "var(--font-body--family)",
+                "font": "var(--font-heading--family)",
                 "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
+                "letter_spacing": "loose",
+                "case": "uppercase",
                 "wrap": "pretty",
                 "background": false,
                 "background_color": "#00000026",
@@ -298,7 +298,7 @@
               "type": "_product-list-button",
               "name": "t:names.product_list_button",
               "settings": {
-                "label": "View all",
+                "label": "VIEW ALL PIECES",
                 "open_in_new_tab": false,
                 "style_class": "link",
                 "width": "fit-content",
@@ -323,7 +323,7 @@
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
-            "border_radius": 8,
+            "border_radius": 4,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -338,7 +338,7 @@
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
-                "border_radius": 8,
+                "border_radius": 4,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -440,7 +440,7 @@
               "type": "text",
               "name": "t:names.caption",
               "settings": {
-                "text": "<h3>THE PHILOSOPHY</h3>",
+                "text": "<h3>THE ATELIER PHILOSOPHY</h3>",
                 "type_preset": "h6"
               }
             },
@@ -454,14 +454,14 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>Designed for Longevity, Crafted with Intention</h2>",
+                    "text": "<h2>Crafted for Eternity, Designed with Devotion</h2>",
                     "type_preset": "h2"
                   }
                 },
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>We believe true luxury lies in simplicity, ethical production, and uncompromising attention to detail. Every piece in our collection is thoughtfully designed to transcend seasons and elevate your daily life.</p>",
+                    "text": "<p>Rooted in ancestral European tailoring traditions, Atif's Style fuses architectural minimalism with noble organic textiles to create timeless heirloom garments.</p>",
                     "max_width": "narrow",
                     "type_preset": "rte"
                   }
@@ -475,7 +475,7 @@
             "button": {
               "type": "button",
               "settings": {
-                "label": "Discover Our Story",
+                "label": "EXPLORE THE ATELIER",
                 "link": "shopify://collections/all",
                 "style_class": "button-secondary"
               }
