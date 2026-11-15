@@ -45,20 +45,49 @@
             class="menu-list__list list-unstyled"
             role="list"
           >
-            {% for link in block_settings.menu.links %}
-              <li>
-                <a
-                  href="{{ link.url }}"
-                  id="MenuItem-{{ link.handle }}"
-                  class="menu-list__item"
-                  {% if link.current %}
-                    aria-current="page"
-                  {% endif %}
-                >
-                  {{- link.title -}}
-                </a>
-              </li>
-            {% endfor %}
+            {% liquid
+              assign nav_links = block_settings.menu.links
+              assign has_fashion_nav = false
+              for link in nav_links
+                if link.title == 'Men' or link.title == 'Women'
+                  assign has_fashion_nav = true
+                endif
+              endfor
+            %}
+            {% if has_fashion_nav or nav_links.size > 2 %}
+              {% for link in nav_links %}
+                <li>
+                  <a
+                    href="{{ link.url }}"
+                    id="MenuItem-{{ link.handle }}"
+                    class="menu-list__item"
+                    {% if link.current %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                    {{- link.title -}}
+                  </a>
+                </li>
+              {% endfor %}
+            {% else %}
+              {% assign curated_titles = 'Home,Men,Women,Kids,Accessories' | split: ',' %}
+              {% assign curated_urls = '/,/collections/men,/collections/women,/collections/kids,/collections/accessories' | split: ',' %}
+              {% for c_title in curated_titles %}
+                {% assign c_url = curated_urls[forloop.index0] %}
+                <li>
+                  <a
+                    href="{{ c_url }}"
+                    id="MenuItem-{{ c_title | handleize }}"
+                    class="menu-list__item"
+                    {% if request.path == c_url %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                    {{- c_title -}}
+                  </a>
+                </li>
+              {% endfor %}
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -93,82 +122,114 @@
     %}
 
     {% capture children %}
-      {% for link in block_settings.menu.links %}
-        <li
-          class="menu-list__list-item"
-          on:blur="/deactivate"
-          on:pointerenter="/activate"
-          on:pointerleave="/deactivate"
-        >
-          {%- if link.links != blank -%}
-            <span class="menu-list__trigger">
-          {%- endif -%}
-          <a
-            href="{{ link.url }}"
-            data-skip-node-update="true"
-            class="menu-list__link{% if link.active %} menu-list__link--active{% endif %}"
-            {% if link.current %}
-              aria-current="page"
-            {% endif %}
-            ref="menuitem"
+      {% liquid
+        assign desk_nav_links = block_settings.menu.links
+        assign desk_has_fashion = false
+        for link in desk_nav_links
+          if link.title == 'Men' or link.title == 'Women' or link.title == 'Accessories'
+            assign desk_has_fashion = true
+          endif
+        endfor
+      %}
+      {% if desk_has_fashion or desk_nav_links.size > 2 %}
+        {% for link in desk_nav_links %}
+          <li
+            class="menu-list__list-item"
+            on:blur="/deactivate"
+            on:pointerenter="/activate"
+            on:pointerleave="/deactivate"
           >
-            <span class="menu-list__link-title">{{- link.title -}}</span>
-          </a>
-          {%- if link.links != blank -%}
-            <button
-              type="button"
-              class="menu-list__disclosure button-unstyled"
-              aria-controls="submenu-{{ forloop.index }}"
-              aria-expanded="false"
-              ref="disclosure[]"
-              data-skip-node-update
-              on:click="/toggle"
+            {%- if link.links != blank -%}
+              <span class="menu-list__trigger">
+            {%- endif -%}
+            <a
+              href="{{ link.url }}"
+              data-skip-node-update="true"
+              class="menu-list__link{% if link.active %} menu-list__link--active{% endif %}"
+              {% if link.current %}
+                aria-current="page"
+              {% endif %}
+              ref="menuitem"
             >
-              <span class="visually-hidden">{{ 'accessibility.show_submenu' | t: title: link.title }}</span>
-              <svg
-                class="menu-list__disclosure-icon"
-                aria-hidden="true"
-                focusable="false"
-                viewBox="0 0 10 6"
+              <span class="menu-list__link-title">{{- link.title -}}</span>
+            </a>
+            {%- if link.links != blank -%}
+              <button
+                type="button"
+                class="menu-list__disclosure button-unstyled"
+                aria-controls="submenu-{{ forloop.index }}"
+                aria-expanded="false"
+                ref="disclosure[]"
+                data-skip-node-update
+                on:click="/toggle"
               >
-                {%- render 'icon', icon: 'caret' -%}
-              </svg>
-            </button>
-            </span>
-            {%- comment -%}
-              Collapsed by default via `inert`: keeps the submenu out of the tab order
-              and the accessibility tree until it is opened. Toggled in header-menu.js.
-            {%- endcomment -%}
-            <div class="menu-list__submenu{{ background_color_classes }}" ref="submenu[]" data-skip-node-update inert>
-              <div
-                id="submenu-{{ forloop.index }}"
-                class="menu-list__submenu-inner"
-                style="{% render 'submenu-font-styles', settings: block_settings %}"
-              >
-                {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
-                <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
-                  <div
-                    class="mega-menu__grid"
-                    data-menu-grid-id="{{ list_id }}"
-                  >
-                    {% render 'mega-menu-list',
-                      parent_link: link,
-                      id: list_id,
-                      section: section,
-                      grid_columns_count: 6,
-                      grid_columns_count_tablet: 4,
-                      grid_columns_count_collection_images: 8,
-                      menu_content_type: menu_content_type,
-                      content_aspect_ratio: ratio,
-                      image_border_radius: image_border_radius
-                    %}
+                <span class="visually-hidden">{{ 'accessibility.show_submenu' | t: title: link.title }}</span>
+                <svg
+                  class="menu-list__disclosure-icon"
+                  aria-hidden="true"
+                  focusable="false"
+                  viewBox="0 0 10 6"
+                >
+                  {%- render 'icon', icon: 'caret' -%}
+                </svg>
+              </button>
+              </span>
+              {%- comment -%}
+                Collapsed by default via `inert`: keeps the submenu out of the tab order
+                and the accessibility tree until it is opened. Toggled in header-menu.js.
+              {%- endcomment -%}
+              <div class="menu-list__submenu{{ background_color_classes }}" ref="submenu[]" data-skip-node-update inert>
+                <div
+                  id="submenu-{{ forloop.index }}"
+                  class="menu-list__submenu-inner"
+                  style="{% render 'submenu-font-styles', settings: block_settings %}"
+                >
+                  {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
+                  <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                    <div
+                      class="mega-menu__grid"
+                      data-menu-grid-id="{{ list_id }}"
+                    >
+                      {% render 'mega-menu-list',
+                        parent_link: link,
+                        id: list_id,
+                        section: section,
+                        grid_columns_count: 6,
+                        grid_columns_count_tablet: 4,
+                        grid_columns_count_collection_images: 8,
+                        menu_content_type: menu_content_type,
+                        content_aspect_ratio: ratio,
+                        image_border_radius: image_border_radius
+                      %}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          {%- endif -%}
-        </li>
-      {% endfor %}
+            {%- endif -%}
+          </li>
+        {% endfor %}
+      {% else %}
+        {% assign curated_titles = 'Home,Men,Women,Kids,Accessories' | split: ',' %}
+        {% assign curated_urls = '/,/collections/men,/collections/women,/collections/kids,/collections/accessories' | split: ',' %}
+        {% for c_title in curated_titles %}
+          {% assign c_url = curated_urls[forloop.index0] %}
+          <li
+            class="menu-list__list-item"
+            on:blur="/deactivate"
+            on:pointerenter="/activate"
+            on:pointerleave="/deactivate"
+          >
+            <a
+              href="{{ c_url }}"
+              data-skip-node-update="true"
+              class="menu-list__link{% if request.path == c_url %} menu-list__link--active{% endif %}"
+              ref="menuitem"
+            >
+              <span class="menu-list__link-title">{{ c_title }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      {% endif %}
       <li
         class="menu-list__list-item"
         slot="more"

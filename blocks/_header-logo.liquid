@@ -20,7 +20,8 @@
     endif
   endif
 
-  assign alt_text_fallback = 'accessibility.home_logo_alt' | t: store_name: shop.name
+  assign brand_logo_text = "ATIF'S STYLE"
+  assign alt_text_fallback = 'accessibility.home_logo_alt' | t: store_name: brand_logo_text
 %}
 
 {% comment %}
@@ -36,9 +37,12 @@
   style="
     {% render 'size-style', settings: block_settings %}
     {% render 'spacing-style', settings: block_settings %}
-    --font-family: var(--font-body--family);
-    --font-style: var(--font-body--style);
-    --font-weight: 600;
+    --font-family: var(--font-heading--family);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #111111;
   "
   {{ block.shopify_attributes }}
 >
@@ -62,7 +66,7 @@
       class: 'header-logo__image',
       height: settings.logo_height,
       alt_text_fallback: alt_text_fallback,
-      text_fallback: shop.name,
+      text_fallback: brand_logo_text,
       style: logo_style
     %}
   </span>
@@ -77,7 +81,7 @@
         class: 'header-logo__image',
         height: settings.logo_height,
         alt_text_fallback: alt_text_fallback,
-        text_fallback: shop.name,
+        text_fallback: brand_logo_text,
         style: inverse_logo_style
       %}
     </span>

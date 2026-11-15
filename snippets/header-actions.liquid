@@ -111,6 +111,15 @@
         {% endif %}
       </shopify-account>
     </div>
+  {% else %}
+    <a
+      href="{{ routes.account_login_url | default: '/account/login' }}"
+      class="header-actions__action button-unstyled"
+      aria-label="{{ 'content.account_title' | t | default: 'Account' }}"
+      style="display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; color: currentColor;"
+    >
+      <span aria-hidden="true">{{ account_icon }}</span>
+    </a>
   {% endif %}
 
   {% if settings.cart_type == 'drawer' and template.name != 'cart' %}
