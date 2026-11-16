@@ -318,3 +318,43 @@
     },
   };
 </script>
+
+<script>
+  (function() {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    function initLuxuryScrollReveal() {
+      var scrollContainer = document.querySelector('.page-wrapper') || null;
+      var sections = document.querySelectorAll(
+        '.section-luxury-collections, .section-luxury-best-sellers, .section-luxury-brand-story, .section-luxury-editorial-banner, .section-luxury-footer, .shopify-section:not(.header-section):not([id*="announcement"]):not([id*="header"])'
+      );
+      if (!sections.length) return;
+
+      var observer = new IntersectionObserver(function(entries, obs) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: window.innerWidth >= 990 && scrollContainer ? scrollContainer : null,
+        threshold: 0.06,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      sections.forEach(function(sec) {
+        if (sec.classList.contains('section-hero') || sec.querySelector('.hero')) return;
+        sec.classList.add('luxury-scroll-reveal');
+        observer.observe(sec);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLuxuryScrollReveal);
+    } else {
+      initLuxuryScrollReveal();
+    }
+  })();
+</script>

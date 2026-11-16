@@ -685,9 +685,20 @@
   @media screen and (max-width: 749px) {
     .hero__content-wrapper .text-block:is(.h1, .h2) > *,
     .hero__content-wrapper .text-block :is(h1, h2, .h1, .h2) {
-      font-size: clamp(1.75rem, 7vw, 2.25rem);
-      line-height: var(--line-height--heading-normal, 1.25);
+      font-size: clamp(1.5rem, 6.5vw, 2.25rem);
+      line-height: 1.25;
       letter-spacing: 0.05em;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__content-wrapper .text-block:is(.h1, .h2) > *,
+    .hero__content-wrapper .text-block :is(h1, h2, .h1, .h2),
+    .hero__content-wrapper .text-block:not(:is(.h1, .h2)),
+    .hero__content-wrapper .button-custom {
+      animation: none !important;
     }
   }
 

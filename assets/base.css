@@ -1985,3 +1985,178 @@ h1, h2, h3, .h1, .h2, .h3 {
   font-size: 0.75rem !important;
   color: #F7F4EF !important;
 }
+
+/* ==========================================================================
+   ATIF'S STYLE Luxury Responsive Design & Premium Micro-Interactions (Step 6)
+   ========================================================================== */
+
+/* 1. Global Viewport & Text Safety */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* 2. Accessible Focus States */
+:focus-visible {
+  outline: 2px solid #C6A66B !important;
+  outline-offset: 3px !important;
+  border-radius: 2px;
+}
+
+/* 3. Mobile Header & Touch Targets */
+@media screen and (max-width: 749px) {
+  body {
+    overflow-x: clip;
+  }
+
+  .header-logo {
+    font-size: clamp(1rem, 4.2vw, 1.25rem) !important;
+    letter-spacing: 0.14em !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
+  .header__icon--menu,
+  .search-action,
+  .header-actions__action {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Refined Mobile Navigation Drawer */
+  .menu-drawer {
+    background-color: #F7F4EF !important;
+    border-right: 1px solid rgba(198, 166, 107, 0.25) !important;
+    box-shadow: 4px 0 24px rgba(17, 17, 17, 0.12) !important;
+  }
+
+  .menu-drawer__menu-item {
+    font-family: var(--font-body--family) !important;
+    font-size: 0.9375rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    color: #111111 !important;
+    padding: 18px 24px !important;
+    border-bottom: 1px solid rgba(198, 166, 107, 0.15) !important;
+    transition: color 0.25s ease, background-color 0.25s ease, padding-left 0.25s ease !important;
+  }
+
+  .menu-drawer__menu-item:hover,
+  .menu-drawer__menu-item:active,
+  .menu-drawer__menu-item--active {
+    color: #C6A66B !important;
+    background-color: rgba(198, 166, 107, 0.06) !important;
+    padding-left: 28px !important;
+  }
+
+  .menu-drawer__close-button {
+    min-width: 44px;
+    min-height: 44px;
+    color: #111111 !important;
+    transition: color 0.25s ease, transform 0.25s ease !important;
+  }
+
+  .menu-drawer__close-button:hover {
+    color: #C6A66B !important;
+    transform: rotate(90deg);
+  }
+}
+
+/* 4. Smooth Page Entrance */
+@keyframes luxuryPageFade {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-for-layout {
+  animation: luxuryPageFade 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Progressive Scroll Reveal */
+.luxury-scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.luxury-scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 5. Universal Micro-Interactions */
+.button,
+.button-custom,
+.button-secondary {
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease !important;
+}
+
+.button:hover,
+.button-custom:hover {
+  transform: translateY(-2px);
+}
+
+.button:active,
+.button-custom:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 6. Responsive Breakpoint Fixes for Small Mobile (360px - 390px) */
+@media screen and (max-width: 549px) {
+  .section {
+    --page-margin: 16px;
+  }
+
+  .hero__content-wrapper .button-custom {
+    width: 100%;
+    max-width: 280px;
+    padding: 16px 24px;
+    text-align: center;
+  }
+
+  .luxury-collections__grid,
+  .luxury-best-sellers__grid {
+    gap: 12px;
+  }
+}
+
+/* 7. Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .luxury-scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .content-for-layout {
+    animation: none !important;
+  }
+}
+

@@ -268,23 +268,31 @@
               </li>
             {%- endfor -%}
             {% else %}
-              {% assign curated_titles = 'Home,Men,Women,Kids,Accessories' | split: ',' %}
-              {% assign curated_urls = '/,/collections/men,/collections/women,/collections/kids,/collections/accessories' | split: ',' %}
-              {% for c_title in curated_titles %}
-                {% assign c_url = curated_urls[forloop.index0] %}
-                <li
-                  style="--menu-drawer-animation-index: {{ forloop.index }};"
-                  class="menu-drawer__list-item--flat"
-                >
-                  <a
-                    id="HeaderDrawer-{{ c_title | handleize }}"
-                    href="{{ c_url }}"
-                    class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element{% if request.path == c_url %} menu-drawer__menu-item--active{% endif %}"
-                  >
-                    <span class="menu-drawer__menu-item-text wrap-text">{{ c_title }}</span>
-                  </a>
-                </li>
-              {% endfor %}
+              <li style="--menu-drawer-animation-index: 1;" class="menu-drawer__list-item--flat">
+                <a id="HeaderDrawer-home" href="{{ routes.root_url }}" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element{% if request.path == routes.root_url %} menu-drawer__menu-item--active{% endif %}">
+                  <span class="menu-drawer__menu-item-text wrap-text">Home</span>
+                </a>
+              </li>
+              <li style="--menu-drawer-animation-index: 2;" class="menu-drawer__list-item--flat">
+                <a id="HeaderDrawer-men" href="{{ routes.collections_url }}/men" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
+                  <span class="menu-drawer__menu-item-text wrap-text">Men</span>
+                </a>
+              </li>
+              <li style="--menu-drawer-animation-index: 3;" class="menu-drawer__list-item--flat">
+                <a id="HeaderDrawer-women" href="{{ routes.collections_url }}/women" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
+                  <span class="menu-drawer__menu-item-text wrap-text">Women</span>
+                </a>
+              </li>
+              <li style="--menu-drawer-animation-index: 4;" class="menu-drawer__list-item--flat">
+                <a id="HeaderDrawer-kids" href="{{ routes.collections_url }}/kids" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
+                  <span class="menu-drawer__menu-item-text wrap-text">Kids</span>
+                </a>
+              </li>
+              <li style="--menu-drawer-animation-index: 5;" class="menu-drawer__list-item--flat">
+                <a id="HeaderDrawer-accessories" href="{{ routes.collections_url }}/accessories" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
+                  <span class="menu-drawer__menu-item-text wrap-text">Accessories</span>
+                </a>
+              </li>
             {% endif %}
           {% else %}
             {%- comment -%}

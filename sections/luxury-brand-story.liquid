@@ -161,13 +161,29 @@
 
   .luxury-brand-story__heading {
     font-family: var(--font-heading--family, 'Playfair Display', Georgia, serif);
-    font-size: clamp(2rem, 3.2vw, 3rem);
+    font-size: clamp(1.65rem, 3.2vw, 3rem);
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #111111;
     margin: 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  @media screen and (max-width: 549px) {
+    .luxury-brand-story__heading {
+      font-size: clamp(1.35rem, 5.5vw, 1.85rem);
+      line-height: 1.25;
+    }
+
+    .luxury-brand-story__button {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+      padding: 15px 20px;
+    }
   }
 
   .luxury-brand-story__gold-divider {
