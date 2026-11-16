@@ -1,0 +1,860 @@
+{% comment %}
+  Luxury Footer & Newsletter Section for ATIF'S STYLE
+  Editorial high-fashion footer with customer newsletter, 4-column directory, and utilities.
+{% endcomment %}
+
+<footer
+  class="luxury-footer"
+  id="luxury-footer-{{ section.id }}"
+  style="
+    --luxury-footer-bg: {{ section.settings.background_color | default: '#111111' }};
+    --luxury-footer-text: {{ section.settings.text_color | default: '#F7F4EF' }};
+    --luxury-footer-accent: {{ section.settings.accent_color | default: '#C6A66B' }};
+  "
+>
+  {%- if section.settings.enable_newsletter -%}
+    <div class="luxury-newsletter">
+      <div class="luxury-footer__container">
+        <div class="luxury-newsletter__card">
+          <div class="luxury-newsletter__header">
+            <span class="luxury-newsletter__eyebrow">THE ATIF'S STYLE JOURNAL</span>
+            <h2 class="luxury-newsletter__heading">{{ section.settings.newsletter_heading | escape }}</h2>
+            {%- if section.settings.newsletter_subtext != blank -%}
+              <p class="luxury-newsletter__subtext">{{ section.settings.newsletter_subtext | escape }}</p>
+            {%- endif -%}
+          </div>
+
+          <div class="luxury-newsletter__form-box">
+            {%- form 'customer', id: 'LuxuryNewsletterForm', class: 'luxury-newsletter__form' -%}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="luxury-newsletter__input-group">
+                <label for="LuxuryNewsletterEmail-{{ section.id }}" class="visually-hidden">
+                  {{ section.settings.newsletter_placeholder | default: 'Enter your email address' }}
+                </label>
+                <input
+                  type="email"
+                  name="contact[email]"
+                  id="LuxuryNewsletterEmail-{{ section.id }}"
+                  class="luxury-newsletter__input"
+                  value="{{ form.email }}"
+                  placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email address' }}"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  autocomplete="email"
+                  required
+                >
+                <button
+                  type="submit"
+                  class="luxury-newsletter__btn"
+                  aria-label="{{ section.settings.newsletter_button_label | default: 'SUBSCRIBE' }}"
+                >
+                  <span>{{ section.settings.newsletter_button_label | default: 'SUBSCRIBE' }}</span>
+                  <svg class="luxury-newsletter__btn-arrow" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+
+              {%- if form.posted_successfully? -%}
+                <div class="luxury-newsletter__alert luxury-newsletter__alert--success" role="status" tabindex="-1">
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M6 10.5L8.5 13L14 7" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>Thank you for subscribing to ATIF'S STYLE. Welcome to refined fashion.</span>
+                </div>
+              {%- endif -%}
+
+              {%- if form.errors -%}
+                <div class="luxury-newsletter__alert luxury-newsletter__alert--error" role="alert" tabindex="-1">
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M10 6V11M10 14.5V14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  <span>{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</span>
+                </div>
+              {%- endif -%}
+            {%- endform -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="luxury-footer__main">
+    <div class="luxury-footer__container">
+      <div class="luxury-footer__grid">
+        <!-- COLUMN 1: BRAND -->
+        <div class="luxury-footer__col luxury-footer__col--brand">
+          <a href="{{ routes.root_url }}" class="luxury-footer__brand-title" aria-label="{{ section.settings.brand_name | default: "ATIF'S STYLE" }}">
+            {{ section.settings.brand_name | default: "ATIF'S STYLE" }}
+          </a>
+          {%- if section.settings.brand_tagline != blank -%}
+            <p class="luxury-footer__brand-tagline">{{ section.settings.brand_tagline }}</p>
+          {%- endif -%}
+          {%- if section.settings.brand_bio != blank -%}
+            <p class="luxury-footer__brand-bio">{{ section.settings.brand_bio }}</p>
+          {%- endif -%}
+        </div>
+
+        <!-- COLUMN 2: SHOP -->
+        <div class="luxury-footer__col luxury-footer__col--shop">
+          <h3 class="luxury-footer__col-heading">{{ section.settings.shop_heading | default: 'SHOP' }}</h3>
+          <ul class="luxury-footer__nav-list">
+            {%- if section.settings.shop_menu != blank and linklists[section.settings.shop_menu].links.size > 0 -%}
+              {%- for link in linklists[section.settings.shop_menu].links -%}
+                <li class="luxury-footer__nav-item">
+                  <a href="{{ link.url }}" class="luxury-footer__nav-link">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            {%- else -%}
+              <li class="luxury-footer__nav-item"><a href="{{ routes.collections_url }}/men" class="luxury-footer__nav-link">Men</a></li>
+              <li class="luxury-footer__nav-item"><a href="{{ routes.collections_url }}/women" class="luxury-footer__nav-link">Women</a></li>
+              <li class="luxury-footer__nav-item"><a href="{{ routes.collections_url }}/kids" class="luxury-footer__nav-link">Kids</a></li>
+              <li class="luxury-footer__nav-item"><a href="{{ routes.collections_url }}/accessories" class="luxury-footer__nav-link">Accessories</a></li>
+              <li class="luxury-footer__nav-item"><a href="{{ routes.all_products_collection_url }}" class="luxury-footer__nav-link">New Arrivals</a></li>
+            {%- endif -%}
+          </ul>
+        </div>
+
+        <!-- COLUMN 3: CUSTOMER CARE -->
+        <div class="luxury-footer__col luxury-footer__col--care">
+          <h3 class="luxury-footer__col-heading">{{ section.settings.care_heading | default: 'CUSTOMER CARE' }}</h3>
+          <ul class="luxury-footer__nav-list">
+            {%- if section.settings.care_menu != blank and linklists[section.settings.care_menu].links.size > 0 -%}
+              {%- for link in linklists[section.settings.care_menu].links -%}
+                <li class="luxury-footer__nav-item">
+                  <a href="{{ link.url }}" class="luxury-footer__nav-link">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            {%- else -%}
+              {%- if section.settings.contact_url != blank -%}
+                <li class="luxury-footer__nav-item"><a href="{{ section.settings.contact_url }}" class="luxury-footer__nav-link">Contact Us</a></li>
+              {%- else -%}
+                <li class="luxury-footer__nav-item"><a href="/pages/contact" class="luxury-footer__nav-link">Contact Us</a></li>
+              {%- endif -%}
+
+              {%- if section.settings.faq_url != blank -%}
+                <li class="luxury-footer__nav-item"><a href="{{ section.settings.faq_url }}" class="luxury-footer__nav-link">FAQs</a></li>
+              {%- else -%}
+                <li class="luxury-footer__nav-item"><a href="/pages/faqs" class="luxury-footer__nav-link">FAQs</a></li>
+              {%- endif -%}
+
+              {%- if shop.shipping_policy.url != blank -%}
+                <li class="luxury-footer__nav-item"><a href="{{ shop.shipping_policy.url }}" class="luxury-footer__nav-link">Shipping Policy</a></li>
+              {%- elsif section.settings.show_shipping_policy -%}
+                <li class="luxury-footer__nav-item"><a href="/policies/shipping-policy" class="luxury-footer__nav-link">Shipping Policy</a></li>
+              {%- endif -%}
+
+              {%- if shop.refund_policy.url != blank -%}
+                <li class="luxury-footer__nav-item"><a href="{{ shop.refund_policy.url }}" class="luxury-footer__nav-link">Return Policy</a></li>
+              {%- elsif section.settings.show_refund_policy -%}
+                <li class="luxury-footer__nav-item"><a href="/policies/refund-policy" class="luxury-footer__nav-link">Return Policy</a></li>
+              {%- endif -%}
+
+              {%- if shop.privacy_policy.url != blank -%}
+                <li class="luxury-footer__nav-item"><a href="{{ shop.privacy_policy.url }}" class="luxury-footer__nav-link">Privacy Policy</a></li>
+              {%- elsif section.settings.show_privacy_policy -%}
+                <li class="luxury-footer__nav-item"><a href="/policies/privacy-policy" class="luxury-footer__nav-link">Privacy Policy</a></li>
+              {%- endif -%}
+
+              {%- if shop.terms_of_service.url != blank -%}
+                <li class="luxury-footer__nav-item"><a href="{{ shop.terms_of_service.url }}" class="luxury-footer__nav-link">Terms of Service</a></li>
+              {%- elsif section.settings.show_terms_policy -%}
+                <li class="luxury-footer__nav-item"><a href="/policies/terms-of-service" class="luxury-footer__nav-link">Terms of Service</a></li>
+              {%- endif -%}
+            {%- endif -%}
+          </ul>
+        </div>
+
+        <!-- COLUMN 4: FOLLOW US -->
+        <div class="luxury-footer__col luxury-footer__col--social">
+          <h3 class="luxury-footer__col-heading">{{ section.settings.social_heading | default: 'FOLLOW US' }}</h3>
+          {%- if section.settings.social_text != blank -%}
+            <p class="luxury-footer__social-text">{{ section.settings.social_text }}</p>
+          {%- endif -%}
+          <div class="luxury-footer__social-list">
+            {%- if section.settings.instagram_url != blank -%}
+              <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="luxury-footer__social-link" aria-label="Instagram">
+                <svg class="luxury-footer__social-svg" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  {% render 'icon', icon: 'instagram' %}
+                </svg>
+                <span class="luxury-footer__social-label">Instagram</span>
+              </a>
+            {%- endif -%}
+
+            {%- if section.settings.facebook_url != blank -%}
+              <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="luxury-footer__social-link" aria-label="Facebook">
+                <svg class="luxury-footer__social-svg" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  {% render 'icon', icon: 'facebook' %}
+                </svg>
+                <span class="luxury-footer__social-label">Facebook</span>
+              </a>
+            {%- endif -%}
+
+            {%- if section.settings.tiktok_url != blank -%}
+              <a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener noreferrer" class="luxury-footer__social-link" aria-label="TikTok">
+                <svg class="luxury-footer__social-svg" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  {% render 'icon', icon: 'tiktok' %}
+                </svg>
+                <span class="luxury-footer__social-label">TikTok</span>
+              </a>
+            {%- endif -%}
+
+            {%- if section.settings.pinterest_url != blank -%}
+              <a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener noreferrer" class="luxury-footer__social-link" aria-label="Pinterest">
+                <svg class="luxury-footer__social-svg" width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  {% render 'icon', icon: 'pinterest' %}
+                </svg>
+                <span class="luxury-footer__social-label">Pinterest</span>
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM UTILITIES BAR -->
+  <div class="luxury-footer__bottom">
+    <div class="luxury-footer__container">
+      <div class="luxury-footer__bottom-inner">
+        <div class="luxury-footer__copyright">
+          &copy; {{ 'now' | date: '%Y' }} {{ section.settings.brand_name | default: "ATIF'S STYLE" }}. All rights reserved.
+        </div>
+
+        {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+          <div class="luxury-footer__payments">
+            <span class="visually-hidden">Payment methods</span>
+            <ul class="luxury-footer__payments-list" role="list">
+              {%- for type in shop.enabled_payment_types -%}
+                <li class="luxury-footer__payments-item">
+                  {{ type | payment_type_svg_tag: class: 'luxury-footer__payments-svg' }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_back_to_top -%}
+          <div class="luxury-footer__back-to-top-box">
+            <button
+              type="button"
+              class="luxury-footer__back-to-top-btn"
+              onclick="window.scrollTo({top: 0, behavior: 'smooth'});"
+              aria-label="Back to top"
+            >
+              <span>BACK TO TOP</span>
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M10 16V4M10 4L4 10M10 4L16 10" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% stylesheet %}
+  .luxury-footer {
+    background-color: var(--luxury-footer-bg, #111111);
+    color: var(--luxury-footer-text, #F7F4EF);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    position: relative;
+    width: 100%;
+    border-top: 1px solid rgba(198, 166, 107, 0.25);
+  }
+
+  .luxury-footer__container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+  }
+
+  /* Newsletter Section */
+  .luxury-newsletter {
+    padding: 64px 0;
+    border-bottom: 1px solid rgba(198, 166, 107, 0.2);
+    background: radial-gradient(circle at center top, rgba(198, 166, 107, 0.08) 0%, transparent 70%), var(--luxury-footer-bg, #111111);
+  }
+
+  .luxury-newsletter__card {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .luxury-newsletter__eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--luxury-footer-accent, #C6A66B);
+    margin-bottom: 14px;
+  }
+
+  .luxury-newsletter__heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--luxury-footer-text, #F7F4EF);
+    margin: 0 0 12px;
+    line-height: 1.25;
+  }
+
+  .luxury-newsletter__subtext {
+    font-size: 0.95rem;
+    color: rgba(247, 244, 239, 0.75);
+    line-height: 1.6;
+    margin: 0 auto 32px;
+    max-width: 520px;
+  }
+
+  .luxury-newsletter__form-box {
+    width: 100%;
+  }
+
+  .luxury-newsletter__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .luxury-newsletter__input-group {
+    display: flex;
+    width: 100%;
+    max-width: 520px;
+    border: 1px solid rgba(198, 166, 107, 0.45);
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .luxury-newsletter__input-group:focus-within {
+    border-color: var(--luxury-footer-accent, #C6A66B);
+    box-shadow: 0 0 0 1px var(--luxury-footer-accent, #C6A66B);
+  }
+
+  .luxury-newsletter__input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--luxury-footer-text, #F7F4EF);
+    font-size: 0.9rem;
+    padding: 16px 20px;
+    font-family: inherit;
+  }
+
+  .luxury-newsletter__input::placeholder {
+    color: rgba(247, 244, 239, 0.45);
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+  }
+
+  .luxury-newsletter__btn {
+    background-color: var(--luxury-footer-accent, #C6A66B);
+    color: #111111;
+    border: none;
+    padding: 0 28px;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .luxury-newsletter__btn:hover {
+    background-color: #FFFFFF;
+    color: #111111;
+  }
+
+  .luxury-newsletter__btn-arrow {
+    transition: transform 0.25s ease;
+  }
+
+  .luxury-newsletter__btn:hover .luxury-newsletter__btn-arrow {
+    transform: translateX(4px);
+  }
+
+  .luxury-newsletter__alert {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    font-size: 0.875rem;
+    padding: 12px 18px;
+    border-radius: 2px;
+  }
+
+  .luxury-newsletter__alert--success {
+    color: var(--luxury-footer-accent, #C6A66B);
+    background: rgba(198, 166, 107, 0.12);
+    border: 1px solid rgba(198, 166, 107, 0.35);
+  }
+
+  .luxury-newsletter__alert--error {
+    color: #FF7B7B;
+    background: rgba(255, 123, 123, 0.1);
+    border: 1px solid rgba(255, 123, 123, 0.3);
+  }
+
+  /* Main Directory Grid */
+  .luxury-footer__main {
+    padding: 72px 0 54px;
+  }
+
+  .luxury-footer__grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1.2fr 1.2fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .luxury-footer__brand-title {
+    display: inline-block;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.625rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #FFFFFF;
+    text-decoration: none;
+    margin-bottom: 6px;
+  }
+
+  .luxury-footer__brand-tagline {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--luxury-footer-accent, #C6A66B);
+    letter-spacing: 0.5px;
+    margin: 0 0 16px;
+  }
+
+  .luxury-footer__brand-bio {
+    font-size: 0.875rem;
+    color: rgba(247, 244, 239, 0.65);
+    line-height: 1.65;
+    margin: 0;
+    max-width: 320px;
+  }
+
+  .luxury-footer__col-heading {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--luxury-footer-accent, #C6A66B);
+    margin: 0 0 24px;
+  }
+
+  .luxury-footer__nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .luxury-footer__nav-item {
+    margin-bottom: 12px;
+  }
+
+  .luxury-footer__nav-link {
+    color: rgba(247, 244, 239, 0.72);
+    font-size: 0.875rem;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    display: inline-block;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+
+  .luxury-footer__nav-link:hover {
+    color: var(--luxury-footer-accent, #C6A66B);
+    transform: translateX(4px);
+  }
+
+  .luxury-footer__social-text {
+    font-size: 0.875rem;
+    color: rgba(247, 244, 239, 0.65);
+    line-height: 1.6;
+    margin: 0 0 18px;
+  }
+
+  .luxury-footer__social-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .luxury-footer__social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(247, 244, 239, 0.72);
+    font-size: 0.875rem;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+
+  .luxury-footer__social-svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    flex-shrink: 0;
+    transition: color 0.25s ease;
+  }
+
+  .luxury-footer__social-link:hover {
+    color: var(--luxury-footer-accent, #C6A66B);
+    transform: translateX(4px);
+  }
+
+  /* Bottom Utilities */
+  .luxury-footer__bottom {
+    border-top: 1px solid rgba(198, 166, 107, 0.2);
+    padding: 24px 0 32px;
+  }
+
+  .luxury-footer__bottom-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .luxury-footer__copyright {
+    font-size: 0.78125rem;
+    color: rgba(247, 244, 239, 0.5);
+    letter-spacing: 0.5px;
+  }
+
+  .luxury-footer__payments-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .luxury-footer__payments-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .luxury-footer__payments-svg {
+    height: 22px;
+    width: auto;
+    border-radius: 3px;
+  }
+
+  .luxury-footer__back-to-top-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--luxury-footer-accent, #C6A66B);
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+
+  .luxury-footer__back-to-top-btn:hover {
+    color: #FFFFFF;
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Design */
+  @media screen and (max-width: 989px) {
+    .luxury-footer__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px 32px;
+    }
+    .luxury-footer__col--brand {
+      grid-column: span 2;
+    }
+  }
+
+  @media screen and (max-width: 599px) {
+    .luxury-newsletter {
+      padding: 48px 0;
+    }
+
+    .luxury-newsletter__input-group {
+      flex-direction: column;
+      border: none;
+      background: transparent;
+      gap: 10px;
+    }
+
+    .luxury-newsletter__input {
+      border: 1px solid rgba(198, 166, 107, 0.45);
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 2px;
+    }
+
+    .luxury-newsletter__btn {
+      width: 100%;
+      padding: 15px;
+      justify-content: center;
+      border-radius: 2px;
+    }
+
+    .luxury-footer__main {
+      padding: 48px 0 36px;
+    }
+
+    .luxury-footer__grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .luxury-footer__col--brand {
+      grid-column: span 1;
+    }
+
+    .luxury-footer__bottom-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Luxury Footer",
+  "tag": "section",
+  "class": "section-luxury-footer",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Palette & Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#F7F4EF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#C6A66B"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_newsletter",
+      "label": "Enable Newsletter Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Heading",
+      "default": "A MORE STYLISH INBOX"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_subtext",
+      "label": "Description",
+      "default": "Join our world of refined fashion, new arrivals and exclusive updates."
+    },
+    {
+      "type": "text",
+      "id": "newsletter_placeholder",
+      "label": "Input Placeholder",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_button_label",
+      "label": "Button Label",
+      "default": "SUBSCRIBE"
+    },
+    {
+      "type": "header",
+      "content": "Column 1 — Brand"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand Name",
+      "default": "ATIF'S STYLE"
+    },
+    {
+      "type": "text",
+      "id": "brand_tagline",
+      "label": "Tagline",
+      "default": "Elevate Your Everyday Style"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_bio",
+      "label": "Brand Description",
+      "default": "Atif's Style curates refined luxury apparel and timeless fashion essentials designed for effortless modern elegance."
+    },
+    {
+      "type": "header",
+      "content": "Column 2 — Shop"
+    },
+    {
+      "type": "text",
+      "id": "shop_heading",
+      "label": "Column Heading",
+      "default": "SHOP"
+    },
+    {
+      "type": "link_list",
+      "id": "shop_menu",
+      "label": "Custom Shop Menu",
+      "info": "Optional. If left unselected, default luxury categories (Men, Women, Kids, Accessories, New Arrivals) will be shown."
+    },
+    {
+      "type": "header",
+      "content": "Column 3 — Customer Care"
+    },
+    {
+      "type": "text",
+      "id": "care_heading",
+      "label": "Column Heading",
+      "default": "CUSTOMER CARE"
+    },
+    {
+      "type": "link_list",
+      "id": "care_menu",
+      "label": "Custom Care Menu",
+      "info": "Optional. If left unselected, contact, FAQs and policy links will be shown."
+    },
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "Contact Page URL"
+    },
+    {
+      "type": "url",
+      "id": "faq_url",
+      "label": "FAQ Page URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_policy",
+      "label": "Show Shipping Policy link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_refund_policy",
+      "label": "Show Return Policy link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_privacy_policy",
+      "label": "Show Privacy Policy link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_terms_policy",
+      "label": "Show Terms of Service link",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Column 4 — Follow Us"
+    },
+    {
+      "type": "text",
+      "id": "social_heading",
+      "label": "Column Heading",
+      "default": "FOLLOW US"
+    },
+    {
+      "type": "text",
+      "id": "social_text",
+      "label": "Subtitle / Bio",
+      "default": "Stay connected with our latest editorials and collections."
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL",
+      "default": "https://www.instagram.com"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL",
+      "default": "https://www.facebook.com"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok URL",
+      "default": "https://www.tiktok.com"
+    },
+    {
+      "type": "url",
+      "id": "pinterest_url",
+      "label": "Pinterest URL",
+      "default": "https://www.pinterest.com"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Footer Utilities"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show Payment Icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_to_top",
+      "label": "Show Back to Top Link",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Footer"
+    }
+  ]
+}
+{% endschema %}
