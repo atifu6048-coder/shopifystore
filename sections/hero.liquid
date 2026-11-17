@@ -555,8 +555,11 @@
       data-autoplay="{{ section.settings.slideshow_autoplay | default: true }}"
       data-interval="{{ section.settings.slideshow_interval | default: 5 }}"
     >
+      {%- assign focal_point_1 = section.settings.image_1.presentation.focal_point | default: 'center 62%' -%}
+      {%- assign focal_point_2 = section.settings.image_2.presentation.focal_point | default: 'center 28%' -%}
+
       <!-- Slide 1 -->
-      <div class="hero__slide is-active" data-slide-index="0" aria-hidden="false">
+      <div class="hero__slide hero__slide--1 is-active" data-slide-index="0" aria-hidden="false">
         <div class="hero__slide-media">
           {%- if section.settings.image_1 != blank -%}
             <picture>
@@ -572,7 +575,8 @@
                   alt: section.settings.image_1.alt | default: "ATIF'S STYLE Luxury Editorial Fashion - Slide 1",
                   class: 'hero__slide-image',
                   loading: 'eager',
-                  fetchpriority: 'high'
+                  fetchpriority: 'high',
+                  style: 'object-position: ' | append: focal_point_1 | append: ';'
               }}
             </picture>
           {%- else -%}
@@ -584,13 +588,14 @@
               fetchpriority="high"
               width="2560"
               height="1440"
+              style="object-position: center 62%;"
             >
           {%- endif -%}
         </div>
       </div>
 
       <!-- Slide 2 -->
-      <div class="hero__slide" data-slide-index="1" aria-hidden="true">
+      <div class="hero__slide hero__slide--2" data-slide-index="1" aria-hidden="true">
         <div class="hero__slide-media">
           {%- if section.settings.image_2 != blank -%}
             <picture>
@@ -605,7 +610,8 @@
                   sizes: '100vw',
                   alt: section.settings.image_2.alt | default: "ATIF'S STYLE Haute Couture Editorial - Slide 2",
                   class: 'hero__slide-image',
-                  loading: 'lazy'
+                  loading: 'lazy',
+                  style: 'object-position: ' | append: focal_point_2 | append: ';'
               }}
             </picture>
           {%- else -%}
@@ -616,6 +622,7 @@
               loading="lazy"
               width="2560"
               height="1440"
+              style="object-position: center 28%;"
             >
           {%- endif -%}
         </div>
@@ -1175,11 +1182,19 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 30%;
+    object-position: center 62%;
     transform: scale(1);
     transition: transform 7s cubic-bezier(0.25, 1, 0.5, 1);
     will-change: transform;
     display: block;
+  }
+
+  .hero__slide--1 .hero__slide-image {
+    object-position: center 62%;
+  }
+
+  .hero__slide--2 .hero__slide-image {
+    object-position: center 28%;
   }
 
   .hero__slide.is-active .hero__slide-image {
@@ -1189,7 +1204,7 @@
   .hero__slideshow-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(17, 17, 17, 0.35) 0%, rgba(17, 17, 17, 0.65) 100%);
+    background: linear-gradient(180deg, rgba(17, 17, 17, 0.42) 0%, rgba(17, 17, 17, 0.18) 50%, rgba(17, 17, 17, 0.48) 100%);
     z-index: 3;
     pointer-events: none;
   }
@@ -1275,6 +1290,14 @@
   }
 
   @media screen and (max-width: 749px) {
+    .hero__slide--1 .hero__slide-image {
+      object-position: center 58%;
+    }
+
+    .hero__slide--2 .hero__slide-image {
+      object-position: center 25%;
+    }
+
     .hero__slideshow-controls {
       padding: 0 14px;
     }
