@@ -2,8 +2,14 @@
   "sections": {
     "department_landing": {
       "type": "department-landing",
+      "blocks": {},
+      "block_order": [],
       "settings": {
-        "department": "kids"
+        "department": "kids",
+        "badge": "DEPARTMENT &bull; KIDS",
+        "heading": "KIDS' LUXURY COLLECTION",
+        "subtitle": "Playful elegance, premium comfort, and timeless everyday style.",
+        "background_color": "#F7F4EF"
       }
     }
   },

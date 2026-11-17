@@ -2,8 +2,14 @@
   "sections": {
     "department_landing": {
       "type": "department-landing",
+      "blocks": {},
+      "block_order": [],
       "settings": {
-        "department": "sports"
+        "department": "sports",
+        "badge": "DEPARTMENT &bull; SPORTS",
+        "heading": "SPORTS & ACTIVEWEAR",
+        "subtitle": "Engineered performance, elevated aesthetic, and active luxury.",
+        "background_color": "#F7F4EF"
       }
     }
   },

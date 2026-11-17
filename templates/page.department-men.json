@@ -2,8 +2,14 @@
   "sections": {
     "department_landing": {
       "type": "department-landing",
+      "blocks": {},
+      "block_order": [],
       "settings": {
-        "department": "men"
+        "department": "men",
+        "badge": "DEPARTMENT &bull; MEN",
+        "heading": "MEN'S LUXURY COLLECTION",
+        "subtitle": "Modern essentials, bespoke tailoring, and timeless confidence.",
+        "background_color": "#F7F4EF"
       }
     }
   },

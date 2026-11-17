@@ -45,54 +45,28 @@
             class="menu-list__list list-unstyled"
             role="list"
           >
-            {% liquid
-              assign nav_links = block_settings.menu.links
-              assign has_fashion_nav = false
-              for link in nav_links
-                if link.title == 'Men' or link.title == 'Women'
-                  assign has_fashion_nav = true
-                endif
-              endfor
-            %}
-            {% if has_fashion_nav or nav_links.size > 2 %}
-              {% for link in nav_links %}
-                <li>
-                  <a
-                    href="{{ link.url }}"
-                    id="MenuItem-{{ link.handle }}"
-                    class="menu-list__item"
-                    {% if link.current %}
-                      aria-current="page"
-                    {% endif %}
-                  >
-                    {{- link.title -}}
-                  </a>
-                </li>
-              {% endfor %}
-            {% else %}
-              {% assign curated_titles = 'Home,Men,Women,Kids,Sports' | split: ',' %}
-              {% capture c_url_home %}{{ routes.root_url }}{% endcapture %}
-              {% capture c_url_men %}{{ routes.collections_url }}/men{% endcapture %}
-              {% capture c_url_women %}{{ routes.collections_url }}/women{% endcapture %}
-              {% capture c_url_kids %}{{ routes.collections_url }}/kids{% endcapture %}
-              {% capture c_url_sports %}{{ routes.collections_url }}/sports{% endcapture %}
-              {% assign curated_urls = c_url_home | append: ',' | append: c_url_men | append: ',' | append: c_url_women | append: ',' | append: c_url_kids | append: ',' | append: c_url_sports | split: ',' %}
-              {% for c_title in curated_titles %}
-                {% assign c_url = curated_urls[forloop.index0] %}
-                <li>
-                  <a
-                    href="{{ c_url }}"
-                    id="MenuItem-{{ c_title | handleize }}"
-                    class="menu-list__item"
-                    {% if request.path == c_url %}
-                      aria-current="page"
-                    {% endif %}
-                  >
-                    {{- c_title -}}
-                  </a>
-                </li>
-              {% endfor %}
-            {% endif %}
+            {% assign curated_titles = 'Home,Men,Women,Kids,Sports' | split: ',' %}
+            {% capture c_url_home %}{{ routes.root_url }}{% endcapture %}
+            {% capture c_url_men %}{{ routes.collections_url }}/men{% endcapture %}
+            {% capture c_url_women %}{{ routes.collections_url }}/women{% endcapture %}
+            {% capture c_url_kids %}{{ routes.collections_url }}/kids{% endcapture %}
+            {% capture c_url_sports %}{{ routes.collections_url }}/sports{% endcapture %}
+            {% assign curated_urls = c_url_home | append: ',' | append: c_url_men | append: ',' | append: c_url_women | append: ',' | append: c_url_kids | append: ',' | append: c_url_sports | split: ',' %}
+            {% for c_title in curated_titles %}
+              {% assign c_url = curated_urls[forloop.index0] %}
+              <li>
+                <a
+                  href="{{ c_url }}"
+                  id="MenuItem-{{ c_title | handleize }}"
+                  class="menu-list__item"
+                  {% if request.path == c_url %}
+                    aria-current="page"
+                  {% endif %}
+                >
+                  {{- c_title -}}
+                </a>
+              </li>
+            {% endfor %}
           </ul>
         </div>
       </div>
@@ -100,8 +74,6 @@
   {% else %}
     {% liquid
       assign block_settings = block.settings
-      assign menu_content_type = block_settings.menu_style | default: 'text'
-      assign image_border_radius = block_settings.image_border_radius
 
       render 'contrast-override', background_color: block_settings.background_color, text_color: block_settings.text_color, section_id: block.id
 
@@ -118,414 +90,355 @@
       if parent_background_color.rgb == current_background_color.rgb
         assign background_color_classes = background_color_classes | append: ' background-matches-parent'
       endif
-
-      if block_settings.menu_style == 'featured_collections'
-        assign ratio = block_settings.featured_collections_aspect_ratio
-      elsif block_settings.menu_style == 'featured_products'
-        assign ratio = block_settings.featured_products_aspect_ratio
-      endif
     %}
 
     {% capture children %}
-      {% liquid
-        assign desk_nav_links = block_settings.menu.links
-        assign desk_has_fashion = false
-        for link in desk_nav_links
-          if link.title == 'Men' or link.title == 'Women' or link.title == 'Accessories'
-            assign desk_has_fashion = true
-          endif
-        endfor
-      %}
-      {% if desk_has_fashion or desk_nav_links.size > 2 %}
-        {% for link in desk_nav_links %}
-          <li
-            class="menu-list__list-item"
-            on:blur="/deactivate"
-            on:pointerenter="/activate"
-            on:pointerleave="/deactivate"
-          >
-            {%- if link.links != blank -%}
-              <span class="menu-list__trigger">
-            {%- endif -%}
-            <a
-              href="{{ link.url }}"
-              data-skip-node-update="true"
-              class="menu-list__link{% if link.active %} menu-list__link--active{% endif %}"
-              {% if link.current %}
-                aria-current="page"
-              {% endif %}
-              ref="menuitem"
-            >
-              <span class="menu-list__link-title">{{- link.title -}}</span>
-            </a>
-            {%- if link.links != blank -%}
-              <button
-                type="button"
-                class="menu-list__disclosure button-unstyled"
-                aria-controls="submenu-{{ forloop.index }}"
-                aria-expanded="false"
-                ref="disclosure[]"
-                data-skip-node-update
-                on:click="/toggle"
-              >
-                <span class="visually-hidden">{{ 'accessibility.show_submenu' | t: title: link.title }}</span>
-                <svg
-                  class="menu-list__disclosure-icon"
-                  aria-hidden="true"
-                  focusable="false"
-                  viewBox="0 0 10 6"
-                >
-                  {%- render 'icon', icon: 'caret' -%}
-                </svg>
-              </button>
-              </span>
-              {%- comment -%}
-                Collapsed by default via `inert`: keeps the submenu out of the tab order
-                and the accessibility tree until it is opened. Toggled in header-menu.js.
-              {%- endcomment -%}
-              <div class="menu-list__submenu{{ background_color_classes }}" ref="submenu[]" data-skip-node-update inert>
-                <div
-                  id="submenu-{{ forloop.index }}"
-                  class="menu-list__submenu-inner"
-                  style="{% render 'submenu-font-styles', settings: block_settings %}"
-                >
-                  {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
-                  <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
-                    <div
-                      class="mega-menu__grid"
-                      data-menu-grid-id="{{ list_id }}"
-                    >
-                      {% render 'mega-menu-list',
-                        parent_link: link,
-                        id: list_id,
-                        section: section,
-                        grid_columns_count: 6,
-                        grid_columns_count_tablet: 4,
-                        grid_columns_count_collection_images: 8,
-                        menu_content_type: menu_content_type,
-                        content_aspect_ratio: ratio,
-                        image_border_radius: image_border_radius
-                      %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {%- endif -%}
-          </li>
-        {% endfor %}
-      {% else %}
-        {%- comment -%} HOME {%- endcomment -%}
-        <li
-          class="menu-list__list-item"
-          on:blur="/deactivate"
-          on:pointerenter="/activate"
-          on:pointerleave="/deactivate"
+      {%- comment -%} ==================== HOME ==================== {%- endcomment -%}
+      <li
+        class="menu-list__list-item"
+        on:blur="/deactivate"
+        on:pointerenter="/activate"
+        on:pointerleave="/deactivate"
+      >
+        <a
+          href="{{ routes.root_url }}"
+          data-skip-node-update="true"
+          class="menu-list__link{% if request.path == routes.root_url %} menu-list__link--active{% endif %}"
+          ref="menuitem"
         >
+          <span class="menu-list__link-title">HOME</span>
+        </a>
+      </li>
+
+      {%- comment -%} ==================== MEN ==================== {%- endcomment -%}
+      <li
+        class="menu-list__list-item menu-list__list-item--dept"
+        data-dept="men"
+        on:blur="/deactivate"
+        on:pointerenter="/activate"
+        on:pointerleave="/deactivate"
+      >
+        <span class="menu-list__trigger">
           <a
-            href="{{ routes.root_url }}"
+            href="{{ routes.collections_url }}/men"
             data-skip-node-update="true"
-            class="menu-list__link{% if request.path == routes.root_url %} menu-list__link--active{% endif %}"
+            class="menu-list__link{% if request.path contains '/men' %} menu-list__link--active{% endif %}"
             ref="menuitem"
+            data-dept-trigger="men"
           >
-            <span class="menu-list__link-title">HOME</span>
+            <span class="menu-list__link-title">MEN</span>
           </a>
-        </li>
-
-        {%- comment -%} MEN {%- endcomment -%}
-        <li
-          class="menu-list__list-item menu-list__list-item--dept"
-          on:blur="/deactivate"
-          on:pointerenter="/activate"
-          on:pointerleave="/deactivate"
+          <button
+            type="button"
+            class="menu-list__disclosure button-unstyled"
+            aria-controls="submenu-dept-men"
+            aria-expanded="false"
+            ref="disclosure[]"
+            data-skip-node-update
+            on:click="/toggle"
+            aria-label="Toggle Men Categories"
+          >
+            <svg class="menu-list__disclosure-icon" aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+              {%- render 'icon', icon: 'caret' -%}
+            </svg>
+          </button>
+        </span>
+        <div
+          class="menu-list__submenu luxury-dept-submenu"
+          id="submenu-dept-men"
+          ref="submenu[]"
+          data-skip-node-update
         >
-          <span class="menu-list__trigger">
-            <a
-              href="{{ routes.collections_url }}/men"
-              data-skip-node-update="true"
-              class="menu-list__link{% if request.path contains '/men' %} menu-list__link--active{% endif %}"
-              ref="menuitem"
-            >
-              <span class="menu-list__link-title">MEN</span>
-            </a>
-            <button
-              type="button"
-              class="menu-list__disclosure button-unstyled"
-              aria-controls="submenu-dept-men"
-              aria-expanded="false"
-              ref="disclosure[]"
-              data-skip-node-update
-              on:click="/toggle"
-            >
-              <span class="visually-hidden">Show Men's categories</span>
-              <svg class="menu-list__disclosure-icon" aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                {%- render 'icon', icon: 'caret' -%}
-              </svg>
-            </button>
-          </span>
-          <div class="menu-list__submenu luxury-dept-submenu" ref="submenu[]" data-skip-node-update inert>
-            <div id="submenu-dept-men" class="menu-list__submenu-inner">
-              <div class="luxury-mega-panel">
-                <div class="luxury-mega-panel__col luxury-mega-panel__col--categories">
-                  <div class="luxury-mega-panel__header">
-                    <span class="luxury-mega-panel__eyebrow">DEPARTMENT</span>
-                    <h4 class="luxury-mega-panel__title">MEN'S COLLECTION</h4>
-                    <div class="luxury-mega-panel__gold-line"></div>
-                  </div>
-                  <div class="luxury-mega-panel__links-grid">
-                    <a href="{{ routes.collections_url }}/men-t-shirts" class="luxury-mega-panel__link">T-Shirts</a>
-                    <a href="{{ routes.collections_url }}/men-shirts" class="luxury-mega-panel__link">Shirts</a>
-                    <a href="{{ routes.collections_url }}/men-jeans" class="luxury-mega-panel__link">Jeans</a>
-                    <a href="{{ routes.collections_url }}/men-trousers" class="luxury-mega-panel__link">Trousers</a>
-                    <a href="{{ routes.collections_url }}/men-hoodies-sweatshirts" class="luxury-mega-panel__link">Hoodies &amp; Sweatshirts</a>
-                    <a href="{{ routes.collections_url }}/men-jackets" class="luxury-mega-panel__link">Jackets</a>
-                    <a href="{{ routes.collections_url }}/men-shoes" class="luxury-mega-panel__link">Shoes</a>
-                    <a href="{{ routes.collections_url }}/men-accessories" class="luxury-mega-panel__link">Accessories</a>
-                  </div>
-                  <div class="luxury-mega-panel__cta-row">
-                    <a href="{{ routes.collections_url }}/men" class="luxury-mega-panel__view-all">
-                      <span>VIEW ALL MEN'S COLLECTION</span>
-                      <span class="luxury-mega-panel__arrow">&rarr;</span>
-                    </a>
-                  </div>
+          <div class="menu-list__submenu-inner">
+            <div class="luxury-mega-panel">
+              <div class="luxury-mega-panel__col luxury-mega-panel__col--categories">
+                <div class="luxury-mega-panel__header">
+                  <span class="luxury-mega-panel__eyebrow">DEPARTMENT &bull; ATIF'S STYLE</span>
+                  <h3 class="luxury-mega-panel__title">MEN'S COLLECTION</h3>
+                  <div class="luxury-mega-panel__gold-line"></div>
                 </div>
-                <div class="luxury-mega-panel__col luxury-mega-panel__col--featured">
-                  <a href="{{ routes.collections_url }}/men" class="luxury-mega-panel__card">
-                    <div class="luxury-mega-panel__card-media">
-                      <img src="https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=600&q=80&auto=format&fit=crop" alt="Men's Luxury Editorial" width="600" height="400" loading="lazy">
-                    </div>
-                    <div class="luxury-mega-panel__card-body">
-                      <span class="luxury-mega-panel__card-tag">EDITORIAL</span>
-                      <h5 class="luxury-mega-panel__card-title">THE MEN'S EDIT</h5>
-                      <p class="luxury-mega-panel__card-sub">Modern essentials. Timeless confidence.</p>
-                    </div>
+                <div class="luxury-mega-panel__links-grid">
+                  <a href="{{ routes.collections_url }}/men" class="luxury-mega-panel__link luxury-mega-panel__link--featured">All Men's Clothing</a>
+                  <a href="{{ routes.collections_url }}/men-t-shirts" class="luxury-mega-panel__link">T-Shirts</a>
+                  <a href="{{ routes.collections_url }}/men-shirts" class="luxury-mega-panel__link">Shirts</a>
+                  <a href="{{ routes.collections_url }}/men-jeans-trousers" class="luxury-mega-panel__link">Jeans &amp; Trousers</a>
+                  <a href="{{ routes.collections_url }}/men-coats-jackets" class="luxury-mega-panel__link">Coats &amp; Jackets</a>
+                  <a href="{{ routes.collections_url }}/men-hoodies-sweatshirts" class="luxury-mega-panel__link">Hoodies &amp; Sweatshirts</a>
+                  <a href="{{ routes.collections_url }}/men-shoes" class="luxury-mega-panel__link">Shoes</a>
+                  <a href="{{ routes.collections_url }}/men-sportswear" class="luxury-mega-panel__link">Sportswear</a>
+                  <a href="{{ routes.collections_url }}/men-accessories" class="luxury-mega-panel__link">Accessories</a>
+                </div>
+                <div class="luxury-mega-panel__cta-row">
+                  <a href="{{ routes.collections_url }}/men" class="luxury-mega-panel__view-all">
+                    <span>VIEW ALL MEN'S CLOTHING</span>
+                    <span class="luxury-mega-panel__arrow">&rarr;</span>
                   </a>
                 </div>
               </div>
-            </div>
-          </div>
-        </li>
-
-        {%- comment -%} WOMEN {%- endcomment -%}
-        <li
-          class="menu-list__list-item menu-list__list-item--dept"
-          on:blur="/deactivate"
-          on:pointerenter="/activate"
-          on:pointerleave="/deactivate"
-        >
-          <span class="menu-list__trigger">
-            <a
-              href="{{ routes.collections_url }}/women"
-              data-skip-node-update="true"
-              class="menu-list__link{% if request.path contains '/women' %} menu-list__link--active{% endif %}"
-              ref="menuitem"
-            >
-              <span class="menu-list__link-title">WOMEN</span>
-            </a>
-            <button
-              type="button"
-              class="menu-list__disclosure button-unstyled"
-              aria-controls="submenu-dept-women"
-              aria-expanded="false"
-              ref="disclosure[]"
-              data-skip-node-update
-              on:click="/toggle"
-            >
-              <span class="visually-hidden">Show Women's categories</span>
-              <svg class="menu-list__disclosure-icon" aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                {%- render 'icon', icon: 'caret' -%}
-              </svg>
-            </button>
-          </span>
-          <div class="menu-list__submenu luxury-dept-submenu" ref="submenu[]" data-skip-node-update inert>
-            <div id="submenu-dept-women" class="menu-list__submenu-inner">
-              <div class="luxury-mega-panel">
-                <div class="luxury-mega-panel__col luxury-mega-panel__col--categories">
-                  <div class="luxury-mega-panel__header">
-                    <span class="luxury-mega-panel__eyebrow">DEPARTMENT</span>
-                    <h4 class="luxury-mega-panel__title">WOMEN'S COLLECTION</h4>
-                    <div class="luxury-mega-panel__gold-line"></div>
+              <div class="luxury-mega-panel__col luxury-mega-panel__col--featured">
+                <a href="{{ routes.collections_url }}/men" class="luxury-mega-panel__card">
+                  <div class="luxury-mega-panel__card-media">
+                    <img src="https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=600&q=80&auto=format&fit=crop" alt="Men's Luxury Editorial" width="600" height="400" loading="lazy">
                   </div>
-                  <div class="luxury-mega-panel__links-grid">
-                    <a href="{{ routes.collections_url }}/women-dresses" class="luxury-mega-panel__link">Dresses</a>
-                    <a href="{{ routes.collections_url }}/women-tops" class="luxury-mega-panel__link">Tops</a>
-                    <a href="{{ routes.collections_url }}/women-jeans" class="luxury-mega-panel__link">Jeans</a>
-                    <a href="{{ routes.collections_url }}/women-trousers" class="luxury-mega-panel__link">Trousers</a>
-                    <a href="{{ routes.collections_url }}/women-coord-sets" class="luxury-mega-panel__link">Co-ord Sets</a>
-                    <a href="{{ routes.collections_url }}/women-jackets" class="luxury-mega-panel__link">Jackets</a>
-                    <a href="{{ routes.collections_url }}/women-shoes" class="luxury-mega-panel__link">Shoes</a>
-                    <a href="{{ routes.collections_url }}/women-accessories" class="luxury-mega-panel__link">Accessories</a>
+                  <div class="luxury-mega-panel__card-body">
+                    <span class="luxury-mega-panel__card-tag">EDITORIAL EDIT</span>
+                    <h4 class="luxury-mega-panel__card-title">MODERN MASCULINITY</h4>
+                    <p class="luxury-mega-panel__card-sub">Refined tailoring, structured coats &amp; everyday confidence.</p>
                   </div>
-                  <div class="luxury-mega-panel__cta-row">
-                    <a href="{{ routes.collections_url }}/women" class="luxury-mega-panel__view-all">
-                      <span>VIEW ALL WOMEN'S COLLECTION</span>
-                      <span class="luxury-mega-panel__arrow">&rarr;</span>
-                    </a>
-                  </div>
-                </div>
-                <div class="luxury-mega-panel__col luxury-mega-panel__col--featured">
-                  <a href="{{ routes.collections_url }}/women" class="luxury-mega-panel__card">
-                    <div class="luxury-mega-panel__card-media">
-                      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80&auto=format&fit=crop" alt="Women's Luxury Editorial" width="600" height="400" loading="lazy">
-                    </div>
-                    <div class="luxury-mega-panel__card-body">
-                      <span class="luxury-mega-panel__card-tag">EDITORIAL</span>
-                      <h5 class="luxury-mega-panel__card-title">THE WOMEN'S EDIT</h5>
-                      <p class="luxury-mega-panel__card-sub">Effortless elegance. Refined style.</p>
-                    </div>
-                  </a>
-                </div>
+                </a>
               </div>
             </div>
           </div>
-        </li>
+        </div>
+      </li>
 
-        {%- comment -%} KIDS {%- endcomment -%}
-        <li
-          class="menu-list__list-item menu-list__list-item--dept"
-          on:blur="/deactivate"
-          on:pointerenter="/activate"
-          on:pointerleave="/deactivate"
+      {%- comment -%} ==================== WOMEN ==================== {%- endcomment -%}
+      <li
+        class="menu-list__list-item menu-list__list-item--dept"
+        data-dept="women"
+        on:blur="/deactivate"
+        on:pointerenter="/activate"
+        on:pointerleave="/deactivate"
+      >
+        <span class="menu-list__trigger">
+          <a
+            href="{{ routes.collections_url }}/women"
+            data-skip-node-update="true"
+            class="menu-list__link{% if request.path contains '/women' %} menu-list__link--active{% endif %}"
+            ref="menuitem"
+            data-dept-trigger="women"
+          >
+            <span class="menu-list__link-title">WOMEN</span>
+          </a>
+          <button
+            type="button"
+            class="menu-list__disclosure button-unstyled"
+            aria-controls="submenu-dept-women"
+            aria-expanded="false"
+            ref="disclosure[]"
+            data-skip-node-update
+            on:click="/toggle"
+            aria-label="Toggle Women Categories"
+          >
+            <svg class="menu-list__disclosure-icon" aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+              {%- render 'icon', icon: 'caret' -%}
+            </svg>
+          </button>
+        </span>
+        <div
+          class="menu-list__submenu luxury-dept-submenu"
+          id="submenu-dept-women"
+          ref="submenu[]"
+          data-skip-node-update
         >
-          <span class="menu-list__trigger">
-            <a
-              href="{{ routes.collections_url }}/kids"
-              data-skip-node-update="true"
-              class="menu-list__link{% if request.path contains '/kids' %} menu-list__link--active{% endif %}"
-              ref="menuitem"
-            >
-              <span class="menu-list__link-title">KIDS</span>
-            </a>
-            <button
-              type="button"
-              class="menu-list__disclosure button-unstyled"
-              aria-controls="submenu-dept-kids"
-              aria-expanded="false"
-              ref="disclosure[]"
-              data-skip-node-update
-              on:click="/toggle"
-            >
-              <span class="visually-hidden">Show Kids' categories</span>
-              <svg class="menu-list__disclosure-icon" aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                {%- render 'icon', icon: 'caret' -%}
-              </svg>
-            </button>
-          </span>
-          <div class="menu-list__submenu luxury-dept-submenu" ref="submenu[]" data-skip-node-update inert>
-            <div id="submenu-dept-kids" class="menu-list__submenu-inner">
-              <div class="luxury-mega-panel">
-                <div class="luxury-mega-panel__col luxury-mega-panel__col--categories">
-                  <div class="luxury-mega-panel__header">
-                    <span class="luxury-mega-panel__eyebrow">DEPARTMENT</span>
-                    <h4 class="luxury-mega-panel__title">KIDS' COLLECTION</h4>
-                    <div class="luxury-mega-panel__gold-line"></div>
-                  </div>
-                  <div class="luxury-mega-panel__links-grid">
-                    <a href="{{ routes.collections_url }}/kids-boys" class="luxury-mega-panel__link">Boys Clothing</a>
-                    <a href="{{ routes.collections_url }}/kids-girls" class="luxury-mega-panel__link">Girls Clothing</a>
-                    <a href="{{ routes.collections_url }}/kids-baby" class="luxury-mega-panel__link">Baby Clothing</a>
-                    <a href="{{ routes.collections_url }}/kids-t-shirts" class="luxury-mega-panel__link">Kids T-Shirts</a>
-                    <a href="{{ routes.collections_url }}/kids-sets" class="luxury-mega-panel__link">Kids Sets</a>
-                    <a href="{{ routes.collections_url }}/kids-shoes" class="luxury-mega-panel__link">Kids Shoes</a>
-                    <a href="{{ routes.collections_url }}/kids-accessories" class="luxury-mega-panel__link">Kids Accessories</a>
-                  </div>
-                  <div class="luxury-mega-panel__cta-row">
-                    <a href="{{ routes.collections_url }}/kids" class="luxury-mega-panel__view-all">
-                      <span>VIEW ALL KIDS' COLLECTION</span>
-                      <span class="luxury-mega-panel__arrow">&rarr;</span>
-                    </a>
-                  </div>
+          <div class="menu-list__submenu-inner">
+            <div class="luxury-mega-panel">
+              <div class="luxury-mega-panel__col luxury-mega-panel__col--categories">
+                <div class="luxury-mega-panel__header">
+                  <span class="luxury-mega-panel__eyebrow">DEPARTMENT &bull; ATIF'S STYLE</span>
+                  <h3 class="luxury-mega-panel__title">WOMEN'S COLLECTION</h3>
+                  <div class="luxury-mega-panel__gold-line"></div>
                 </div>
-                <div class="luxury-mega-panel__col luxury-mega-panel__col--featured">
-                  <a href="{{ routes.collections_url }}/kids" class="luxury-mega-panel__card">
-                    <div class="luxury-mega-panel__card-media">
-                      <img src="https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=600&q=80&auto=format&fit=crop" alt="Kids' Luxury Editorial" width="600" height="400" loading="lazy">
-                    </div>
-                    <div class="luxury-mega-panel__card-body">
-                      <span class="luxury-mega-panel__card-tag">EDITORIAL</span>
-                      <h5 class="luxury-mega-panel__card-title">THE KIDS' EDIT</h5>
-                      <p class="luxury-mega-panel__card-sub">Comfort meets playful style.</p>
-                    </div>
+                <div class="luxury-mega-panel__links-grid">
+                  <a href="{{ routes.collections_url }}/women" class="luxury-mega-panel__link luxury-mega-panel__link--featured">All Women's Clothing</a>
+                  <a href="{{ routes.collections_url }}/women-dresses" class="luxury-mega-panel__link">Dresses</a>
+                  <a href="{{ routes.collections_url }}/women-tops-t-shirts" class="luxury-mega-panel__link">Tops &amp; T-Shirts</a>
+                  <a href="{{ routes.collections_url }}/women-jeans-trousers" class="luxury-mega-panel__link">Jeans &amp; Trousers</a>
+                  <a href="{{ routes.collections_url }}/women-coats-jackets" class="luxury-mega-panel__link">Coats &amp; Jackets</a>
+                  <a href="{{ routes.collections_url }}/women-shoes" class="luxury-mega-panel__link">Shoes</a>
+                  <a href="{{ routes.collections_url }}/women-handbags" class="luxury-mega-panel__link">Handbags</a>
+                  <a href="{{ routes.collections_url }}/women-activewear" class="luxury-mega-panel__link">Activewear</a>
+                  <a href="{{ routes.collections_url }}/women-accessories" class="luxury-mega-panel__link">Accessories</a>
+                </div>
+                <div class="luxury-mega-panel__cta-row">
+                  <a href="{{ routes.collections_url }}/women" class="luxury-mega-panel__view-all">
+                    <span>VIEW ALL WOMEN'S CLOTHING</span>
+                    <span class="luxury-mega-panel__arrow">&rarr;</span>
                   </a>
                 </div>
               </div>
-            </div>
-          </div>
-        </li>
-
-        {%- comment -%} SPORTS {%- endcomment -%}
-        <li
-          class="menu-list__list-item menu-list__list-item--dept"
-          on:blur="/deactivate"
-          on:pointerenter="/activate"
-          on:pointerleave="/deactivate"
-        >
-          <span class="menu-list__trigger">
-            <a
-              href="{{ routes.collections_url }}/sports"
-              data-skip-node-update="true"
-              class="menu-list__link{% if request.path contains '/sports' %} menu-list__link--active{% endif %}"
-              ref="menuitem"
-            >
-              <span class="menu-list__link-title">SPORTS</span>
-            </a>
-            <button
-              type="button"
-              class="menu-list__disclosure button-unstyled"
-              aria-controls="submenu-dept-sports"
-              aria-expanded="false"
-              ref="disclosure[]"
-              data-skip-node-update
-              on:click="/toggle"
-            >
-              <span class="visually-hidden">Show Sports categories</span>
-              <svg class="menu-list__disclosure-icon" aria-hidden="true" focusable="false" viewBox="0 0 10 6">
-                {%- render 'icon', icon: 'caret' -%}
-              </svg>
-            </button>
-          </span>
-          <div class="menu-list__submenu luxury-dept-submenu" ref="submenu[]" data-skip-node-update inert>
-            <div id="submenu-dept-sports" class="menu-list__submenu-inner">
-              <div class="luxury-mega-panel">
-                <div class="luxury-mega-panel__col luxury-mega-panel__col--categories">
-                  <div class="luxury-mega-panel__header">
-                    <span class="luxury-mega-panel__eyebrow">DEPARTMENT</span>
-                    <h4 class="luxury-mega-panel__title">SPORTS COLLECTION</h4>
-                    <div class="luxury-mega-panel__gold-line"></div>
+              <div class="luxury-mega-panel__col luxury-mega-panel__col--featured">
+                <a href="{{ routes.collections_url }}/women" class="luxury-mega-panel__card">
+                  <div class="luxury-mega-panel__card-media">
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80&auto=format&fit=crop" alt="Women's Luxury Editorial" width="600" height="400" loading="lazy">
                   </div>
-                  <div class="luxury-mega-panel__links-grid">
-                    <a href="{{ routes.collections_url }}/sports-wear" class="luxury-mega-panel__link">Sportswear</a>
-                    <a href="{{ routes.collections_url }}/sports-gym-wear" class="luxury-mega-panel__link">Gym Wear</a>
-                    <a href="{{ routes.collections_url }}/sports-activewear" class="luxury-mega-panel__link">Activewear</a>
-                    <a href="{{ routes.collections_url }}/sports-tracksuits" class="luxury-mega-panel__link">Tracksuits</a>
-                    <a href="{{ routes.collections_url }}/sports-t-shirts" class="luxury-mega-panel__link">Sports T-Shirts</a>
-                    <a href="{{ routes.collections_url }}/sports-shorts" class="luxury-mega-panel__link">Sports Shorts</a>
-                    <a href="{{ routes.collections_url }}/sports-shoes" class="luxury-mega-panel__link">Sports Shoes</a>
-                    <a href="{{ routes.collections_url }}/sports-accessories" class="luxury-mega-panel__link">Sports Accessories</a>
+                  <div class="luxury-mega-panel__card-body">
+                    <span class="luxury-mega-panel__card-tag">EDITORIAL EDIT</span>
+                    <h4 class="luxury-mega-panel__card-title">HAUTE COUTURE</h4>
+                    <p class="luxury-mega-panel__card-sub">Effortless elegance, flowing dresses &amp; sculpted tailoring.</p>
                   </div>
-                  <div class="luxury-mega-panel__cta-row">
-                    <a href="{{ routes.collections_url }}/sports" class="luxury-mega-panel__view-all">
-                      <span>VIEW ALL SPORTS COLLECTION</span>
-                      <span class="luxury-mega-panel__arrow">&rarr;</span>
-                    </a>
-                  </div>
-                </div>
-                <div class="luxury-mega-panel__col luxury-mega-panel__col--featured">
-                  <a href="{{ routes.collections_url }}/sports" class="luxury-mega-panel__card">
-                    <div class="luxury-mega-panel__card-media">
-                      <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&q=80&auto=format&fit=crop" alt="Sports Performance Editorial" width="600" height="400" loading="lazy">
-                    </div>
-                    <div class="luxury-mega-panel__card-body">
-                      <span class="luxury-mega-panel__card-tag">EDITORIAL</span>
-                      <h5 class="luxury-mega-panel__card-title">THE SPORTS EDIT</h5>
-                      <p class="luxury-mega-panel__card-sub">Performance wear &amp; active essentials.</p>
-                    </div>
-                  </a>
-                </div>
+                </a>
               </div>
             </div>
           </div>
-        </li>
-      {% endif %}
+        </div>
+      </li>
+
+      {%- comment -%} ==================== KIDS ==================== {%- endcomment -%}
+      <li
+        class="menu-list__list-item menu-list__list-item--dept"
+        data-dept="kids"
+        on:blur="/deactivate"
+        on:pointerenter="/activate"
+        on:pointerleave="/deactivate"
+      >
+        <span class="menu-list__trigger">
+          <a
+            href="{{ routes.collections_url }}/kids"
+            data-skip-node-update="true"
+            class="menu-list__link{% if request.path contains '/kids' %} menu-list__link--active{% endif %}"
+            ref="menuitem"
+            data-dept-trigger="kids"
+          >
+            <span class="menu-list__link-title">KIDS</span>
+          </a>
+          <button
+            type="button"
+            class="menu-list__disclosure button-unstyled"
+            aria-controls="submenu-dept-kids"
+            aria-expanded="false"
+            ref="disclosure[]"
+            data-skip-node-update
+            on:click="/toggle"
+            aria-label="Toggle Kids Categories"
+          >
+            <svg class="menu-list__disclosure-icon" aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+              {%- render 'icon', icon: 'caret' -%}
+            </svg>
+          </button>
+        </span>
+        <div
+          class="menu-list__submenu luxury-dept-submenu"
+          id="submenu-dept-kids"
+          ref="submenu[]"
+          data-skip-node-update
+        >
+          <div class="menu-list__submenu-inner">
+            <div class="luxury-mega-panel">
+              <div class="luxury-mega-panel__col luxury-mega-panel__col--categories">
+                <div class="luxury-mega-panel__header">
+                  <span class="luxury-mega-panel__eyebrow">DEPARTMENT &bull; ATIF'S STYLE</span>
+                  <h3 class="luxury-mega-panel__title">KIDS' COLLECTION</h3>
+                  <div class="luxury-mega-panel__gold-line"></div>
+                </div>
+                <div class="luxury-mega-panel__links-grid">
+                  <a href="{{ routes.collections_url }}/kids" class="luxury-mega-panel__link luxury-mega-panel__link--featured">All Kids Clothing</a>
+                  <a href="{{ routes.collections_url }}/kids-boys" class="luxury-mega-panel__link">Boys Clothing</a>
+                  <a href="{{ routes.collections_url }}/kids-girls" class="luxury-mega-panel__link">Girls Clothing</a>
+                  <a href="{{ routes.collections_url }}/kids-baby" class="luxury-mega-panel__link">Baby Clothing</a>
+                  <a href="{{ routes.collections_url }}/kids-t-shirts" class="luxury-mega-panel__link">Kids T-Shirts</a>
+                  <a href="{{ routes.collections_url }}/kids-coats-jackets" class="luxury-mega-panel__link">Kids Coats &amp; Jackets</a>
+                  <a href="{{ routes.collections_url }}/kids-shoes" class="luxury-mega-panel__link">Kids Shoes</a>
+                  <a href="{{ routes.collections_url }}/kids-toys" class="luxury-mega-panel__link">Toys</a>
+                  <a href="{{ routes.collections_url }}/kids-school-bags" class="luxury-mega-panel__link">School Bags</a>
+                  <a href="{{ routes.collections_url }}/kids-accessories" class="luxury-mega-panel__link">Kids Accessories</a>
+                </div>
+                <div class="luxury-mega-panel__cta-row">
+                  <a href="{{ routes.collections_url }}/kids" class="luxury-mega-panel__view-all">
+                    <span>VIEW ALL KIDS' CLOTHING</span>
+                    <span class="luxury-mega-panel__arrow">&rarr;</span>
+                  </a>
+                </div>
+              </div>
+              <div class="luxury-mega-panel__col luxury-mega-panel__col--featured">
+                <a href="{{ routes.collections_url }}/kids" class="luxury-mega-panel__card">
+                  <div class="luxury-mega-panel__card-media">
+                    <img src="https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=600&q=80&auto=format&fit=crop" alt="Kids' Luxury Editorial" width="600" height="400" loading="lazy">
+                  </div>
+                  <div class="luxury-mega-panel__card-body">
+                    <span class="luxury-mega-panel__card-tag">EDITORIAL EDIT</span>
+                    <h4 class="luxury-mega-panel__card-title">PLAYFUL LUXURY</h4>
+                    <p class="luxury-mega-panel__card-sub">Comfort meets signature style for newborns, toddlers &amp; juniors.</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      {%- comment -%} ==================== SPORTS ==================== {%- endcomment -%}
+      <li
+        class="menu-list__list-item menu-list__list-item--dept"
+        data-dept="sports"
+        on:blur="/deactivate"
+        on:pointerenter="/activate"
+        on:pointerleave="/deactivate"
+      >
+        <span class="menu-list__trigger">
+          <a
+            href="{{ routes.collections_url }}/sports"
+            data-skip-node-update="true"
+            class="menu-list__link{% if request.path contains '/sports' %} menu-list__link--active{% endif %}"
+            ref="menuitem"
+            data-dept-trigger="sports"
+          >
+            <span class="menu-list__link-title">SPORTS</span>
+          </a>
+          <button
+            type="button"
+            class="menu-list__disclosure button-unstyled"
+            aria-controls="submenu-dept-sports"
+            aria-expanded="false"
+            ref="disclosure[]"
+            data-skip-node-update
+            on:click="/toggle"
+            aria-label="Toggle Sports Categories"
+          >
+            <svg class="menu-list__disclosure-icon" aria-hidden="true" focusable="false" viewBox="0 0 10 6">
+              {%- render 'icon', icon: 'caret' -%}
+            </svg>
+          </button>
+        </span>
+        <div
+          class="menu-list__submenu luxury-dept-submenu"
+          id="submenu-dept-sports"
+          ref="submenu[]"
+          data-skip-node-update
+        >
+          <div class="menu-list__submenu-inner">
+            <div class="luxury-mega-panel">
+              <div class="luxury-mega-panel__col luxury-mega-panel__col--categories">
+                <div class="luxury-mega-panel__header">
+                  <span class="luxury-mega-panel__eyebrow">DEPARTMENT &bull; ATIF'S STYLE</span>
+                  <h3 class="luxury-mega-panel__title">SPORTS &amp; ACTIVEWEAR</h3>
+                  <div class="luxury-mega-panel__gold-line"></div>
+                </div>
+                <div class="luxury-mega-panel__links-grid">
+                  <a href="{{ routes.collections_url }}/sports" class="luxury-mega-panel__link luxury-mega-panel__link--featured">All Sports</a>
+                  <a href="{{ routes.collections_url }}/sports-footballs" class="luxury-mega-panel__link">Footballs</a>
+                  <a href="{{ routes.collections_url }}/sports-football-clothing" class="luxury-mega-panel__link">Football Clothing</a>
+                  <a href="{{ routes.collections_url }}/sports-football-shoes" class="luxury-mega-panel__link">Football Shoes</a>
+                  <a href="{{ routes.collections_url }}/sports-cricket-equipment" class="luxury-mega-panel__link">Cricket Equipment</a>
+                  <a href="{{ routes.collections_url }}/sports-basketball-equipment" class="luxury-mega-panel__link">Basketball Equipment</a>
+                  <a href="{{ routes.collections_url }}/sports-clothing" class="luxury-mega-panel__link">Sports Clothing</a>
+                  <a href="{{ routes.collections_url }}/sports-gym-fitness-equipment" class="luxury-mega-panel__link">Gym &amp; Fitness Equipment</a>
+                  <a href="{{ routes.collections_url }}/sports-shoes" class="luxury-mega-panel__link">Sports Shoes</a>
+                  <a href="{{ routes.collections_url }}/sports-accessories" class="luxury-mega-panel__link">Sports Accessories</a>
+                </div>
+                <div class="luxury-mega-panel__cta-row">
+                  <a href="{{ routes.collections_url }}/sports" class="luxury-mega-panel__view-all">
+                    <span>VIEW ALL SPORTS &amp; GEAR</span>
+                    <span class="luxury-mega-panel__arrow">&rarr;</span>
+                  </a>
+                </div>
+              </div>
+              <div class="luxury-mega-panel__col luxury-mega-panel__col--featured">
+                <a href="{{ routes.collections_url }}/sports" class="luxury-mega-panel__card">
+                  <div class="luxury-mega-panel__card-media">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&q=80&auto=format&fit=crop" alt="Sports Performance Editorial" width="600" height="400" loading="lazy">
+                  </div>
+                  <div class="luxury-mega-panel__card-body">
+                    <span class="luxury-mega-panel__card-tag">EDITORIAL EDIT</span>
+                    <h4 class="luxury-mega-panel__card-title">PERFORMANCE &amp; LUXURY</h4>
+                    <p class="luxury-mega-panel__card-sub">Activewear, premium gear &amp; engineered athletic footwear.</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
       <li
         class="menu-list__list-item"
         slot="more"
@@ -577,6 +490,118 @@
         type="module"
         fetchpriority="low"
       ></script>
+
+      <script>
+        (function() {
+          function initDeptMegaMenus() {
+            var deptItems = document.querySelectorAll('.menu-list__list-item--dept');
+            if (!deptItems.length) return;
+
+            deptItems.forEach(function(item) {
+              var triggerLink = item.querySelector('.menu-list__link');
+              var disclosureBtn = item.querySelector('.menu-list__disclosure');
+              var closeTimer = null;
+
+              function openMenu() {
+                if (closeTimer) {
+                  clearTimeout(closeTimer);
+                  closeTimer = null;
+                }
+                deptItems.forEach(function(other) {
+                  if (other !== item) {
+                    other.classList.remove('is-open');
+                    var otherDisc = other.querySelector('.menu-list__disclosure');
+                    if (otherDisc) otherDisc.setAttribute('aria-expanded', 'false');
+                  }
+                });
+                item.classList.add('is-open');
+                if (disclosureBtn) disclosureBtn.setAttribute('aria-expanded', 'true');
+              }
+
+              function closeMenu(immediate) {
+                if (closeTimer) clearTimeout(closeTimer);
+                if (immediate) {
+                  item.classList.remove('is-open');
+                  if (disclosureBtn) disclosureBtn.setAttribute('aria-expanded', 'false');
+                } else {
+                  closeTimer = setTimeout(function() {
+                    item.classList.remove('is-open');
+                    if (disclosureBtn) disclosureBtn.setAttribute('aria-expanded', 'false');
+                  }, 200);
+                }
+              }
+
+              // Pointer / Hover Events
+              item.addEventListener('mouseenter', openMenu);
+              item.addEventListener('mouseleave', function() {
+                closeMenu(false);
+              });
+
+              // Focus within for keyboard accessibility
+              item.addEventListener('focusin', openMenu);
+              item.addEventListener('focusout', function(e) {
+                if (!item.contains(e.relatedTarget)) {
+                  closeMenu(true);
+                }
+              });
+
+              // Click toggle for disclosure caret button
+              if (disclosureBtn) {
+                disclosureBtn.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (item.classList.contains('is-open')) {
+                    closeMenu(true);
+                  } else {
+                    openMenu();
+                  }
+                });
+              }
+
+              // Click handling on the main department link
+              if (triggerLink) {
+                triggerLink.addEventListener('click', function(e) {
+                  // If dropdown is not currently open, first click opens dropdown so user can explore categories
+                  if (!item.classList.contains('is-open')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openMenu();
+                  }
+                  // If already open, second click proceeds to department landing page normally
+                });
+              }
+            });
+
+            // Global Escape key to close
+            document.addEventListener('keydown', function(e) {
+              if (e.key === 'Escape') {
+                deptItems.forEach(function(item) {
+                  item.classList.remove('is-open');
+                  var disc = item.querySelector('.menu-list__disclosure');
+                  if (disc) disc.setAttribute('aria-expanded', 'false');
+                });
+              }
+            });
+
+            // Global click outside to close
+            document.addEventListener('click', function(e) {
+              if (!e.target.closest('.menu-list__list-item--dept')) {
+                deptItems.forEach(function(item) {
+                  item.classList.remove('is-open');
+                  var disc = item.querySelector('.menu-list__disclosure');
+                  if (disc) disc.setAttribute('aria-expanded', 'false');
+                });
+              }
+            });
+          }
+
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initDeptMegaMenus);
+          } else {
+            initDeptMegaMenus();
+          }
+        })();
+      </script>
     </header-menu>
 {% endcase %}
 
@@ -1309,29 +1334,83 @@
     display: none;
   }
 
-  /* Luxury Department Mega-Menu Panel Styles */
-  .luxury-dept-submenu {
-    background-color: #FFFFFF !important;
-    border-top: 2px solid #C6A66B;
-    border-bottom: 1px solid rgba(17, 17, 17, 0.08);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+  /* ==========================================================================
+     ATIF'S STYLE Luxury Department Mega-Menu Styles
+     ========================================================================== */
+
+  .menu-list__list-item--dept {
+    position: relative;
   }
 
-  .menu-list__list-item--dept:hover > .luxury-dept-submenu,
-  .menu-list__list-item--dept:has([aria-expanded='true']) > .luxury-dept-submenu {
-    visibility: visible;
-    --submenu-content-opacity: 1;
+  /* Physical hover bridge extending downward from nav item to dropdown panel */
+  .menu-list__list-item--dept::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: -15px;
+    right: -15px;
+    height: 30px;
+    background: transparent;
+    z-index: 999998;
     pointer-events: auto;
+  }
+
+  /* Full-width Luxury Department Dropdown Panel */
+  .menu-list__submenu.luxury-dept-submenu {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    background-color: #FFFFFF !important;
+    border-top: 2px solid #C6A66B !important;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.12) !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15) !important;
+    z-index: 999999 !important;
+    clip-path: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-8px) !important;
+    transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.22s !important;
+  }
+
+  /* Upward hover bridge on the dropdown panel itself */
+  .menu-list__submenu.luxury-dept-submenu::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: transparent;
+    pointer-events: auto;
+  }
+
+  /* Keep dropdown smoothly open on hover, click (.is-open), keyboard focus, or aria-expanded */
+  .menu-list__list-item--dept:hover > .menu-list__submenu.luxury-dept-submenu,
+  .menu-list__list-item--dept > .menu-list__submenu.luxury-dept-submenu:hover,
+  .menu-list__list-item--dept.is-open > .menu-list__submenu.luxury-dept-submenu,
+  .menu-list__list-item--dept:has([aria-expanded='true']) > .menu-list__submenu.luxury-dept-submenu,
+  .menu-list__list-item--dept:focus-within > .menu-list__submenu.luxury-dept-submenu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
   }
 
   .luxury-mega-panel {
     display: flex;
     justify-content: space-between;
+    align-items: stretch;
     gap: 48px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 32px 24px 38px;
+    padding: 34px 28px 40px;
   }
 
   .luxury-mega-panel__col--categories {
@@ -1340,14 +1419,14 @@
   }
 
   .luxury-mega-panel__header {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
 
   .luxury-mega-panel__eyebrow {
     display: block;
     font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #C6A66B;
     margin-bottom: 6px;
@@ -1355,7 +1434,7 @@
 
   .luxury-mega-panel__title {
     font-family: var(--font-heading--family);
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     color: #111111;
@@ -1364,7 +1443,7 @@
   }
 
   .luxury-mega-panel__gold-line {
-    width: 40px;
+    width: 44px;
     height: 2px;
     background-color: #C6A66B;
   }
@@ -1372,37 +1451,43 @@
   .luxury-mega-panel__links-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    column-gap: 36px;
-    row-gap: 10px;
-    margin-bottom: 22px;
+    column-gap: 40px;
+    row-gap: 12px;
+    margin-bottom: 24px;
   }
 
   .luxury-mega-panel__link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     font-size: 0.875rem;
-    letter-spacing: 0.03em;
-    color: #444444;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: #222222;
     text-decoration: none;
     padding: 5px 0;
-    transition: color 0.25s ease, transform 0.25s ease;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .luxury-mega-panel__link--featured {
+    font-weight: 600;
+    color: #111111;
   }
 
   .luxury-mega-panel__link::before {
     content: '';
     display: inline-block;
-    width: 4px;
-    height: 4px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background-color: #C6A66B;
     margin-right: 10px;
     opacity: 0;
     transform: scale(0);
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
 
   .luxury-mega-panel__link:hover {
-    color: #111111;
+    color: #C6A66B;
     transform: translateX(4px);
   }
 
@@ -1413,7 +1498,7 @@
 
   .luxury-mega-panel__cta-row {
     padding-top: 14px;
-    border-top: 1px solid rgba(17, 17, 17, 0.06);
+    border-top: 1px solid rgba(17, 17, 17, 0.08);
   }
 
   .luxury-mega-panel__view-all {
@@ -1429,8 +1514,8 @@
     padding: 8px 18px;
     border: 1px solid #C6A66B;
     border-radius: 2px;
-    background-color: transparent;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    background-color: #F7F4EF;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   }
 
   .luxury-mega-panel__view-all:hover {
@@ -1440,23 +1525,24 @@
   }
 
   .luxury-mega-panel__col--featured {
-    width: 300px;
+    width: 320px;
     flex-shrink: 0;
   }
 
   .luxury-mega-panel__card {
     display: block;
+    height: 100%;
     text-decoration: none;
     border-radius: 4px;
     overflow: hidden;
     background-color: #F7F4EF;
-    border: 1px solid rgba(198, 166, 107, 0.25);
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    border: 1px solid rgba(198, 166, 107, 0.28);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .luxury-mega-panel__card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
   }
 
   .luxury-mega-panel__card-media {
@@ -1479,7 +1565,7 @@
   }
 
   .luxury-mega-panel__card-body {
-    padding: 14px 16px;
+    padding: 16px 18px;
   }
 
   .luxury-mega-panel__card-tag {
@@ -1498,15 +1584,15 @@
     font-weight: 600;
     letter-spacing: 0.06em;
     color: #111111;
-    margin: 0 0 4px;
+    margin: 0 0 6px;
     text-transform: uppercase;
   }
 
   .luxury-mega-panel__card-sub {
-    font-size: 0.75rem;
-    color: #666666;
+    font-size: 0.8125rem;
+    color: #555555;
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.45;
   }
 {% endstylesheet %}
 

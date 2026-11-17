@@ -2,8 +2,14 @@
   "sections": {
     "department_landing": {
       "type": "department-landing",
+      "blocks": {},
+      "block_order": [],
       "settings": {
-        "department": "women"
+        "department": "women",
+        "badge": "DEPARTMENT &bull; WOMEN",
+        "heading": "WOMEN'S LUXURY COLLECTION",
+        "subtitle": "Effortless elegance, haute couture silhouettes, and refined style.",
+        "background_color": "#F7F4EF"
       }
     }
   },

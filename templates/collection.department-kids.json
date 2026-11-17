@@ -2,80 +2,8 @@
   "sections": {
     "department_landing": {
       "type": "department-landing",
-      "blocks": {
-        "cat_1": {
-          "type": "category_card",
-          "settings": {
-            "title": "Boys Clothing",
-            "link": "shopify://collections/all",
-            "fallback_image": "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=800&q=80",
-            "item_count": "Ages 2-14"
-          }
-        },
-        "cat_2": {
-          "type": "category_card",
-          "settings": {
-            "title": "Girls Clothing",
-            "link": "shopify://collections/all",
-            "fallback_image": "https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=800&q=80",
-            "item_count": "Ages 2-14"
-          }
-        },
-        "cat_3": {
-          "type": "category_card",
-          "settings": {
-            "title": "Baby Clothing",
-            "link": "shopify://collections/all",
-            "fallback_image": "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80",
-            "item_count": "0-24 Months"
-          }
-        },
-        "cat_4": {
-          "type": "category_card",
-          "settings": {
-            "title": "Kids T-Shirts",
-            "link": "shopify://collections/all",
-            "fallback_image": "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=800&q=80",
-            "item_count": "Everyday Comfort"
-          }
-        },
-        "cat_5": {
-          "type": "category_card",
-          "settings": {
-            "title": "Kids Sets",
-            "link": "shopify://collections/all",
-            "fallback_image": "https://images.unsplash.com/photo-1519457431-44ccd64a579b?w=800&q=80",
-            "item_count": "Matching Outfits"
-          }
-        },
-        "cat_6": {
-          "type": "category_card",
-          "settings": {
-            "title": "Kids Shoes",
-            "link": "shopify://collections/all",
-            "fallback_image": "https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=800&q=80",
-            "item_count": "Sneakers & Sandals"
-          }
-        },
-        "cat_7": {
-          "type": "category_card",
-          "settings": {
-            "title": "Kids Accessories",
-            "link": "shopify://collections/all",
-            "fallback_image": "https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=800&q=80",
-            "item_count": "Hats & Backpacks"
-          }
-        }
-      },
-      "block_order": [
-        "cat_1",
-        "cat_2",
-        "cat_3",
-        "cat_4",
-        "cat_5",
-        "cat_6",
-        "cat_7"
-      ],
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "department": "kids",
         "badge": "DEPARTMENT &bull; KIDS",
