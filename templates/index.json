@@ -82,7 +82,7 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1_focal_point": "center 58%",
+        "image_1_focal_point": "center 85%",
         "media_type_2": "image",
         "image_2_focal_point": "center 42%",
         "stack_media_on_mobile": false,
@@ -175,12 +175,12 @@
             "link_text": "EXPLORE"
           }
         },
-        "card_accessories": {
+        "card_sports": {
           "type": "collection_card",
           "settings": {
-            "title": "ACCESSORIES",
-            "subtitle": "The finishing touches.",
-            "custom_url": "/collections/accessories",
+            "title": "SPORTS",
+            "subtitle": "Performance wear & active essentials.",
+            "custom_url": "/collections/sports",
             "link_text": "EXPLORE"
           }
         }
@@ -189,11 +189,11 @@
         "card_men",
         "card_women",
         "card_kids",
-        "card_accessories"
+        "card_sports"
       ],
       "settings": {
-        "heading": "EXPLORE THE COLLECTIONS",
-        "subtitle": "Curated styles for every moment, every mood.",
+        "heading": "SHOP BY DEPARTMENT",
+        "subtitle": "Curated luxury fashion, essentials and performance wear for every moment.",
         "background_color": "#F7F4EF",
         "padding_top": 64,
         "padding_bottom": 64

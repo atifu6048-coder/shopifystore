@@ -555,7 +555,7 @@
       data-autoplay="{{ section.settings.slideshow_autoplay | default: true }}"
       data-interval="{{ section.settings.slideshow_interval | default: 5 }}"
     >
-      {%- assign focal_point_1 = section.settings.image_1_focal_point | default: section.settings.image_1.presentation.focal_point | default: 'center 58%' -%}
+      {%- assign focal_point_1 = section.settings.image_1_focal_point | default: section.settings.image_1.presentation.focal_point | default: 'center 85%' -%}
       {%- assign focal_point_2 = section.settings.image_2_focal_point | default: section.settings.image_2.presentation.focal_point | default: 'center 42%' -%}
 
       <!-- Slide 1 -->
@@ -870,37 +870,37 @@
 
   .hero {
     position: relative;
-    min-height: max(clamp(720px, 80vh, 850px), calc(var(--hero-min-height) - var(--hero-height-offset)));
+    min-height: max(clamp(760px, 84vh, 920px), calc(var(--hero-min-height) - var(--hero-height-offset)));
   }
 
   @media screen and (min-width: 1440px) {
     .hero {
-      min-height: max(clamp(750px, 80vh, 880px), calc(var(--hero-min-height) - var(--hero-height-offset)));
+      min-height: max(clamp(780px, 85vh, 950px), calc(var(--hero-min-height) - var(--hero-height-offset)));
     }
   }
 
   @media screen and (max-width: 989px) {
     .hero {
-      min-height: max(clamp(640px, 76vh, 750px), calc(var(--hero-min-height) - var(--hero-height-offset)));
+      min-height: max(clamp(660px, 78vh, 780px), calc(var(--hero-min-height) - var(--hero-height-offset)));
     }
   }
 
   @media screen and (max-width: 749px) {
     .hero {
-      min-height: max(clamp(540px, 74vh, 650px), calc(var(--hero-min-height) - var(--hero-height-offset)));
+      min-height: max(clamp(580px, 76vh, 680px), calc(var(--hero-min-height) - var(--hero-height-offset)));
     }
   }
 
   @media screen and (max-width: 380px) {
     .hero {
-      min-height: max(clamp(500px, 72vh, 600px), calc(var(--hero-min-height) - var(--hero-height-offset)));
+      min-height: max(clamp(520px, 74vh, 620px), calc(var(--hero-min-height) - var(--hero-height-offset)));
     }
   }
 
   .hero[data-shopify-visual-preview] {
-    --hero-min-height: 750px;
+    --hero-min-height: 780px;
 
-    min-height: 750px;
+    min-height: 780px;
   }
 
   .hero__container {
@@ -1223,7 +1223,7 @@
   }
 
   .hero__slide--1 .hero__slide-image {
-    object-position: var(--slide-pos, center 58%);
+    object-position: var(--slide-pos, center 85%);
   }
 
   .hero__slide--2 .hero__slide-image {
@@ -1324,7 +1324,7 @@
 
   @media screen and (max-width: 749px) {
     .hero__slide--1 .hero__slide-image {
-      object-position: var(--slide-pos, center 56%);
+      object-position: var(--slide-pos, center 85%);
     }
 
     .hero__slide--2 .hero__slide-image {
@@ -1458,15 +1458,23 @@
           "label": "Center"
         },
         {
-          "value": "center 58%",
-          "label": "Model Focus (Slide 1 Optimal)"
+          "value": "center 65%",
+          "label": "Lower Center"
         },
         {
-          "value": "center 68%",
-          "label": "Lower Focus"
+          "value": "center 75%",
+          "label": "Lower / Model Focus"
+        },
+        {
+          "value": "center 85%",
+          "label": "Full Model View (Optimal for Lower Subject)"
+        },
+        {
+          "value": "center 95%",
+          "label": "Bottom Edge"
         }
       ],
-      "default": "center 58%",
+      "default": "center 85%",
       "visible_if": "{{ section.settings.media_type_1 == 'image' }}"
     },
     {

@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "department_landing": {
+      "type": "department-landing",
+      "settings": {
+        "department": "kids"
+      }
+    }
+  },
+  "order": [
+    "department_landing"
+  ]
+}

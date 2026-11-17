@@ -273,25 +273,116 @@
                   <span class="menu-drawer__menu-item-text wrap-text">Home</span>
                 </a>
               </li>
-              <li style="--menu-drawer-animation-index: 2;" class="menu-drawer__list-item--flat">
-                <a id="HeaderDrawer-men" href="{{ routes.collections_url }}/men" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
-                  <span class="menu-drawer__menu-item-text wrap-text">Men</span>
-                </a>
+
+              {%- comment -%} Department: MEN {%- endcomment -%}
+              <li style="--menu-drawer-animation-index: 2;" class="menu-drawer__list-item--deep">
+                {% capture men_accordion %}
+                  <details id="Details-menu-drawer-men">
+                    <summary id="HeaderDrawer-men" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
+                      <span class="menu-drawer__menu-item-text wrap-text">Men</span>
+                      <span class="svg-wrapper icon-plus">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+                    </summary>
+                    <ul class="menu-drawer__menu menu-drawer__menu--childlist menu-drawer__animated-element details-content" role="list" tabindex="-1">
+                      <li class="menu-drawer__list-item">
+                        <a href="{{ routes.collections_url }}/men" class="menu-drawer__menu-item menu-drawer__menu-item--child" style="font-weight: 600; color: #C6A66B;">
+                          <span class="menu-drawer__menu-item-text wrap-text">View All Men's Collection &rarr;</span>
+                        </a>
+                      </li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/men-t-shirts" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">T-Shirts</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/men-shirts" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Shirts</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/men-jeans" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Jeans</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/men-trousers" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Trousers</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/men-hoodies-sweatshirts" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Hoodies & Sweatshirts</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/men-jackets" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Jackets</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/men-shoes" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Shoes</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/men-accessories" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Accessories</span></a></li>
+                    </ul>
+                  </details>
+                {% endcapture %}
+                {% render 'accordion-custom-component', children: men_accordion, open_by_default_on_mobile: false %}
               </li>
-              <li style="--menu-drawer-animation-index: 3;" class="menu-drawer__list-item--flat">
-                <a id="HeaderDrawer-women" href="{{ routes.collections_url }}/women" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
-                  <span class="menu-drawer__menu-item-text wrap-text">Women</span>
-                </a>
+
+              {%- comment -%} Department: WOMEN {%- endcomment -%}
+              <li style="--menu-drawer-animation-index: 3;" class="menu-drawer__list-item--deep">
+                {% capture women_accordion %}
+                  <details id="Details-menu-drawer-women">
+                    <summary id="HeaderDrawer-women" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
+                      <span class="menu-drawer__menu-item-text wrap-text">Women</span>
+                      <span class="svg-wrapper icon-plus">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+                    </summary>
+                    <ul class="menu-drawer__menu menu-drawer__menu--childlist menu-drawer__animated-element details-content" role="list" tabindex="-1">
+                      <li class="menu-drawer__list-item">
+                        <a href="{{ routes.collections_url }}/women" class="menu-drawer__menu-item menu-drawer__menu-item--child" style="font-weight: 600; color: #C6A66B;">
+                          <span class="menu-drawer__menu-item-text wrap-text">View All Women's Collection &rarr;</span>
+                        </a>
+                      </li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/women-dresses" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Dresses</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/women-tops" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Tops</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/women-jeans" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Jeans</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/women-trousers" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Trousers</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/women-coord-sets" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Co-ord Sets</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/women-jackets" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Jackets</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/women-shoes" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Shoes</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/women-accessories" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Accessories</span></a></li>
+                    </ul>
+                  </details>
+                {% endcapture %}
+                {% render 'accordion-custom-component', children: women_accordion, open_by_default_on_mobile: false %}
               </li>
-              <li style="--menu-drawer-animation-index: 4;" class="menu-drawer__list-item--flat">
-                <a id="HeaderDrawer-kids" href="{{ routes.collections_url }}/kids" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
-                  <span class="menu-drawer__menu-item-text wrap-text">Kids</span>
-                </a>
+
+              {%- comment -%} Department: KIDS {%- endcomment -%}
+              <li style="--menu-drawer-animation-index: 4;" class="menu-drawer__list-item--deep">
+                {% capture kids_accordion %}
+                  <details id="Details-menu-drawer-kids">
+                    <summary id="HeaderDrawer-kids" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
+                      <span class="menu-drawer__menu-item-text wrap-text">Kids</span>
+                      <span class="svg-wrapper icon-plus">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+                    </summary>
+                    <ul class="menu-drawer__menu menu-drawer__menu--childlist menu-drawer__animated-element details-content" role="list" tabindex="-1">
+                      <li class="menu-drawer__list-item">
+                        <a href="{{ routes.collections_url }}/kids" class="menu-drawer__menu-item menu-drawer__menu-item--child" style="font-weight: 600; color: #C6A66B;">
+                          <span class="menu-drawer__menu-item-text wrap-text">View All Kids' Collection &rarr;</span>
+                        </a>
+                      </li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/kids-boys" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Boys Clothing</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/kids-girls" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Girls Clothing</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/kids-baby" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Baby Clothing</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/kids-t-shirts" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Kids T-Shirts</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/kids-sets" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Kids Sets</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/kids-shoes" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Kids Shoes</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/kids-accessories" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Kids Accessories</span></a></li>
+                    </ul>
+                  </details>
+                {% endcapture %}
+                {% render 'accordion-custom-component', children: kids_accordion, open_by_default_on_mobile: false %}
               </li>
-              <li style="--menu-drawer-animation-index: 5;" class="menu-drawer__list-item--flat">
-                <a id="HeaderDrawer-accessories" href="{{ routes.collections_url }}/accessories" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
-                  <span class="menu-drawer__menu-item-text wrap-text">Accessories</span>
-                </a>
+
+              {%- comment -%} Department: SPORTS {%- endcomment -%}
+              <li style="--menu-drawer-animation-index: 5;" class="menu-drawer__list-item--deep">
+                {% capture sports_accordion %}
+                  <details id="Details-menu-drawer-sports">
+                    <summary id="HeaderDrawer-sports" class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element">
+                      <span class="menu-drawer__menu-item-text wrap-text">Sports</span>
+                      <span class="svg-wrapper icon-plus">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+                    </summary>
+                    <ul class="menu-drawer__menu menu-drawer__menu--childlist menu-drawer__animated-element details-content" role="list" tabindex="-1">
+                      <li class="menu-drawer__list-item">
+                        <a href="{{ routes.collections_url }}/sports" class="menu-drawer__menu-item menu-drawer__menu-item--child" style="font-weight: 600; color: #C6A66B;">
+                          <span class="menu-drawer__menu-item-text wrap-text">View All Sports Collection &rarr;</span>
+                        </a>
+                      </li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/sports-wear" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Sportswear</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/sports-gym-wear" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Gym Wear</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/sports-activewear" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Activewear</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/sports-tracksuits" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Tracksuits</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/sports-t-shirts" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Sports T-Shirts</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/sports-shorts" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Sports Shorts</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/sports-shoes" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Sports Shoes</span></a></li>
+                      <li class="menu-drawer__list-item"><a href="{{ routes.collections_url }}/sports-accessories" class="menu-drawer__menu-item menu-drawer__menu-item--child"><span class="menu-drawer__menu-item-text wrap-text">Sports Accessories</span></a></li>
+                    </ul>
+                  </details>
+                {% endcapture %}
+                {% render 'accordion-custom-component', children: sports_accordion, open_by_default_on_mobile: false %}
               </li>
             {% endif %}
           {% else %}

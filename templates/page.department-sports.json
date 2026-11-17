@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "department_landing": {
+      "type": "department-landing",
+      "settings": {
+        "department": "sports"
+      }
+    }
+  },
+  "order": [
+    "department_landing"
+  ]
+}

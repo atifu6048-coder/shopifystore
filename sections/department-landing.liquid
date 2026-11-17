@@ -1,0 +1,761 @@
+{% comment %}
+  Department Landing Section
+  Renders a full department landing page with editorial hero, category showcase, and product collection links.
+{% endcomment %}
+
+{% liquid
+  assign is_department = true
+  if collection != blank
+    if collection.handle == 'men' or collection.handle contains 'men-'
+      assign dept_id = 'men'
+    elsif collection.handle == 'women' or collection.handle contains 'women-'
+      assign dept_id = 'women'
+    elsif collection.handle == 'kids' or collection.handle contains 'kids-'
+      assign dept_id = 'kids'
+    elsif collection.handle == 'sports' or collection.handle contains 'sports-' or collection.handle contains 'sport'
+      assign dept_id = 'sports'
+    elsif section.settings.department != blank
+      assign dept_id = section.settings.department
+    else
+      assign is_department = false
+    endif
+  else
+    assign dept_id = section.settings.department | default: 'men'
+  endif
+
+  if section.settings.only_department_collections and is_department == false
+    assign render_section = false
+  else
+    assign render_section = true
+  endif
+%}
+
+{% if render_section %}
+{% liquid
+  case dept_id
+    when 'men'
+      assign default_title = "MEN'S LUXURY COLLECTION"
+      assign default_subtitle = "Modern essentials, bespoke tailoring, and timeless confidence."
+      assign default_hero_image = 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=2000&q=85&auto=format&fit=crop'
+      assign default_badge = "DEPARTMENT &bull; MEN"
+      assign auto_cat_titles = "T-Shirts,Shirts,Jeans,Trousers,Hoodies & Sweatshirts,Jackets,Shoes,Accessories" | split: ','
+      assign auto_cat_notes = "Modern Essentials,Tailored & Oxford,Classic Denim,Chinos & Pleated,Premium Fleece,Outerwear & Leather,Footwear & Boots,Finishing Touches" | split: ','
+      assign auto_cat_slugs = "men-t-shirts,men-shirts,men-jeans,men-trousers,men-hoodies-sweatshirts,men-jackets,men-shoes,men-accessories" | split: ','
+      assign auto_cat_imgs = "photo-1521572267360-ee0c2909d518,photo-1598033129183-c4f50c736f10,photo-1542272604-780c96856592,photo-1624378439575-d8705ad7ae80,photo-1556905055-8f358a7a47b2,photo-1551028719-00167b16eac5,photo-1533867617858-e7b97e060509,photo-1523293182086-7651a899d37f" | split: ','
+    when 'women'
+      assign default_title = "WOMEN'S LUXURY COLLECTION"
+      assign default_subtitle = "Effortless elegance, haute couture silhouettes, and refined style."
+      assign default_hero_image = 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=2000&q=85&auto=format&fit=crop'
+      assign default_badge = "DEPARTMENT &bull; WOMEN"
+      assign auto_cat_titles = "Dresses,Tops,Jeans,Trousers,Co-ord Sets,Jackets,Shoes,Accessories" | split: ','
+      assign auto_cat_notes = "Evening & Casual,Silk & Knitwear,Flared & Straight,Tailored High-Waist,Matching Silhouettes,Blazers & Trench,Heels & Loafers,Leather Bags & Scarves" | split: ','
+      assign auto_cat_slugs = "women-dresses,women-tops,women-jeans,women-trousers,women-coord-sets,women-jackets,women-shoes,women-accessories" | split: ','
+      assign auto_cat_imgs = "photo-1595777457583-95e059d581b8,photo-1503342217505-b0a15ec3261c,photo-1541099649105-f69ad21f3246,photo-1509631179647-0177331693ae,photo-1515886657613-9f3515b0c78f,photo-1539533018447-63fcce667883,photo-1543163521-1bf539c55dd2,photo-1584917865442-de89df76afd3" | split: ','
+    when 'kids'
+      assign default_title = "KIDS' LUXURY COLLECTION"
+      assign default_subtitle = "Playful elegance, premium comfort, and timeless everyday style."
+      assign default_hero_image = 'https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=2000&q=85&auto=format&fit=crop'
+      assign default_badge = "DEPARTMENT &bull; KIDS"
+      assign auto_cat_titles = "Boys Clothing,Girls Clothing,Baby Clothing,Kids T-Shirts,Kids Sets,Kids Shoes,Kids Accessories" | split: ','
+      assign auto_cat_notes = "Ages 2-14,Ages 2-14,0-24 Months,Everyday Comfort,Matching Outfits,Sneakers & Sandals,Hats & Backpacks" | split: ','
+      assign auto_cat_slugs = "kids-boys,kids-girls,kids-baby,kids-t-shirts,kids-sets,kids-shoes,kids-accessories" | split: ','
+      assign auto_cat_imgs = "photo-1519238263530-99bdd11df2ea,photo-1622290291468-a28f7a7dc6a8,photo-1522771739844-6a9f6d5f14af,photo-1503919545889-aef636e10ad4,photo-1519457431-44ccd64a579b,photo-1514989940723-e8e51635b782,photo-1596870230751-ebdfce98ec42" | split: ','
+    when 'sports'
+      assign default_title = "SPORTS & ACTIVEWEAR"
+      assign default_subtitle = "Engineered performance, elevated aesthetic, and active luxury."
+      assign default_hero_image = 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=2000&q=85&auto=format&fit=crop'
+      assign default_badge = "DEPARTMENT &bull; SPORTS"
+      assign auto_cat_titles = "Sportswear,Gym Wear,Activewear,Tracksuits,Sports T-Shirts,Sports Shorts,Sports Shoes,Sports Accessories" | split: ','
+      assign auto_cat_notes = "Performance Ready,Training Essentials,Flexibility & Style,Luxury Warmups,Breathable Fabrics,Movement Focused,Runners & Trainers,Bags & Gear" | split: ','
+      assign auto_cat_slugs = "sports-wear,sports-gym-wear,sports-activewear,sports-tracksuits,sports-t-shirts,sports-shorts,sports-shoes,sports-accessories" | split: ','
+      assign auto_cat_imgs = "photo-1483721310020-03333e577078,photo-1534438327276-14e5300c3a48,photo-1518611012118-696072aa579a,photo-1556906781-9a412961c28c,photo-1581655353564-df123a1eb820,photo-1591195853828-11db59a44f6b,photo-1542291026-7eec264c27ff,photo-1517838277536-f5f99be501cd" | split: ','
+  endcase
+
+  assign hero_title = section.settings.heading | default: default_title
+  assign hero_subtitle = section.settings.subtitle | default: default_subtitle
+  assign badge_text = section.settings.badge | default: default_badge
+%}
+
+<div
+  id="department-landing-{{ section.id }}"
+  class="dept-landing"
+  data-department="{{ dept_id }}"
+  style="
+    --dept-bg: {{ section.settings.background_color | default: '#F7F4EF' }};
+    --dept-hero-height: {{ section.settings.hero_height | default: 420 }}px;
+  "
+>
+  <!-- Department Hero Banner -->
+  <header class="dept-hero">
+    <div class="dept-hero__media">
+      {% if section.settings.hero_image != blank %}
+        {{
+          section.settings.hero_image
+          | image_url: width: 2560
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '750, 1100, 1500, 2000, 2560',
+            sizes: '100vw',
+            alt: hero_title,
+            class: 'dept-hero__image'
+        }}
+      {% else %}
+        <img
+          src="{{ default_hero_image }}"
+          alt="{{ hero_title }}"
+          class="dept-hero__image"
+          loading="eager"
+          fetchpriority="high"
+          width="2560"
+          height="1200"
+        >
+      {% endif %}
+      <div class="dept-hero__overlay" aria-hidden="true"></div>
+    </div>
+
+    <div class="dept-hero__content page-width">
+      {% if badge_text != blank %}
+        <span class="dept-hero__badge">{{ badge_text }}</span>
+      {% endif %}
+      <h1 class="dept-hero__title">{{ hero_title }}</h1>
+      {% if hero_subtitle != blank %}
+        <p class="dept-hero__subtitle">{{ hero_subtitle }}</p>
+      {% endif %}
+      <div class="dept-hero__divider" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <!-- Categories Showcase -->
+  <section class="dept-categories page-width">
+    <div class="dept-categories__header">
+      <h2 class="dept-categories__title">EXPLORE CATEGORIES</h2>
+      <p class="dept-categories__desc">Browse curated categories tailored for {{ dept_id | capitalize }}</p>
+    </div>
+
+    <div class="dept-categories__grid">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% liquid
+            assign cat_title = block.settings.title
+            assign cat_url = block.settings.link | default: routes.all_products_collection_url
+            assign cat_image = block.settings.image
+            assign cat_count = block.settings.item_count
+          %}
+          <div class="dept-card" {{ block.shopify_attributes }}>
+            <a href="{{ cat_url }}" class="dept-card__link" aria-label="{{ cat_title | escape }}">
+              <div class="dept-card__media">
+                {% if cat_image != blank %}
+                  {{
+                    cat_image
+                    | image_url: width: 800
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '300, 500, 800',
+                      sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+                      alt: cat_title,
+                      class: 'dept-card__img'
+                  }}
+                {% elsif block.settings.fallback_image != blank %}
+                  <img
+                    src="{{ block.settings.fallback_image }}"
+                    alt="{{ cat_title }}"
+                    class="dept-card__img"
+                    loading="lazy"
+                    width="800"
+                    height="1000"
+                  >
+                {% else %}
+                  <div class="dept-card__placeholder">
+                    <span class="dept-card__placeholder-text">{{ cat_title }}</span>
+                  </div>
+                {% endif %}
+                <div class="dept-card__overlay" aria-hidden="true"></div>
+              </div>
+              <div class="dept-card__content">
+                <h3 class="dept-card__title">{{ cat_title }}</h3>
+                {% if cat_count != blank %}
+                  <span class="dept-card__count">{{ cat_count }}</span>
+                {% endif %}
+                <span class="dept-card__arrow" aria-hidden="true">&rarr;</span>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      {% else %}
+        {% for a_title in auto_cat_titles %}
+          {% liquid
+            assign a_note = auto_cat_notes[forloop.index0]
+            assign a_slug = auto_cat_slugs[forloop.index0]
+            assign a_img = auto_cat_imgs[forloop.index0]
+            assign a_url = routes.collections_url | append: '/' | append: a_slug
+          %}
+          <div class="dept-card">
+            <a href="{{ a_url }}" class="dept-card__link" aria-label="{{ a_title | escape }}">
+              <div class="dept-card__media">
+                <img
+                  src="https://images.unsplash.com/{{ a_img }}?w=800&q=80&auto=format&fit=crop"
+                  alt="{{ a_title }}"
+                  class="dept-card__img"
+                  loading="lazy"
+                  width="800"
+                  height="1000"
+                >
+                <div class="dept-card__overlay" aria-hidden="true"></div>
+              </div>
+              <div class="dept-card__content">
+                <h3 class="dept-card__title">{{ a_title }}</h3>
+                {% if a_note != blank %}
+                  <span class="dept-card__count">{{ a_note }}</span>
+                {% endif %}
+                <span class="dept-card__arrow" aria-hidden="true">&rarr;</span>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Department Product Grid / Fallback -->
+  <section class="dept-products page-width">
+    {% liquid
+      assign dept_collection = section.settings.featured_collection
+      if dept_collection == blank and collections[dept_id] != blank
+        assign dept_collection = collections[dept_id]
+      endif
+    %}
+
+    <div class="dept-products__header">
+      <h2 class="dept-products__title">CURATED SELECTION</h2>
+      <div class="dept-products__gold-bar" aria-hidden="true"></div>
+    </div>
+
+    {% if dept_collection != blank and dept_collection.products_count > 0 %}
+      <div class="dept-products__grid">
+        {% for product in dept_collection.products limit: 8 %}
+          <div class="dept-products__item">
+            {% render 'product-card', product: product, show_vendor: false %}
+          </div>
+        {% endfor %}
+      </div>
+      {% if dept_collection.products_count > 8 %}
+        <div class="dept-products__footer">
+          <a href="{{ dept_collection.url }}" class="dept-products__btn">
+            VIEW ALL {{ dept_collection.products_count }} ITEMS
+          </a>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="dept-empty">
+        <div class="dept-empty__icon" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#C6A66B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+        </div>
+        <h3 class="dept-empty__title">NEW CURATIONS ARRIVING SOON</h3>
+        <p class="dept-empty__desc">
+          Our fashion buyers are preparing refined new arrivals for the {{ hero_title | downcase }}. Discover our timeless catalog pieces or explore other departments.
+        </p>
+        <div class="dept-empty__actions">
+          <a href="{{ routes.all_products_collection_url }}" class="dept-empty__btn">
+            EXPLORE ALL PRODUCTS
+          </a>
+          <a href="{{ routes.root_url }}#shop-by-department" class="dept-empty__btn dept-empty__btn--secondary">
+            OTHER DEPARTMENTS
+          </a>
+        </div>
+      </div>
+    {% endif %}
+  </section>
+</div>
+{% endif %}
+
+{% stylesheet %}
+  .dept-landing {
+    background-color: var(--dept-bg, #F7F4EF);
+    color: #111111;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* Hero Banner */
+  .dept-hero {
+    position: relative;
+    width: 100%;
+    min-height: clamp(380px, 48vh, 520px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background-color: #111111;
+  }
+
+  .dept-hero__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dept-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+    display: block;
+  }
+
+  .dept-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(17,17,17,0.55) 0%, rgba(17,17,17,0.45) 50%, rgba(17,17,17,0.75) 100%);
+    pointer-events: none;
+  }
+
+  .dept-hero__content {
+    position: relative;
+    z-index: 2;
+    padding: 60px 20px;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dept-hero__badge {
+    display: inline-block;
+    color: #C6A66B;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .dept-hero__title {
+    font-family: var(--font-heading--family), "Didot", "Bodoni MT", serif;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin: 0 0 14px;
+    text-shadow: 0 2px 14px rgba(0,0,0,0.6);
+  }
+
+  .dept-hero__subtitle {
+    font-family: var(--font-body--family), sans-serif;
+    font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    max-width: 640px;
+    margin: 0 0 20px;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+
+  .dept-hero__divider {
+    width: 64px;
+    height: 2px;
+    background-color: #C6A66B;
+    margin: 0 auto;
+  }
+
+  /* Categories Section */
+  .dept-categories {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+
+  .dept-categories__header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .dept-categories__title {
+    font-family: var(--font-heading--family), "Didot", serif;
+    font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #111111;
+    margin: 0 0 8px;
+  }
+
+  .dept-categories__desc {
+    font-size: 0.9rem;
+    color: #666666;
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+
+  .dept-categories__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .dept-categories__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .dept-categories__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+
+  /* Category Card */
+  .dept-card {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #111111;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  }
+
+  .dept-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(17,17,17,0.18);
+  }
+
+  .dept-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+  }
+
+  .dept-card__media {
+    position: relative;
+    width: 100%;
+    padding-bottom: 125%; /* 4:5 aspect ratio */
+    overflow: hidden;
+    background-color: #1a1a1a;
+  }
+
+  .dept-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .dept-card:hover .dept-card__img {
+    transform: scale(1.06);
+  }
+
+  .dept-card__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;
+    color: #C6A66B;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .dept-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(17,17,17,0.1) 0%, rgba(17,17,17,0.3) 50%, rgba(17,17,17,0.75) 100%);
+    transition: background 0.35s ease;
+  }
+
+  .dept-card:hover .dept-card__overlay {
+    background: linear-gradient(180deg, rgba(17,17,17,0.05) 0%, rgba(17,17,17,0.2) 40%, rgba(17,17,17,0.85) 100%);
+  }
+
+  .dept-card__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px 14px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dept-card__title {
+    font-family: var(--font-heading--family), "Didot", serif;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin: 0;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  }
+
+  .dept-card__arrow {
+    color: #C6A66B;
+    font-size: 1.1rem;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .dept-card:hover .dept-card__arrow {
+    transform: translateX(4px);
+  }
+
+  /* Product Section */
+  .dept-products {
+    padding-top: 50px;
+    padding-bottom: 40px;
+  }
+
+  .dept-products__header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .dept-products__title {
+    font-family: var(--font-heading--family), "Didot", serif;
+    font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #111111;
+    margin: 0 0 10px;
+  }
+
+  .dept-products__gold-bar {
+    width: 50px;
+    height: 2px;
+    background-color: #C6A66B;
+    margin: 0 auto;
+  }
+
+  .dept-products__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .dept-products__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .dept-products__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+
+  .dept-products__footer {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .dept-products__btn {
+    display: inline-block;
+    padding: 14px 32px;
+    background: #111111;
+    color: #F7F4EF;
+    border: 1px solid #111111;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+
+  .dept-products__btn:hover {
+    background: #C6A66B;
+    border-color: #C6A66B;
+    color: #111111;
+    transform: translateY(-2px);
+  }
+
+  /* Empty State */
+  .dept-empty {
+    text-align: center;
+    padding: 60px 20px;
+    background: #FFFFFF;
+    border: 1px solid #E5E0D5;
+    border-radius: 6px;
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  .dept-empty__icon {
+    margin-bottom: 16px;
+  }
+
+  .dept-empty__title {
+    font-family: var(--font-heading--family), "Didot", serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #111111;
+    margin: 0 0 10px;
+  }
+
+  .dept-empty__desc {
+    font-size: 0.9375rem;
+    color: #666666;
+    line-height: 1.6;
+    margin: 0 auto 24px;
+    max-width: 480px;
+  }
+
+  .dept-empty__actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .dept-empty__btn {
+    display: inline-block;
+    padding: 12px 26px;
+    background: #C6A66B;
+    color: #111111;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .dept-empty__btn:hover {
+    background: #d4b67e;
+    transform: translateY(-2px);
+  }
+
+  .dept-empty__btn--secondary {
+    background: transparent;
+    color: #111111;
+    border: 1px solid #111111;
+  }
+
+  .dept-empty__btn--secondary:hover {
+    background: #111111;
+    color: #F7F4EF;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Department Landing",
+  "tag": "section",
+  "class": "department-landing-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "only_department_collections",
+      "label": "Only show on department collections",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "department",
+      "label": "Department",
+      "options": [
+        { "value": "men", "label": "Men" },
+        { "value": "women", "label": "Women" },
+        { "value": "kids", "label": "Kids" },
+        { "value": "sports", "label": "Sports" }
+      ],
+      "default": "men"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge Text"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Hero Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Hero Subtitle"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section Background",
+      "default": "#F7F4EF"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Department Collection"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_card",
+      "name": "Category Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Category"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Category Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category Image"
+        },
+        {
+          "type": "text",
+          "id": "fallback_image",
+          "label": "Fallback Image URL"
+        },
+        {
+          "type": "text",
+          "id": "item_count",
+          "label": "Item Count / Note"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Department Landing",
+      "settings": {
+        "department": "men"
+      }
+    }
+  ]
+}
+{% endschema %}

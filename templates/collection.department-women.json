@@ -1,0 +1,133 @@
+{
+  "sections": {
+    "department_landing": {
+      "type": "department-landing",
+      "blocks": {
+        "cat_1": {
+          "type": "category_card",
+          "settings": {
+            "title": "Dresses",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80",
+            "item_count": "Evening & Casual"
+          }
+        },
+        "cat_2": {
+          "type": "category_card",
+          "settings": {
+            "title": "Tops",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&q=80",
+            "item_count": "Silk & Knitwear"
+          }
+        },
+        "cat_3": {
+          "type": "category_card",
+          "settings": {
+            "title": "Jeans",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80",
+            "item_count": "Flared & Straight"
+          }
+        },
+        "cat_4": {
+          "type": "category_card",
+          "settings": {
+            "title": "Trousers",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80",
+            "item_count": "Tailored High-Waist"
+          }
+        },
+        "cat_5": {
+          "type": "category_card",
+          "settings": {
+            "title": "Co-ord Sets",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80",
+            "item_count": "Matching Silhouettes"
+          }
+        },
+        "cat_6": {
+          "type": "category_card",
+          "settings": {
+            "title": "Jackets",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1539533018447-63fcce667883?w=800&q=80",
+            "item_count": "Blazers & Trench"
+          }
+        },
+        "cat_7": {
+          "type": "category_card",
+          "settings": {
+            "title": "Shoes",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80",
+            "item_count": "Heels & Loafers"
+          }
+        },
+        "cat_8": {
+          "type": "category_card",
+          "settings": {
+            "title": "Accessories",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=80",
+            "item_count": "Leather Bags & Scarves"
+          }
+        }
+      },
+      "block_order": [
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4",
+        "cat_5",
+        "cat_6",
+        "cat_7",
+        "cat_8"
+      ],
+      "settings": {
+        "department": "women",
+        "badge": "DEPARTMENT &bull; WOMEN",
+        "heading": "WOMEN'S LUXURY COLLECTION",
+        "subtitle": "Effortless elegance, haute couture silhouettes, and refined style.",
+        "background_color": "#F7F4EF"
+      }
+    },
+    "main_collection": {
+      "type": "main-collection",
+      "blocks": {
+        "filters": {
+          "type": "filters",
+          "static": true,
+          "settings": {
+            "enable_filtering": true,
+            "filter_style": "horizontal",
+            "enable_sorting": true
+          },
+          "blocks": {}
+        },
+        "product_card": {
+          "type": "_product-card",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "product_card"
+      ],
+      "settings": {
+        "products_per_page": 16,
+        "columns": 4,
+        "mobile_columns": "2",
+        "padding-block-start": 32,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": [
+    "department_landing",
+    "main_collection"
+  ]
+}

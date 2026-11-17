@@ -1,0 +1,133 @@
+{
+  "sections": {
+    "department_landing": {
+      "type": "department-landing",
+      "blocks": {
+        "cat_1": {
+          "type": "category_card",
+          "settings": {
+            "title": "Sportswear",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1483721310020-03333e577078?w=800&q=80",
+            "item_count": "Performance Ready"
+          }
+        },
+        "cat_2": {
+          "type": "category_card",
+          "settings": {
+            "title": "Gym Wear",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
+            "item_count": "Training Essentials"
+          }
+        },
+        "cat_3": {
+          "type": "category_card",
+          "settings": {
+            "title": "Activewear",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80",
+            "item_count": "Flexibility & Style"
+          }
+        },
+        "cat_4": {
+          "type": "category_card",
+          "settings": {
+            "title": "Tracksuits",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=80",
+            "item_count": "Luxury Warmups"
+          }
+        },
+        "cat_5": {
+          "type": "category_card",
+          "settings": {
+            "title": "Sports T-Shirts",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800&q=80",
+            "item_count": "Breathable Fabrics"
+          }
+        },
+        "cat_6": {
+          "type": "category_card",
+          "settings": {
+            "title": "Sports Shorts",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=800&q=80",
+            "item_count": "Movement Focused"
+          }
+        },
+        "cat_7": {
+          "type": "category_card",
+          "settings": {
+            "title": "Sports Shoes",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80",
+            "item_count": "Runners & Trainers"
+          }
+        },
+        "cat_8": {
+          "type": "category_card",
+          "settings": {
+            "title": "Sports Accessories",
+            "link": "shopify://collections/all",
+            "fallback_image": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=800&q=80",
+            "item_count": "Bags, Bottles & Gear"
+          }
+        }
+      },
+      "block_order": [
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4",
+        "cat_5",
+        "cat_6",
+        "cat_7",
+        "cat_8"
+      ],
+      "settings": {
+        "department": "sports",
+        "badge": "DEPARTMENT &bull; SPORTS",
+        "heading": "SPORTS & ACTIVEWEAR",
+        "subtitle": "Engineered performance, elevated aesthetic, and active luxury.",
+        "background_color": "#F7F4EF"
+      }
+    },
+    "main_collection": {
+      "type": "main-collection",
+      "blocks": {
+        "filters": {
+          "type": "filters",
+          "static": true,
+          "settings": {
+            "enable_filtering": true,
+            "filter_style": "horizontal",
+            "enable_sorting": true
+          },
+          "blocks": {}
+        },
+        "product_card": {
+          "type": "_product-card",
+          "static": true,
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "product_card"
+      ],
+      "settings": {
+        "products_per_page": 16,
+        "columns": 4,
+        "mobile_columns": "2",
+        "padding-block-start": 32,
+        "padding-block-end": 64
+      }
+    }
+  },
+  "order": [
+    "department_landing",
+    "main_collection"
+  ]
+}
