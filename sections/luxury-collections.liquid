@@ -35,7 +35,7 @@
           assign collection = block.settings.collection
           assign card_title = block.settings.title | default: collection.title
           assign card_subtitle = block.settings.subtitle
-          assign card_url = collection.url | default: block.settings.custom_url | default: '/collections/all'
+          assign card_url = collection.url | default: block.settings.custom_url | default: routes.all_products_collection_url
           assign card_image = block.settings.image | default: collection.image | default: collection.products.first.featured_image
         %}
         <div

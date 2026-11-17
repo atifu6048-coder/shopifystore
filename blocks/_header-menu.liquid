@@ -71,7 +71,12 @@
               {% endfor %}
             {% else %}
               {% assign curated_titles = 'Home,Men,Women,Kids,Accessories' | split: ',' %}
-              {% assign curated_urls = '/,/collections/men,/collections/women,/collections/kids,/collections/accessories' | split: ',' %}
+              {% capture c_url_home %}{{ routes.root_url }}{% endcapture %}
+              {% capture c_url_men %}{{ routes.collections_url }}/men{% endcapture %}
+              {% capture c_url_women %}{{ routes.collections_url }}/women{% endcapture %}
+              {% capture c_url_kids %}{{ routes.collections_url }}/kids{% endcapture %}
+              {% capture c_url_acc %}{{ routes.collections_url }}/accessories{% endcapture %}
+              {% assign curated_urls = c_url_home | append: ',' | append: c_url_men | append: ',' | append: c_url_women | append: ',' | append: c_url_kids | append: ',' | append: c_url_acc | split: ',' %}
               {% for c_title in curated_titles %}
                 {% assign c_url = curated_urls[forloop.index0] %}
                 <li>
@@ -210,7 +215,12 @@
         {% endfor %}
       {% else %}
         {% assign curated_titles = 'Home,Men,Women,Kids,Accessories' | split: ',' %}
-        {% assign curated_urls = '/,/collections/men,/collections/women,/collections/kids,/collections/accessories' | split: ',' %}
+        {% capture c_url_home %}{{ routes.root_url }}{% endcapture %}
+        {% capture c_url_men %}{{ routes.collections_url }}/men{% endcapture %}
+        {% capture c_url_women %}{{ routes.collections_url }}/women{% endcapture %}
+        {% capture c_url_kids %}{{ routes.collections_url }}/kids{% endcapture %}
+        {% capture c_url_acc %}{{ routes.collections_url }}/accessories{% endcapture %}
+        {% assign curated_urls = c_url_home | append: ',' | append: c_url_men | append: ',' | append: c_url_women | append: ',' | append: c_url_kids | append: ',' | append: c_url_acc | split: ',' %}
         {% for c_title in curated_titles %}
           {% assign c_url = curated_urls[forloop.index0] %}
           <li
