@@ -82,9 +82,9 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1_focal_point": "center 85%",
+        "image_1_focal_point": "center bottom",
         "media_type_2": "image",
-        "image_2_focal_point": "center 42%",
+        "image_2_focal_point": "center 28%",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
         "media_type_1_mobile": "image",
