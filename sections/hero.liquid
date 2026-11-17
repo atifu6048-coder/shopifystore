@@ -555,11 +555,16 @@
       data-autoplay="{{ section.settings.slideshow_autoplay | default: true }}"
       data-interval="{{ section.settings.slideshow_interval | default: 5 }}"
     >
-      {%- assign focal_point_1 = section.settings.image_1.presentation.focal_point | default: 'center 62%' -%}
-      {%- assign focal_point_2 = section.settings.image_2.presentation.focal_point | default: 'center 28%' -%}
+      {%- assign focal_point_1 = section.settings.image_1_focal_point | default: section.settings.image_1.presentation.focal_point | default: 'center 58%' -%}
+      {%- assign focal_point_2 = section.settings.image_2_focal_point | default: section.settings.image_2.presentation.focal_point | default: 'center 42%' -%}
 
       <!-- Slide 1 -->
-      <div class="hero__slide hero__slide--1 is-active" data-slide-index="0" aria-hidden="false">
+      <div
+        class="hero__slide hero__slide--1 is-active"
+        data-slide-index="0"
+        aria-hidden="false"
+        style="--slide-pos: {{ focal_point_1 }};"
+      >
         <div class="hero__slide-media">
           {%- if section.settings.image_1 != blank -%}
             <picture>
@@ -588,14 +593,19 @@
               fetchpriority="high"
               width="2560"
               height="1440"
-              style="object-position: center 62%;"
+              style="object-position: {{ focal_point_1 }};"
             >
           {%- endif -%}
         </div>
       </div>
 
       <!-- Slide 2 -->
-      <div class="hero__slide hero__slide--2" data-slide-index="1" aria-hidden="true">
+      <div
+        class="hero__slide hero__slide--2"
+        data-slide-index="1"
+        aria-hidden="true"
+        style="--slide-pos: {{ focal_point_2 }};"
+      >
         <div class="hero__slide-media">
           {%- if section.settings.image_2 != blank -%}
             <picture>
@@ -616,13 +626,13 @@
             </picture>
           {%- else -%}
             <img
-              src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=2560&q=85&auto=format&fit=crop"
+              src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=2560&q=85&auto=format&fit=crop"
               alt="ATIF'S STYLE Haute Couture Editorial - Slide 2"
               class="hero__slide-image"
               loading="lazy"
               width="2560"
               height="1440"
-              style="object-position: center 28%;"
+              style="object-position: {{ focal_point_2 }};"
             >
           {%- endif -%}
         </div>
@@ -860,13 +870,37 @@
 
   .hero {
     position: relative;
-    min-height: calc(var(--hero-min-height) - var(--hero-height-offset));
+    min-height: max(clamp(720px, 80vh, 850px), calc(var(--hero-min-height) - var(--hero-height-offset)));
+  }
+
+  @media screen and (min-width: 1440px) {
+    .hero {
+      min-height: max(clamp(750px, 80vh, 880px), calc(var(--hero-min-height) - var(--hero-height-offset)));
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .hero {
+      min-height: max(clamp(640px, 76vh, 750px), calc(var(--hero-min-height) - var(--hero-height-offset)));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero {
+      min-height: max(clamp(540px, 74vh, 650px), calc(var(--hero-min-height) - var(--hero-height-offset)));
+    }
+  }
+
+  @media screen and (max-width: 380px) {
+    .hero {
+      min-height: max(clamp(500px, 72vh, 600px), calc(var(--hero-min-height) - var(--hero-height-offset)));
+    }
   }
 
   .hero[data-shopify-visual-preview] {
-    --hero-min-height: 600px;
+    --hero-min-height: 750px;
 
-    min-height: 600px;
+    min-height: 750px;
   }
 
   .hero__container {
@@ -1182,7 +1216,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 62%;
     transform: scale(1);
     transition: transform 7s cubic-bezier(0.25, 1, 0.5, 1);
     will-change: transform;
@@ -1190,21 +1223,21 @@
   }
 
   .hero__slide--1 .hero__slide-image {
-    object-position: center 62%;
+    object-position: var(--slide-pos, center 58%);
   }
 
   .hero__slide--2 .hero__slide-image {
-    object-position: center 28%;
+    object-position: var(--slide-pos, center 42%);
   }
 
   .hero__slide.is-active .hero__slide-image {
-    transform: scale(1.045);
+    transform: scale(1.04);
   }
 
   .hero__slideshow-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(17, 17, 17, 0.42) 0%, rgba(17, 17, 17, 0.18) 50%, rgba(17, 17, 17, 0.48) 100%);
+    background: linear-gradient(180deg, rgba(17, 17, 17, 0.44) 0%, rgba(17, 17, 17, 0.12) 45%, rgba(17, 17, 17, 0.52) 100%);
     z-index: 3;
     pointer-events: none;
   }
@@ -1291,11 +1324,11 @@
 
   @media screen and (max-width: 749px) {
     .hero__slide--1 .hero__slide-image {
-      object-position: center 58%;
+      object-position: var(--slide-pos, center 56%);
     }
 
     .hero__slide--2 .hero__slide-image {
-      object-position: center 25%;
+      object-position: var(--slide-pos, center 40%);
     }
 
     .hero__slideshow-controls {
@@ -1308,7 +1341,7 @@
     }
 
     .hero__indicators {
-      bottom: 18px;
+      bottom: 22px;
     }
   }
 
@@ -1408,6 +1441,35 @@
       "visible_if": "{{ section.settings.media_type_1 == 'image' }}"
     },
     {
+      "type": "select",
+      "id": "image_1_focal_point",
+      "label": "Slide 1 Image Position / Focal Point",
+      "options": [
+        {
+          "value": "center 25%",
+          "label": "Top / High"
+        },
+        {
+          "value": "center 40%",
+          "label": "Upper Center"
+        },
+        {
+          "value": "center 50%",
+          "label": "Center"
+        },
+        {
+          "value": "center 58%",
+          "label": "Model Focus (Slide 1 Optimal)"
+        },
+        {
+          "value": "center 68%",
+          "label": "Lower Focus"
+        }
+      ],
+      "default": "center 58%",
+      "visible_if": "{{ section.settings.media_type_1 == 'image' }}"
+    },
+    {
       "type": "video",
       "id": "video_1",
       "label": "t:settings.video",
@@ -1437,6 +1499,35 @@
       "type": "image_picker",
       "id": "image_2",
       "label": "t:settings.image",
+      "visible_if": "{{ section.settings.media_type_2 == 'image' }}"
+    },
+    {
+      "type": "select",
+      "id": "image_2_focal_point",
+      "label": "Slide 2 Image Position / Focal Point",
+      "options": [
+        {
+          "value": "center 25%",
+          "label": "Top / High"
+        },
+        {
+          "value": "center 35%",
+          "label": "Upper Center"
+        },
+        {
+          "value": "center 42%",
+          "label": "Editorial Focus (Slide 2 Optimal)"
+        },
+        {
+          "value": "center 50%",
+          "label": "Center"
+        },
+        {
+          "value": "center 60%",
+          "label": "Lower Focus"
+        }
+      ],
+      "default": "center 42%",
       "visible_if": "{{ section.settings.media_type_2 == 'image' }}"
     },
     {

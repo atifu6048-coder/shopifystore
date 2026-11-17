@@ -82,7 +82,9 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
+        "image_1_focal_point": "center 58%",
         "media_type_2": "image",
+        "image_2_focal_point": "center 42%",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
         "media_type_1_mobile": "image",
@@ -106,8 +108,8 @@
         "gradient_direction": "to bottom",
         "blurred_reflection": false,
         "reflection_opacity": 75,
-        "padding-block-start": 48,
-        "padding-block-end": 36,
+        "padding-block-start": 54,
+        "padding-block-end": 44,
         "slideshow_autoplay": true,
         "slideshow_interval": 5
       }
