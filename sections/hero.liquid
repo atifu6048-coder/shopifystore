@@ -550,16 +550,132 @@
       ></a>
     {%- endif -%}
     <div
-      class="hero__media-grid"
-      style="--hero-media-count: {{ media_count }};--hero-media-count-mobile: {{ media_count_mobile }};{%- if section.settings.image_1 != blank -%} --hero-media-aspect-ratio: {{ section.settings.image_1.aspect_ratio }};{% endif %}"
-      data-testid="hero-media-wrapper"
+      class="hero__slideshow"
+      id="HeroSlideshow-{{ section.id }}"
+      data-autoplay="{{ section.settings.slideshow_autoplay | default: true }}"
+      data-interval="{{ section.settings.slideshow_interval | default: 5 }}"
     >
-      {% liquid
-        if section.settings.toggle_overlay
-          render 'overlay', settings: section.settings
-        endif
-      %}
-      {{ media }}
+      <!-- Slide 1 -->
+      <div class="hero__slide is-active" data-slide-index="0" aria-hidden="false">
+        <div class="hero__slide-media">
+          {%- if section.settings.image_1 != blank -%}
+            <picture>
+              {%- if section.settings.custom_mobile_media and section.settings.image_1_mobile != blank -%}
+                <source media="(max-width: 749px)" srcset="{{ section.settings.image_1_mobile | image_url: width: 1200 }}">
+              {%- endif -%}
+              {{
+                section.settings.image_1
+                | image_url: width: 2560
+                | image_tag:
+                  widths: '750, 1100, 1500, 2000, 2560',
+                  sizes: '100vw',
+                  alt: section.settings.image_1.alt | default: "ATIF'S STYLE Luxury Editorial Fashion - Slide 1",
+                  class: 'hero__slide-image',
+                  loading: 'eager',
+                  fetchpriority: 'high'
+              }}
+            </picture>
+          {%- else -%}
+            <img
+              src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=2560&q=85&auto=format&fit=crop"
+              alt="ATIF'S STYLE Luxury Editorial Fashion - Slide 1"
+              class="hero__slide-image"
+              loading="eager"
+              fetchpriority="high"
+              width="2560"
+              height="1440"
+            >
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="hero__slide" data-slide-index="1" aria-hidden="true">
+        <div class="hero__slide-media">
+          {%- if section.settings.image_2 != blank -%}
+            <picture>
+              {%- if section.settings.custom_mobile_media and section.settings.image_2_mobile != blank -%}
+                <source media="(max-width: 749px)" srcset="{{ section.settings.image_2_mobile | image_url: width: 1200 }}">
+              {%- endif -%}
+              {{
+                section.settings.image_2
+                | image_url: width: 2560
+                | image_tag:
+                  widths: '750, 1100, 1500, 2000, 2560',
+                  sizes: '100vw',
+                  alt: section.settings.image_2.alt | default: "ATIF'S STYLE Haute Couture Editorial - Slide 2",
+                  class: 'hero__slide-image',
+                  loading: 'lazy'
+              }}
+            </picture>
+          {%- else -%}
+            <img
+              src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=2560&q=85&auto=format&fit=crop"
+              alt="ATIF'S STYLE Haute Couture Editorial - Slide 2"
+              class="hero__slide-image"
+              loading="lazy"
+              width="2560"
+              height="1440"
+            >
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Luxury Overlay -->
+      {%- if section.settings.toggle_overlay -%}
+        {% render 'overlay', settings: section.settings %}
+      {%- else -%}
+        <div class="hero__slideshow-overlay" aria-hidden="true"></div>
+      {%- endif -%}
+
+      <!-- Navigation Arrows -->
+      <div class="hero__slideshow-controls">
+        <button
+          type="button"
+          class="hero__arrow-btn hero__arrow-btn--prev"
+          aria-label="Previous Slide"
+          data-hero-nav="prev"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          class="hero__arrow-btn hero__arrow-btn--next"
+          aria-label="Next Slide"
+          data-hero-nav="next"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Slide Indicators -->
+      <div class="hero__indicators" role="tablist" aria-label="Hero Slideshow Pagination">
+        <button
+          type="button"
+          class="hero__indicator is-active"
+          role="tab"
+          aria-selected="true"
+          aria-label="Slide 1 of 2"
+          data-slide-target="0"
+        >
+          <span class="visually-hidden">Slide 1</span>
+        </button>
+        <button
+          type="button"
+          class="hero__indicator"
+          role="tab"
+          aria-selected="false"
+          aria-label="Slide 2 of 2"
+          data-slide-target="1"
+        >
+          <span class="visually-hidden">Slide 2</span>
+        </button>
+      </div>
     </div>
     <div
       class="
@@ -577,6 +693,151 @@
     </div>
   </div>
 </div>
+
+<script>
+  (function() {
+    function initHeroSlideshow() {
+      var hero = document.getElementById('HeroSlideshow-{{ section.id }}');
+      if (!hero) return;
+
+      var slides = hero.querySelectorAll('.hero__slide');
+      var indicators = hero.querySelectorAll('.hero__indicator');
+      var prevBtn = hero.querySelector('.hero__arrow-btn--prev');
+      var nextBtn = hero.querySelector('.hero__arrow-btn--next');
+
+      if (slides.length < 2) return;
+
+      var currentIndex = 0;
+      var timer = null;
+      var isAutoplay = hero.getAttribute('data-autoplay') !== 'false';
+      var intervalSec = parseInt(hero.getAttribute('data-interval'), 10) || 5;
+      var intervalMs = intervalSec * 1000;
+      var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function goToSlide(index) {
+        if (index === currentIndex) return;
+        var previousIndex = currentIndex;
+        currentIndex = (index + slides.length) % slides.length;
+
+        slides[previousIndex].classList.remove('is-active');
+        slides[previousIndex].setAttribute('aria-hidden', 'true');
+        if (indicators[previousIndex]) {
+          indicators[previousIndex].classList.remove('is-active');
+          indicators[previousIndex].setAttribute('aria-selected', 'false');
+        }
+
+        slides[currentIndex].classList.add('is-active');
+        slides[currentIndex].setAttribute('aria-hidden', 'false');
+        if (indicators[currentIndex]) {
+          indicators[currentIndex].classList.add('is-active');
+          indicators[currentIndex].setAttribute('aria-selected', 'true');
+        }
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+
+      function startTimer() {
+        if (!isAutoplay || prefersReducedMotion) return;
+        stopTimer();
+        timer = setInterval(nextSlide, intervalMs);
+      }
+
+      function stopTimer() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function resetTimer() {
+        stopTimer();
+        startTimer();
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          prevSlide();
+          resetTimer();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          nextSlide();
+          resetTimer();
+        });
+      }
+
+      indicators.forEach(function(indicator, idx) {
+        indicator.addEventListener('click', function(e) {
+          e.preventDefault();
+          goToSlide(idx);
+          resetTimer();
+        });
+      });
+
+      var heroContainer = hero.closest('.hero');
+      if (heroContainer) {
+        heroContainer.addEventListener('mouseenter', stopTimer);
+        heroContainer.addEventListener('mouseleave', startTimer);
+      }
+
+      var touchStartX = 0;
+      var touchEndX = 0;
+      var touchStartY = 0;
+      var touchEndY = 0;
+
+      hero.addEventListener('touchstart', function(e) {
+        if (!e.changedTouches || e.changedTouches.length === 0) return;
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+        stopTimer();
+      }, { passive: true });
+
+      hero.addEventListener('touchend', function(e) {
+        if (!e.changedTouches || e.changedTouches.length === 0) return;
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        var diffX = touchEndX - touchStartX;
+        var diffY = touchEndY - touchStartY;
+        if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+          if (diffX < 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+        startTimer();
+      }, { passive: true });
+
+      hero.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+          prevSlide();
+          resetTimer();
+        } else if (e.key === 'ArrowRight') {
+          nextSlide();
+          resetTimer();
+        }
+      });
+
+      startTimer();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHeroSlideshow);
+    } else {
+      initHeroSlideshow();
+    }
+  })();
+</script>
 
 {% stylesheet %}
   .hero-wrapper {
@@ -871,6 +1132,175 @@
       }
     }
   }
+
+  /* ==========================================================================
+     ATIF'S STYLE Luxury 2-Slide Hero Slideshow
+     ========================================================================== */
+  .hero__slideshow {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1), visibility 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero__slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+  }
+
+  .hero__slide-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .hero__slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    transform: scale(1);
+    transition: transform 7s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+    display: block;
+  }
+
+  .hero__slide.is-active .hero__slide-image {
+    transform: scale(1.045);
+  }
+
+  .hero__slideshow-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(17, 17, 17, 0.35) 0%, rgba(17, 17, 17, 0.65) 100%);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .hero__slideshow-controls {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 6;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+  }
+
+  .hero__arrow-btn {
+    pointer-events: auto;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(17, 17, 17, 0.45);
+    border: 1px solid rgba(198, 166, 107, 0.45);
+    color: #F7F4EF;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.85;
+  }
+
+  .hero__arrow-btn:hover {
+    background-color: #C6A66B;
+    border-color: #C6A66B;
+    color: #111111;
+    transform: scale(1.08);
+    opacity: 1;
+    box-shadow: 0 4px 18px rgba(198, 166, 107, 0.4);
+  }
+
+  .hero__indicators {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+    background: rgba(17, 17, 17, 0.4);
+    padding: 6px 14px;
+    border-radius: 100px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(198, 166, 107, 0.25);
+  }
+
+  .hero__indicator {
+    background: rgba(247, 244, 239, 0.4);
+    border: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hero__indicator:hover {
+    background: rgba(247, 244, 239, 0.8);
+  }
+
+  .hero__indicator.is-active {
+    background: #C6A66B;
+    width: 26px;
+    border-radius: 100px;
+    box-shadow: 0 0 10px rgba(198, 166, 107, 0.5);
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero__slideshow-controls {
+      padding: 0 14px;
+    }
+
+    .hero__arrow-btn {
+      width: 38px;
+      height: 38px;
+    }
+
+    .hero__indicators {
+      bottom: 18px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__slide {
+      transition: opacity 300ms ease, visibility 300ms ease !important;
+    }
+    .hero__slide-image {
+      transform: none !important;
+      transition: none !important;
+    }
+    .hero__slide.is-active .hero__slide-image {
+      transform: none !important;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -908,6 +1338,26 @@
     "groups": ["header"]
   },
   "settings": [
+    {
+      "type": "header",
+      "content": "Luxury Slideshow"
+    },
+    {
+      "type": "checkbox",
+      "id": "slideshow_autoplay",
+      "label": "Autoplay Slideshow",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slideshow_interval",
+      "label": "Slide Duration (seconds)",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
     {
       "type": "header",
       "content": "t:content.media_1"
