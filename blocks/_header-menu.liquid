@@ -1368,19 +1368,23 @@
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
     background-color: #F7F4EF !important;
     border-top: 1px solid rgba(198, 166, 107, 0.45) !important;
     border-bottom: 1px solid rgba(17, 17, 17, 0.12) !important;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08) !important;
     z-index: 999999 !important;
     clip-path: none !important;
+    overflow: visible !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
-    transform: translateY(-6px) !important;
-    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-                visibility 0.2s !important;
+    transform: translateY(-4px) !important;
+    transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.18s !important;
   }
 
   /* Upward hover bridge on the dropdown panel itself */
@@ -1407,20 +1411,25 @@
     transform: translateY(0) !important;
   }
 
-  /* Remove internal scrollbar entirely */
+  /* Remove internal scrollbar and reset inherited vertical shift */
   .luxury-dept-submenu .menu-list__submenu-inner {
+    transform: none !important;
     max-height: none !important;
+    height: auto !important;
     overflow: visible !important;
     padding: 0 !important;
+    opacity: 1 !important;
   }
 
-  /* 3-Column Clean Text-Only Grid */
+  /* 3-Column Clean Text-Only Grid with Balanced Padding */
   .luxury-dept-text-menu {
     width: 100%;
-    max-width: 1120px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 38px 24px 34px;
+    padding: 32px 32px 28px;
     box-sizing: border-box;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .luxury-dept-text-menu__inner {
@@ -1438,8 +1447,8 @@
   .luxury-dept-text-menu__col:not(:last-child)::after {
     content: '';
     position: absolute;
-    top: 2px;
-    bottom: 2px;
+    top: 0;
+    bottom: 0;
     right: -24px;
     width: 1px;
     background: rgba(17, 17, 17, 0.08);
@@ -1452,15 +1461,15 @@
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: #111111;
-    margin: 0 0 10px 0;
-    line-height: 1.2;
+    margin: 0 0 8px 0;
+    line-height: 1.25;
   }
 
   .luxury-dept-text-menu__col-divider {
-    width: 30px;
+    width: 28px;
     height: 1.5px;
     background-color: #C6A66B;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .luxury-dept-text-menu__list {
@@ -1469,7 +1478,7 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
   }
 
   .luxury-dept-text-menu__list li {
@@ -1483,12 +1492,13 @@
     font-family: var(--font-body--family, sans-serif);
     font-size: 0.875rem;
     font-weight: 400;
-    letter-spacing: 0.03em;
+    line-height: 1.45;
+    letter-spacing: 0.025em;
     color: #222222;
     text-decoration: none;
     padding: 2px 0;
     position: relative;
-    transition: color 0.2s ease, transform 0.2s ease;
+    transition: color 0.18s ease, transform 0.18s ease;
   }
 
   .luxury-dept-text-menu__link::before {
@@ -1501,12 +1511,12 @@
     margin-right: 8px;
     opacity: 0;
     transform: scale(0);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.18s ease, transform 0.18s ease;
   }
 
   .luxury-dept-text-menu__link:hover {
     color: #C6A66B;
-    transform: translateX(4px);
+    transform: translateX(3px);
   }
 
   .luxury-dept-text-menu__link:hover::before {
@@ -1517,14 +1527,28 @@
   .luxury-dept-text-menu__link--primary {
     font-weight: 600;
     color: #111111;
-    border-bottom: 1px dashed rgba(198, 166, 107, 0.4);
-    padding-bottom: 4px;
+    border-bottom: 1px dashed rgba(198, 166, 107, 0.45);
+    padding-bottom: 3px;
     margin-bottom: 2px;
   }
 
   .luxury-dept-text-menu__link--primary:hover {
     color: #C6A66B;
     border-bottom-color: #C6A66B;
+  }
+
+  @media screen and (max-width: 989px) {
+    .luxury-dept-text-menu {
+      padding: 24px 20px 22px;
+    }
+
+    .luxury-dept-text-menu__inner {
+      gap: 24px;
+    }
+
+    .luxury-dept-text-menu__col:not(:last-child)::after {
+      right: -12px;
+    }
   }
 {% endstylesheet %}
 
