@@ -567,42 +567,63 @@
         style="--slide-pos: {{ focal_point_1 }};"
       >
         <div class="hero__slide-media">
-          <a
-            href="{{ section.settings.link | default: routes.all_products_collection_url }}"
-            class="hero__slide-link"
-            aria-label="Atif's Style Haute Couture - Shop Collection"
-          >
-            {%- if section.settings.image_1 != blank -%}
-              <picture>
-                {%- if section.settings.custom_mobile_media and section.settings.image_1_mobile != blank -%}
-                  <source media="(max-width: 749px)" srcset="{{ section.settings.image_1_mobile | image_url: width: 1200 }}">
-                {%- endif -%}
-                {{
-                  section.settings.image_1
-                  | image_url: width: 2560
-                  | image_tag:
+          {%- if section.settings.image_1 != blank -%}
+            <picture>
+              {%- if section.settings.custom_mobile_media and section.settings.image_1_mobile != blank -%}
+                <source media="(max-width: 749px)" srcset="{{ section.settings.image_1_mobile | image_url: width: 1200 }}">
+              {%- endif -%}
+              {{
+                section.settings.image_1
+                | image_url: width: 2560
+                | image_tag:
                   widths: '750, 1100, 1500, 2000, 2560',
                   sizes: '100vw',
                   alt: section.settings.image_1.alt | default: "ATIF'S STYLE Luxury Editorial Fashion - Slide 1",
-                  class: 'hero__slide-image',
+                  class: 'hero__slide-image hero__slide-image--clean',
                   loading: 'eager',
                   fetchpriority: 'high',
                   style: 'object-position: ' | append: focal_point_1 | append: ';'
-                }}
-              </picture>
-            {%- else -%}
-              <img
-                src="{{ 'atif-luxury-hero-banner.jpg' | asset_url }}"
-                alt="ATIF'S STYLE - Haute Couture Luxury Fashion Banner"
-                class="hero__slide-image hero__slide-image--banner"
-                loading="eager"
-                fetchpriority="high"
-                width="1024"
-                height="576"
-                style="object-position: {{ focal_point_1 }};"
-              >
-            {%- endif -%}
-          </a>
+              }}
+            </picture>
+          {%- else -%}
+            <img
+              src="{{ 'atif-luxury-hero-clean.jpg' | asset_url }}"
+              alt="ATIF'S STYLE - Haute Couture Luxury Fashion Banner"
+              class="hero__slide-image hero__slide-image--clean"
+              loading="eager"
+              fetchpriority="high"
+              width="1376"
+              height="768"
+              style="object-position: {{ focal_point_1 }};"
+            >
+          {%- endif -%}
+        </div>
+
+        <div class="hero__slide-overlay hero__slide-overlay--1" aria-hidden="true"></div>
+
+        <!-- Slide 1 Crisp Typography Overlay -->
+        <div class="hero__slide-content hero__slide-content--1">
+          <div class="hero__slide-brand hero__anim-item hero__anim-item--1">ATIF'S STYLE</div>
+          <div class="hero__slide-eyebrow-wrapper hero__anim-item hero__anim-item--2">
+            <span class="hero__divider-line"></span>
+            <span class="hero__sub-eyebrow">HAUTE COUTURE</span>
+            <span class="hero__divider-line"></span>
+          </div>
+          <h2 class="hero__slide-title hero__anim-item hero__anim-item--3">DEFINE YOUR STYLE</h2>
+          <p class="hero__slide-desc hero__anim-item hero__anim-item--4">Discover timeless fashion for every moment.</p>
+          <div class="hero__slide-action hero__anim-item hero__anim-item--5">
+            <a
+              href="{{ section.settings.link | default: routes.all_products_collection_url }}"
+              class="hero__slide-btn"
+              aria-label="Shop Collection - Atif's Style"
+            >
+              <span>SHOP COLLECTION</span>
+              <svg class="hero__btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -643,14 +664,34 @@
             >
           {%- endif -%}
         </div>
-      </div>
 
-      <!-- Luxury Overlay -->
-      {%- if section.settings.toggle_overlay -%}
-        {% render 'overlay', settings: section.settings %}
-      {%- else -%}
-        <div class="hero__slideshow-overlay" aria-hidden="true"></div>
-      {%- endif -%}
+        <div class="hero__slide-overlay hero__slide-overlay--2" aria-hidden="true"></div>
+
+        <!-- Slide 2 Editorial Typography Overlay -->
+        <div class="hero__slide-content hero__slide-content--2">
+          <div class="hero__slide-brand hero__slide-brand--light hero__anim-item hero__anim-item--1">ATIF'S STYLE</div>
+          <div class="hero__slide-eyebrow-wrapper hero__slide-eyebrow-wrapper--light hero__anim-item hero__anim-item--2">
+            <span class="hero__divider-line hero__divider-line--light"></span>
+            <span class="hero__sub-eyebrow hero__sub-eyebrow--gold">HAUTE COUTURE EDITORIAL</span>
+            <span class="hero__divider-line hero__divider-line--light"></span>
+          </div>
+          <h2 class="hero__slide-title hero__slide-title--light hero__anim-item hero__anim-item--3">ELEVATE YOUR EVERYDAY STYLE</h2>
+          <p class="hero__slide-desc hero__slide-desc--light hero__anim-item hero__anim-item--4">Discover timeless fashion, refined essentials and effortless elegance.</p>
+          <div class="hero__slide-action hero__anim-item hero__anim-item--5">
+            <a
+              href="{{ section.settings.link | default: routes.all_products_collection_url }}"
+              class="hero__slide-btn"
+              aria-label="Explore Collection - Atif's Style"
+            >
+              <span>EXPLORE COLLECTION</span>
+              <svg class="hero__btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
 
       <!-- Navigation Arrows -->
       <div class="hero__slideshow-controls">
@@ -702,16 +743,9 @@
       </div>
     </div>
     <div
-      class="
-        hero__content-wrapper
-        layout-panel-flex
-        layout-panel-flex--{{ section.settings.content_direction }}
-        {% if section.settings.vertical_on_mobile %}mobile-column{% endif %}
-        section-content-wrapper
-        {{section.settings.section_width}}
-        {% if request.design_mode %}hero__content-wrapper--design-mode{% endif %}
-      "
-      style="{% render 'layout-panel-style', settings: section.settings %}"
+      class="hero__content-wrapper section-content-wrapper"
+      style="display: none;"
+      aria-hidden="true"
     >
       {% content_for 'blocks' %}
     </div>
@@ -738,6 +772,16 @@
       var intervalMs = intervalSec * 1000;
       var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      function triggerSlideAnimation(slideElement) {
+        if (!slideElement) return;
+        var animItems = slideElement.querySelectorAll('.hero__anim-item');
+        animItems.forEach(function(item) {
+          item.style.animation = 'none';
+          void item.offsetHeight;
+          item.style.animation = '';
+        });
+      }
+
       function goToSlide(index) {
         if (index === currentIndex) return;
         var previousIndex = currentIndex;
@@ -757,6 +801,8 @@
           indicators[currentIndex].classList.add('is-active');
           indicators[currentIndex].setAttribute('aria-selected', 'true');
         }
+
+        triggerSlideAnimation(slides[currentIndex]);
       }
 
       function nextSlide() {
@@ -853,6 +899,7 @@
         }
       });
 
+      triggerSlideAnimation(slides[0]);
       startTimer();
     }
 
@@ -880,31 +927,32 @@
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
-    min-height: clamp(210px, 56.25vw, 880px);
+    min-height: clamp(520px, 56.25vw, 860px);
     max-height: 900px;
   }
 
   @media screen and (min-width: 1440px) {
     .hero {
-      min-height: clamp(620px, 56.25vw, 900px);
+      min-height: clamp(700px, 56.25vw, 900px);
     }
   }
 
   @media screen and (max-width: 989px) {
     .hero {
-      min-height: clamp(380px, 56.25vw, 600px);
+      min-height: clamp(480px, 60vw, 680px);
     }
   }
 
   @media screen and (max-width: 749px) {
     .hero {
-      min-height: clamp(210px, 56.25vw, 440px);
+      min-height: clamp(520px, 75vh, 600px);
+      aspect-ratio: auto;
     }
   }
 
   @media screen and (max-width: 380px) {
     .hero {
-      min-height: clamp(200px, 56.25vw, 360px);
+      min-height: 500px;
     }
   }
 
@@ -1207,7 +1255,7 @@
     height: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1), visibility 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 900ms cubic-bezier(0.4, 0, 0.2, 1), visibility 900ms cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1;
     pointer-events: none;
   }
@@ -1226,15 +1274,6 @@
     overflow: hidden;
   }
 
-  .hero__slide-link {
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-    cursor: pointer;
-    pointer-events: auto;
-  }
-
   .hero__slide-image {
     width: 100%;
     height: 100%;
@@ -1251,9 +1290,8 @@
     background-color: #F7F4EF;
   }
 
-  /* Slide 1 banner stays uncropped and 100% sharp without edge zoom */
   .hero__slide--1.is-active .hero__slide-image {
-    transform: scale(1) !important;
+    transform: scale(1.02);
   }
 
   .hero__slide--2 .hero__slide-image {
@@ -1264,56 +1302,246 @@
     transform: scale(1.04);
   }
 
-  .hero__slideshow-overlay {
+  /* Slide Overlays */
+  .hero__slide-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(17, 17, 17, 0.44) 0%, rgba(17, 17, 17, 0.12) 45%, rgba(17, 17, 17, 0.52) 100%);
-    z-index: 3;
     pointer-events: none;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    z-index: 2;
+    transition: opacity 0.6s ease;
   }
 
-  /* Slide 1 Luxury Fashion Banner: Clean un-tinted presentation without overlapping HTML text */
-  .hero__slideshow[data-active-slide="0"] .hero__slideshow-overlay {
-    opacity: 0 !important;
-    visibility: hidden !important;
+  .hero__slide-overlay--1 {
+    background: transparent;
   }
 
-  .hero:has(.hero__slideshow[data-active-slide="0"]) .hero__content-wrapper,
-  .hero__slideshow[data-active-slide="0"] ~ .hero__content-wrapper {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+  .hero__slide-overlay--2 {
+    background: linear-gradient(180deg, rgba(17, 17, 17, 0.44) 0%, rgba(17, 17, 17, 0.18) 45%, rgba(17, 17, 17, 0.6) 100%);
   }
 
-  /* Slide 2: Reveal elegant dark overlay and HTML text blocks */
-  .hero__slideshow[data-active-slide="1"] .hero__slideshow-overlay {
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
-  .hero:has(.hero__slideshow[data-active-slide="1"]) .hero__content-wrapper,
-  .hero__slideshow[data-active-slide="1"] ~ .hero__content-wrapper {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
-  }
+  /* ==========================================================================
+     Slide Content & Luxury Typography
+     ========================================================================== */
+  .hero__slide-content {
+    position: absolute;
+    z-index: 5;
     pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
+  .hero__slide-content * {
+    pointer-events: auto;
+  }
+
+  /* Slide 1 Desktop Placement: Right Side (warm sunlit wall) */
+  .hero__slide-content--1 {
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(500px, 46%);
+    padding: 0 16px;
+  }
+
+  /* Slide 2 Desktop Placement: Centered Editorial */
+  .hero__slide-content--2 {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(720px, 90%);
+    padding: 0 20px;
+  }
+
+  /* Brand Heading (ATIF'S STYLE) */
+  .hero__slide-brand {
+    font-family: var(--font-heading--family), 'Playfair Display', Didot, 'Bodoni MT', Georgia, serif;
+    font-size: clamp(2rem, 3.2vw, 3.25rem);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #111111;
+    line-height: 1.15;
+    margin: 0 0 10px;
+  }
+
+  .hero__slide-brand--light {
+    color: #FFFFFF;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Subtitle & Divider Line (HAUTE COUTURE) */
+  .hero__slide-eyebrow-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto 22px;
+  }
+
+  .hero__divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(17, 17, 17, 0.35);
+  }
+
+  .hero__divider-line--light {
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  .hero__sub-eyebrow {
+    font-family: var(--font-body--family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: clamp(0.6875rem, 0.85vw, 0.8125rem);
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #111111;
+    white-space: nowrap;
+  }
+
+  .hero__sub-eyebrow--gold {
+    color: #C6A66B;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Main Headline (DEFINE YOUR STYLE) */
+  .hero__slide-title {
+    font-family: var(--font-heading--family), 'Playfair Display', Didot, 'Bodoni MT', Georgia, serif;
+    font-size: clamp(1.4rem, 2.3vw, 2.25rem);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #111111;
+    line-height: 1.25;
+    margin: 0 0 14px;
+  }
+
+  .hero__slide-title--light {
+    color: #FFFFFF;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Description */
+  .hero__slide-desc {
+    font-family: var(--font-body--family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: clamp(0.875rem, 1.1vw, 1.0625rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: rgba(17, 17, 17, 0.85);
+    line-height: 1.5;
+    margin: 0 0 28px;
+    max-width: 460px;
+  }
+
+  .hero__slide-desc--light {
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+    max-width: 620px;
+  }
+
+  /* Shop Collection / Explore Button */
+  .hero__slide-action {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero__slide-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 34px;
+    background-color: #C6A66B;
+    color: #111111;
+    border: 1px solid #C6A66B;
+    border-radius: 4px;
+    font-family: var(--font-body--family), sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 14px rgba(198, 166, 107, 0.25);
+  }
+
+  .hero__slide-btn:hover {
+    background-color: #D4B67E;
+    border-color: #D4B67E;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(198, 166, 107, 0.45);
+  }
+
+  .hero__btn-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .hero__slide-btn:hover .hero__btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* ==========================================================================
+     Staggered Smooth Entrance Animations
+     ========================================================================== */
+  @keyframes heroItemFadeUp {
+    0% {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero__anim-item {
+    opacity: 0;
+    transform: translateY(22px);
+    will-change: opacity, transform;
+  }
+
+  .hero__slide.is-active .hero__anim-item--1 {
+    animation: heroItemFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards;
+  }
+
+  .hero__slide.is-active .hero__anim-item--2 {
+    animation: heroItemFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.24s forwards;
+  }
+
+  .hero__slide.is-active .hero__anim-item--3 {
+    animation: heroItemFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.38s forwards;
+  }
+
+  .hero__slide.is-active .hero__anim-item--4 {
+    animation: heroItemFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.52s forwards;
+  }
+
+  .hero__slide.is-active .hero__anim-item--5 {
+    animation: heroItemFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.66s forwards;
+  }
+
+  /* ==========================================================================
+     Slideshow Controls: Arrows and Indicators
+     ========================================================================== */
   .hero__slideshow-controls {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    z-index: 6;
+    z-index: 8;
     pointer-events: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 32px;
+    padding: 0 28px;
   }
 
   .hero__arrow-btn {
@@ -1321,8 +1549,8 @@
     width: 46px;
     height: 46px;
     border-radius: 50%;
-    background: rgba(17, 17, 17, 0.45);
-    border: 1px solid rgba(198, 166, 107, 0.45);
+    background: rgba(17, 17, 17, 0.55);
+    border: 1px solid rgba(198, 166, 107, 0.5);
     color: #F7F4EF;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -1330,8 +1558,8 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    opacity: 0.85;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    opacity: 0.9;
   }
 
   .hero__arrow-btn:hover {
@@ -1340,29 +1568,29 @@
     color: #111111;
     transform: scale(1.08);
     opacity: 1;
-    box-shadow: 0 4px 18px rgba(198, 166, 107, 0.4);
+    box-shadow: 0 4px 20px rgba(198, 166, 107, 0.5);
   }
 
   .hero__indicators {
     position: absolute;
-    bottom: 24px;
+    bottom: 22px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 6;
+    z-index: 8;
     display: flex;
     align-items: center;
     gap: 10px;
     pointer-events: auto;
-    background: rgba(17, 17, 17, 0.4);
+    background: rgba(17, 17, 17, 0.45);
     padding: 6px 14px;
     border-radius: 100px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(198, 166, 107, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(198, 166, 107, 0.3);
   }
 
   .hero__indicator {
-    background: rgba(247, 244, 239, 0.4);
+    background: rgba(247, 244, 239, 0.45);
     border: none;
     width: 10px;
     height: 10px;
@@ -1373,27 +1601,99 @@
   }
 
   .hero__indicator:hover {
-    background: rgba(247, 244, 239, 0.8);
+    background: rgba(247, 244, 239, 0.85);
   }
 
   .hero__indicator.is-active {
     background: #C6A66B;
-    width: 26px;
+    width: 28px;
     border-radius: 100px;
-    box-shadow: 0 0 10px rgba(198, 166, 107, 0.5);
+    box-shadow: 0 0 12px rgba(198, 166, 107, 0.55);
+  }
+
+  /* ==========================================================================
+     Responsive Breakpoints
+     ========================================================================== */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .hero__slide-content--1 {
+      right: 3%;
+      width: 48%;
+    }
   }
 
   @media screen and (max-width: 749px) {
-    .hero__slide--1 .hero__slide-image {
-      object-position: var(--slide-pos, center 85%);
+    .hero {
+      min-height: clamp(520px, 75vh, 600px);
     }
 
-    .hero__slide--2 .hero__slide-image {
-      object-position: var(--slide-pos, center 40%);
+    .hero__slide--1 .hero__slide-image {
+      object-position: 25% 15% !important;
+    }
+
+    .hero__slide-content--1 {
+      position: absolute;
+      right: auto;
+      left: 50%;
+      bottom: 58px;
+      top: auto;
+      transform: translateX(-50%);
+      width: calc(100% - 28px);
+      max-width: 380px;
+      padding: 20px 16px;
+      background: rgba(247, 244, 239, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 8px;
+      border: 1px solid rgba(198, 166, 107, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .hero__slide-brand {
+      font-size: clamp(1.5rem, 6vw, 1.95rem);
+      margin-bottom: 4px;
+    }
+
+    .hero__slide-eyebrow-wrapper {
+      max-width: 280px;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+
+    .hero__sub-eyebrow {
+      font-size: 0.625rem;
+      letter-spacing: 0.2em;
+    }
+
+    .hero__slide-title {
+      font-size: clamp(1.15rem, 4.8vw, 1.45rem);
+      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+    }
+
+    .hero__slide-desc {
+      font-size: 0.8125rem;
+      margin-bottom: 16px;
+      line-height: 1.35;
+    }
+
+    .hero__slide-btn {
+      padding: 10px 24px;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+    }
+
+    .hero__slide-content--2 {
+      width: calc(100% - 28px);
+      padding: 20px 16px;
+      background: rgba(17, 17, 17, 0.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 8px;
+      border: 1px solid rgba(198, 166, 107, 0.3);
     }
 
     .hero__slideshow-controls {
-      padding: 0 14px;
+      padding: 0 12px;
     }
 
     .hero__arrow-btn {
@@ -1402,7 +1702,18 @@
     }
 
     .hero__indicators {
-      bottom: 22px;
+      bottom: 16px;
+      gap: 8px;
+      padding: 5px 12px;
+    }
+
+    .hero__indicator {
+      width: 8px;
+      height: 8px;
+    }
+
+    .hero__indicator.is-active {
+      width: 22px;
     }
   }
 
@@ -1416,6 +1727,11 @@
     }
     .hero__slide.is-active .hero__slide-image {
       transform: none !important;
+    }
+    .hero__anim-item {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
     }
   }
 {% endstylesheet %}
